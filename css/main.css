@@ -1,0 +1,37 @@
+body {
+    background-image: url('../images/background.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.card {
+    background-color: #50366F;
+}
+
+.form-control {
+    background-color: #1F214D;
+    border-radius: 30px;
+    border-color: #1F214D;
+    color: #FFFFFF;
+}
+
+.form-control:focus {
+    background-color: #1F214D;
+    border-color: #1F214D;
+    color: #FFFFFF;
+}
+
+/* Change autocomplete styles in WebKit */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-text-fill-color: #FFFFFF;
+    -webkit-box-shadow: 0 0 0px 1000px #1F214D inset;
+    transition: background-color 5000s ease-in-out 0s;
+};
