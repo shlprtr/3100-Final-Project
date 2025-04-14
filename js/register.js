@@ -40,20 +40,22 @@ document.querySelector('#btnRegister').addEventListener('click', (event) => {
         Swal.fire({
             title: 'Oh no, an error!',
             html: strError,
-            icon: 'error'
+            icon: 'error',
+            confirmButtonColor: '#50366F'
         })
     } else {
         Swal.fire({
             title: 'Success!',
             text: 'You have successfully registered',
-            icon: 'success'
+            icon: 'success',
+            confirmButtonColor: '#50366F'
         })
     }
 })
 
 // swap to login component
 document.querySelector('#btnSwapRegister').addEventListener('click', (event) => {
-    fetch("components/login.html")
+    fetch("pages/login.html")
     .then(response => response.text())
     .then(html => {
         const objScript = document.createElement('script')

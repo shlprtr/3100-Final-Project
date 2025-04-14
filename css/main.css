@@ -1,24 +1,33 @@
-body {
+:root {
+    --light-yellow: #FFE58A;
+    --yellow: #FFCE61;
+    --orange: #EE6C45;
+    --dark-pink: #BF3475;
+    --dark-purple: #50366F;
+    --dark-blue: #1F214D;
+}
+
+.custom-bg {
     background-image: url('../images/background.svg');
-    background-size: cover;
     background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .card {
-    background-color: #50366F;
+    background-color: var(--dark-purple);
 }
 
 .form-control {
-    background-color: #1F214D;
+    background-color: var(--dark-blue);
     border-radius: 30px;
-    border-color: #1F214D;
-    color: #FFFFFF;
+    border-color: var(--dark-blue);
+    color: white;
 }
 
 .form-control:focus {
-    background-color: #1F214D;
-    border-color: #1F214D;
-    color: #FFFFFF;
+    background-color: var(--dark-blue);
+    border-color: var(--dark-blue);
+    color: white;
 }
 
 /* Change autocomplete styles in WebKit */
@@ -31,8 +40,8 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-    -webkit-text-fill-color: #FFFFFF;
-    -webkit-box-shadow: 0 0 0px 1000px #1F214D inset;
+    -webkit-text-fill-color: white;
+    -webkit-box-shadow: 0 0 0px 1000px var(--dark-blue) inset;
     transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -46,6 +55,18 @@ select:-webkit-autofill:focus {
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:active:focus, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
     border-radius: 30px;
-    background-color: #BF3475;
-    border-color: #BF3475;
+    background-color: var(--dark-pink);
+    border-color: var(--dark-pink);
+}
+
+.btn-link {
+    color: var(--dark-purple);
+}
+
+.btn-link:hover, .btn-link:focus, .btn-link:active, .btn-link:active:focus, .btn-link.active, .open > .dropdown-toggle.btn-link {
+    color: var(--dark-purple);
+}
+
+.bg-purple {
+    background-color: var(--dark-purple);
 }

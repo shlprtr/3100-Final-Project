@@ -1,6 +1,6 @@
 // swap to login component
 document.querySelector('#btnSelLogin').addEventListener('click', (event) => {
-    fetch("components/login.html")
+    fetch("pages/login.html")
     .then(response => response.text())
     .then(html => {
         const objScript = document.createElement('script')
@@ -14,7 +14,7 @@ document.querySelector('#btnSelLogin').addEventListener('click', (event) => {
 
 // swap to register component
 document.querySelector('#btnSelRegister').addEventListener('click', (event) => {
-    fetch("components/register.html")
+    fetch("pages/register.html")
     .then(response => response.text())
     .then(html => {
         const objScript = document.createElement('script')
