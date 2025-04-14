@@ -22,20 +22,32 @@ document.querySelector('#btnLogin').addEventListener('click', (event) => {
         Swal.fire({
             title: 'Oh no, an error occurred!',
             html: strError,
-            icon: 'error'
+            icon: 'error',
+            confirmButtonColor: '#50366F'
         })
     } else {
         Swal.fire({
             title: 'Success!',
             text: 'You have successfully logged in',
-            icon: 'success'
+            icon: 'success',
+            confirmButtonColor: '#50366F'
         })
+        fetch("pages/dashboard.html")
+        .then(response => response.text())
+        .then(html => {
+            const objScript = document.createElement('script')
+            objScript.src = 'js/dashboard.js'
+            objScript.type = 'text/javascript'
+            document.head.appendChild(objScript)
+            document.querySelector('#divContent').innerHTML = html
+        })
+        .catch(error => console.erro("Error fetching dashboard:", error))
     }
 })
 
 // swap to register component
 document.querySelector('#btnSwapLogin').addEventListener('click', (event) => {
-    fetch("components/register.html")
+    fetch("pages/register.html")
     .then(response => response.text())
     .then(html => {
         const objScript = document.createElement('script')
