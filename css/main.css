@@ -66,7 +66,36 @@ select:-webkit-autofill:focus {
 .btn-link:hover, .btn-link:focus, .btn-link:active, .btn-link:active:focus, .btn-link.active, .open > .dropdown-toggle.btn-link {
     color: var(--dark-purple);
 }
+.btn-secondary {
+    background-color: transparent;
+    border-radius: 30px;
+    border-color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.btn-hidden {
+    background-color: transparent;
+    border-radius: 30px;
+    border-color: transparent;
+    padding-left: 15px;
+    padding-right: 15px;
+}
 
 .bg-purple {
     background-color: var(--dark-purple);
+}
+
+.subheader {
+    color: white;
+    font-size: 20px;
+    padding: 15px;
+}
+.paragraph {
+    color: white;
+    font-size: 20px;
+}
+
+.corner-round {
+    border-radius: 200px;
 }
