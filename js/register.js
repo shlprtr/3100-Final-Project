@@ -41,14 +41,18 @@ document.querySelector('#btnRegister').addEventListener('click', (event) => {
             title: 'Oh no, an error!',
             html: strError,
             icon: 'error',
-            confirmButtonColor: '#50366F'
+            confirmButtonColor: 'var(--dark-purple)',
+            background: 'var(--dark-blue)',
+            color: 'white'
         })
     } else {
         Swal.fire({
             title: 'Success!',
             text: 'You have successfully registered',
             icon: 'success',
-            confirmButtonColor: '#50366F'
+            confirmButtonColor: 'var(--dark-purple)',
+            background: 'var(--dark-blue)',
+            color: 'white'
         })
     }
 })

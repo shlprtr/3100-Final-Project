@@ -23,14 +23,18 @@ document.querySelector('#btnLogin').addEventListener('click', (event) => {
             title: 'Oh no, an error occurred!',
             html: strError,
             icon: 'error',
-            confirmButtonColor: '#50366F'
+            confirmButtonColor: 'var(--dark-purple)',
+            background: 'var(--dark-blue)',
+            color: 'white'
         })
     } else {
         Swal.fire({
             title: 'Success!',
             text: 'You have successfully logged in',
             icon: 'success',
-            confirmButtonColor: '#50366F'
+            confirmButtonColor: 'var(--dark-purple)',
+            background: 'var(--dark-blue)',
+            color: 'white'
         })
         fetch("pages/dashboard.html")
         .then(response => response.text())
