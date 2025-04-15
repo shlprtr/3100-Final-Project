@@ -1,5 +1,7 @@
 // show instructor view
 document.querySelector('#btnInstructor').addEventListener('click', (event) => {
+    document.querySelector('#btnInstructor').classList.remove('unselected')
+    document.querySelector('#btnStudent').classList.add('unselected')
     fetch("pages/instructor.html")
     .then(response => response.text())
     .then(html => {
@@ -14,6 +16,8 @@ document.querySelector('#btnInstructor').addEventListener('click', (event) => {
 
 // show student view
 document.querySelector('#btnStudent').addEventListener('click', (event) => {
+    document.querySelector('#btnStudent').classList.remove('unselected')
+    document.querySelector('#btnInstructor').classList.add('unselected')
     fetch("pages/student.html")
     .then(response => response.text())
     .then(html => {

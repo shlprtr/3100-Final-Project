@@ -7,6 +7,12 @@
     --dark-blue: #1F214D;
 }
 
+nav {
+    background: var(--dark-purple);
+    border-bottom: var(--dark-pink) solid 10px;
+    height: 100px;
+}
+
 .custom-bg {
     background-image: url('../images/background.svg');
     background-repeat: no-repeat;
@@ -15,6 +21,8 @@
 
 .card {
     background-color: var(--dark-purple);
+    border-radius: 20px;
+    color: white;
 }
 
 .form-control {
@@ -46,25 +54,53 @@ select:-webkit-autofill:focus {
 }
 
 .btn-primary {
-    background-color: #BF3475;
+    background-color: var(--dark-pink);
     border-radius: 30px;
-    border-color: #BF3475;
+    border-color: var(--dark-pink);
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 10px;
 }
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:active:focus, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-    border-radius: 30px;
+/* 
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:active:focus, .btn-primary.active, .open > .dropdown-toggle.btn-primary 
+*/
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:active:focus {
     background-color: var(--dark-pink);
     border-color: var(--dark-pink);
 }
 
-.btn-link {
-    color: var(--dark-purple);
+.unselected {
+    background-color: transparent;
+    border: none;
 }
 
-.btn-link:hover, .btn-link:focus, .btn-link:active, .btn-link:active:focus, .btn-link.active, .open > .dropdown-toggle.btn-link {
-    color: var(--dark-purple);
+.bg-dark {
+    background: var(--dark-blue) !important;
+}
+
+.btn-outline-primary {
+    color: white;
+    border-color: var(--dark-pink);
+    border-radius: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:active:focus {
+    background-color: var(--dark-pink);
+    border-color: var(--dark-pink);
+}
+
+.margin-30 {
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.group-card {
+    width: 300px;
+    margin: 20px;
 }
 .btn-secondary {
     background-color: transparent;
@@ -82,8 +118,18 @@ select:-webkit-autofill:focus {
     padding-right: 15px;
 }
 
-.bg-purple {
-    background-color: var(--dark-purple);
+.selection-card {
+    cursor: pointer
+}
+
+.subheader {
+    color: white;
+    font-size: 20px;
+    padding: 15px;
+}
+
+.selection-card {
+    cursor: pointer
 }
 
 .subheader {
