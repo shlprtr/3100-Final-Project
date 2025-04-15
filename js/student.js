@@ -64,6 +64,11 @@ function selectView(selected) {
     document.querySelector('#btnMembers').classList.add('unselected')
     document.querySelector('#btnFeedback').classList.add('unselected')
 
-    document.querySelector(`#btn${selected}`).classList.remove('d-none')
+    document.querySelector(`#btn${selected}`).classList.remove('unselected')
     document.querySelector(`#view${selected}`).classList.remove('d-none')
 }
+
+// modal to join group
+$('#modalJoinGroup').on('show.bs.modal', function () {
+    $('#txtModalJoinGroup').trigger('focus')
+})
