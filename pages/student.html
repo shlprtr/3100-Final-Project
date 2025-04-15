@@ -1,21 +1,21 @@
 <!-- view all groups -->
 <div class="container-fluid" id="viewGroups">
-    <div class="d-flex justify-content-end mt-3 me-3">
+    <div class="d-flex justify-content-end mt-3 me-2">
         <button class="btn btn-outline-primary">Join Group</button>
     </div>
     
-    <div class="d-flex flex-wrap" id="groupContainer">
-        <div class="card shadow p-4 text-white group-card position-relative">
+    <div class="d-flex flex-wrap margin-30" id="groupContainer">
+        <div class="card shadow p-4 group-card selection-card position-relative me-2">
             <h3>GROUP NAME</h3>
             <p>COURSE NAME</p>
             <a class="stretched-link" data-group-id="Group1"></a>
         </div>
-        <div class="card shadow p-4 text-white group-card position-relative">
+        <div class="card shadow p-4 group-card selection-card position-relative me-2">
             <h3>GROUP NAME</h3>
             <p>COURSE NAME</p>
             <a class="stretched-link" data-group-id="Group2"></a>
         </div>
-        <div class="card shadow p-4 text-white group-card position-relative">
+        <div class="card shadow p-4 group-card selection-card position-relative me-2">
             <h3>GROUP NAME</h3>
             <p>COURSE NAME</p>
             <a class="stretched-link" data-group-id="Group3"></a>
@@ -24,4 +24,172 @@
 </div>
 
 <!-- After clicking on a group: view surveys, see group members, see feedback-->
+<div class="container-fluid d-none" id="selectedGroup">
+    <h1 class="d-flex justify-content-center text-white mt-3 mb-3" id="groupName"></h1>
+    <!-- view all surveys -->
+    <div class="margin-30" id="viewOptions">
+        <div class="d-flex justify-content-start row row-cols-6 mt-4">
+            <button class="btn btn-primary me-2" id="btnSurveys">Surveys</button>
+            <button class="btn btn-primary unselected me-2" id="btnMembers">Group Members</button>
+            <button class="btn btn-primary unselected" id="btnFeedback">Feedback</button>
+        </div>
+    </div>
+</div>
 
+<!-- view all surveys -->
+<div class="container-fluid d-none" id="viewSurveys">
+    <div class="margin-30">
+        <div class="row mt-5" id="surveyContainer">
+            <div class="card selection-card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p>Mid-Year Peer Review</p>
+                    <p>CSC 461-002</p>
+                    <a class="stretched-link" data-survey-id="Survey1"></a>
+                </div>
+            </div>
+            <div class="card selection-card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p>End-Year Peer Review</p>
+                    <p>CSC 461-002</p>
+                    <a class="stretched-link" data-survey-id="Survey2"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- sample survey -->
+<div class="d-flex justify-content-center align-items-center d-none" id="frmSurvey">
+    <div class="card col-sm-11 col-md-8 col-lg-6 mt-3">
+        <div class="card-body p-4">
+            <h1 class="card-title mb-4" id="surveyName"></h1>
+            <form>
+                <p class="fw-bold">How satisfied are you with this person?</p>
+                <div class="form-check ms-2 mb-2">
+                    <input class="form-check-input" type="radio" name="q1" id="q1-a1">
+                    <label class="form-check-label" for="q1-a1">Option 1</label>
+                </div>
+                <div class="form-check ms-2 mb-2">
+                    <input class="form-check-input" type="radio" name="q1" id="q1-a2">
+                    <label class="form-check-label" for="q1-a2">Option 2</label>
+                </div>
+                <div class="form-check ms-2 mb-2">
+                    <input class="form-check-input" type="radio" name="q1" id="q1-a2">
+                    <label class="form-check-label" for="q1-a2">Option 3</label>
+                </div>
+
+                <p class="fw-bold mt-4">What could be improved?</p>
+                <div class="form-outline ms-2 me-2 mb-4">
+                    <textarea class="form-control" rows="4" id="q2-a1"></textarea>
+                </div>
+
+                <p class="fw-bold mt-4">Rate this person's performance</p>
+                <div class="text-center mb-3">
+                    <div class="d-inline mx-3">
+                        Bad
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio1"
+                            value="option1" />
+                        <label class="form-check-label" for="inlineRadio1">1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio2"
+                            value="option2" />
+                        <label class="form-check-label" for="inlineRadio2">2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio3"
+                            value="option3" />
+                        <label class="form-check-label" for="inlineRadio3">3</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio4"
+                            value="option4" />
+                        <label class="form-check-label" for="inlineRadio4">4</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio5"
+                            value="option5" />
+                        <label class="form-check-label" for="inlineRadio5">5</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio6"
+                            value="option6" />
+                        <label class="form-check-label" for="inlineRadio6">6</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio7"
+                            value="option7" />
+                        <label class="form-check-label" for="inlineRadio6">7</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio8"
+                            value="option8" />
+                        <label class="form-check-label" for="inlineRadio6">8</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio9"
+                            value="option9" />
+                        <label class="form-check-label" for="inlineRadio6">9</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio10"
+                            value="option10" />
+                        <label class="form-check-label" for="inlineRadio6">10</label>
+                    </div>
+                    <div class="d-inline me-4">
+                        Excellent
+                    </div>
+                </div>
+            </form>
+            <div class="card-footer text-end mt-3">
+                <button class="btn btn-primary" type="button" id="btnSubmitForm">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- view all group members -->
+<div class="container-fluid d-none" id="viewMembers">
+    <div class="margin-30">
+        <div class="row mt-5" id="surveyContainer">
+            <div class="card selection-card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p>Emma Long</p>
+                    <p>eglong42@tntech.edu</p>
+                    <a class="stretched-link" data-survey-id="Survey1"></a>
+                </div>
+            </div>
+            <div class="card selection-card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p>Ashley DANIELLE Porter</p>
+                    <p>adporter43@tntech.edu</p>
+                    <a class="stretched-link" data-survey-id="Survey2"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- see feedback -->
+<div class="container-fluid d-none" id="viewFeedback">
+    <div class="margin-30">
+        <div class="row mt-5" id="surveyContainer">
+            <div class="card selection-card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p>Emma Long</p>
+                    <p>You smell bad</p>
+                    <a class="stretched-link" data-survey-id="Survey1"></a>
+                </div>
+            </div>
+            <div class="card selection-card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p>Ashley DANIELLE Porter</p>
+                    <p>You aren't cool</p>
+                    <a class="stretched-link" data-survey-id="Survey2"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

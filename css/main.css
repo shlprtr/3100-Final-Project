@@ -22,6 +22,7 @@ nav {
 .card {
     background-color: var(--dark-purple);
     border-radius: 20px;
+    color: white;
 }
 
 .form-control {
@@ -87,12 +88,12 @@ select:-webkit-autofill:focus {
     padding-bottom: 10px;
 }
 
-.btn-outline-primary:hover {
+.btn-outline-primary:hover, .btn-outline-primary:active:focus {
     background-color: var(--dark-pink);
     border-color: var(--dark-pink);
 }
 
-#groupContainer {
+.margin-30 {
     margin-left: 30px;
     margin-right: 30px;
 }
@@ -100,5 +101,8 @@ select:-webkit-autofill:focus {
 .group-card {
     width: 300px;
     margin: 20px;
-    cursor: pointer;
+}
+
+.selection-card {
+    cursor: pointer
 }
