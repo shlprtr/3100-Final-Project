@@ -1,13 +1,3 @@
-// const viewGroups = document.querySelector('#viewGroups')
-// const selGroup = document.querySelector('#selectedGroup')
-// const viewSurveys = document.querySelector('#viewSurveys')
-// const viewMembers = document.querySelector('#viewMembers')
-// const viewFeedback = document.querySelector('#viewFeedback')
-
-// const btnSurveys = document.querySelector('#btnSurveys')
-// const btnMembers = document.querySelector('#btnMembers')
-// const btnFeedback = document.querySelector('#btnFeedback')
-
 // listener for clicking a group card
 document.querySelector('#groupContainer').addEventListener('click', (event) => {
     const cardLink = event.target.closest('.stretched-link')

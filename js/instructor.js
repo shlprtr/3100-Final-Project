@@ -18,25 +18,10 @@ document.querySelector('#btnCompletedSurveys').addEventListener('click', (event)
 document.querySelector('#groupContainer').addEventListener('click', (event) => {
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
-        const strGroupId = cardLink.getAttribute('data-group-id')
-        // fetch group details
-
-        // document.querySelector('#selectedGroup').classList.remove('d-none')
-        // document.querySelector('#viewGroups').classList.add('d-none')
-
-        // document.querySelector('#groupName').innerHTML = strGroupId
-        // document.querySelector('#viewSurveys').classList.remove('d-none')
-    }
-})
-
-// listener for clicking a group to view
-document.querySelector('#groupContainer').addEventListener('click', (event) => {
-        //fetch group details
-
         document.querySelector('#viewGroupDetails').classList.remove('d-none')
-        document.querySelector('#viewGroups').classList.add('d-none')
+        document.querySelector('#viewSurveys').classList.add('d-none')
         document.querySelector('#viewGroupsProf').classList.add('d-none')
-
+    }
 })
 
 //listen events for create survey view
@@ -89,21 +74,6 @@ function selectView(selected) {
     document.querySelector('#btnCompletedSurveys').classList.add('unselected')
 
     document.querySelector(`#btn${selected}Surveys`).classList.remove('unselected')
-    document.querySelector(`#view${selected}`).classList.remove('d-none')
-}
-
-function selectQuestionType(selected) {
-    document.querySelector('#viewMC').classList.add('d-none')
-    document.querySelector('#viewMS').classList.add('d-none')
-    document.querySelector('#viewLikert').classList.add('d-none')
-    document.querySelector('#viewShortAnswer').classList.add('d-none')
-
-    document.querySelector('#btnAddMC').classList.add('unselected')
-    document.querySelector('#btnAddMS').classList.add('unselected')
-    document.querySelector('#btnAddLikert').classList.add('unselected')
-    document.querySelector('#btnAddShortAnswer').classList.add('d-none')
-
-    document.querySelector(`#btn${selected}`).classList.remove('unselected')
     document.querySelector(`#view${selected}`).classList.remove('d-none')
 }
 

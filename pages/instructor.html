@@ -1,50 +1,4 @@
 <!-- instructor view -->
-
-<!-- view all surveys -->
-<div class="container-fluid" id="viewGroups">
-    <!--navigate between surveys grouped status-->
-    <div class="margin-30 row row-col-2" id="viewOptions">
-        <div class="d-flex justify-content-start row row-cols-6 mt-4" style="padding-left: 100px">
-            <button class="btn btn-primary me-2" id="btnCurrentSurveys">Current</button>
-            <button class="btn btn-primary unselected me-2" id="btnScheduledSurveys">Scheduled</button>
-            <button class="btn btn-primary unselected me-2" id="btnCompletedSurveys">Completed</button>
-            <button class="btn btn-outline-primary justify-content-end me-2" id="btnNewSurvey">+ New Survey</button>
-        </div>
-        
-    </div>
-    <!--survey quick view card-->
-    <div id="viewCurrent" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
-        <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:30px">
-            <div class="row row-cols-2" style="padding:7px">
-                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
-                <h1 class="paragraph text-end" id="txtStatus" > 64/120 completed </h1>
-                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
-                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Ends Oct 28, 2025 </h1>
-            </div>
-        </form>
-        <form class="card  corner-round" style="padding:15px; margin-top:5px">
-            <div class="row row-cols-2" style="padding:7px">
-                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
-                <h1 class="paragraph text-end" id="txtStatus" > 64/120 completed </h1>
-                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
-                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Ends Oct 28, 2025 </h1>
-            </div>
-        </form>
-    </div>
-
-    <div class="container-fluid d-none" id="viewScheduled">
-        <form>
-            <h1>viewScheduled</h1>
-        </form>
-    </div>
-    <div class="container-fluid d-none" id="viewCompleted">
-        <form>
-            <h2>viewCompleted</h2>
-        </form>
-    </div>
-    
-</div>
-
 <div class="container-fluid" id="viewGroupsProf">
     <div class="d-flex justify-content-end mt-3 me-2">
         <button class="btn btn-outline-primary" id="btnCreateGroupModal">Create Group</button>
@@ -69,8 +23,80 @@
     </div>
 </div>
 
+<!-- view all surveys -->
+<div class="container-fluid" id="viewSurveys">
+    <!--navigate between surveys grouped status-->
+    <div class="margin-30 row row-col-2" id="viewOptions">
+        <div class="d-flex justify-content-start row row-cols-6 mt-5" style="padding-left: 100px">
+            <button class="btn btn-primary me-2" id="btnCurrentSurveys">Current</button>
+            <button class="btn btn-primary unselected me-2" id="btnScheduledSurveys">Scheduled</button>
+            <button class="btn btn-primary unselected me-2" id="btnCompletedSurveys">Completed</button>
+            <button class="btn btn-outline-primary justify-content-end me-2" id="btnNewSurvey">+ New Survey</button>
+        </div>
+    </div>
+    <!--survey quick view card-->
+    <div id="viewCurrent" style="padding-left: 100px; padding-right: 100px; padding-top:15px">
+        <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:30px">
+            <div class="row row-cols-2" style="padding:7px">
+                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
+                <h1 class="paragraph text-end" id="txtStatus" > 64/120 completed </h1>
+                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
+                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Ends Oct 28, 2025 </h1>
+            </div>
+        </form>
+        <form class="card  corner-round" style="padding:15px; margin-top:5px">
+            <div class="row row-cols-2" style="padding:7px">
+                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
+                <h1 class="paragraph text-end" id="txtStatus" > 64/120 completed </h1>
+                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
+                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Ends Oct 28, 2025 </h1>
+            </div>
+        </form>
+    </div>
+
+    <div id="viewScheduled" class="d-none" style="padding-left: 100px; padding-right: 100px; padding-top:15px">
+        <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:30px">
+            <div class="row row-cols-2" style="padding:7px">
+                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
+                <h1 class="paragraph text-end" id="txtStatus" > 0/120 completed </h1>
+                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
+                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Opens Oct 28, 2025 </h1>
+            </div>
+        </form>
+        <form class="card corner-round" style="padding:15px; margin-top:5px">
+            <div class="row row-cols-2" style="padding:7px">
+                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
+                <h1 class="paragraph text-end" id="txtStatus" > 0/120 completed </h1>
+                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
+                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Opens Oct 28, 2025 </h1>
+            </div>
+        </form>
+    </div>
+
+    <div id="viewCompleted" class="d-none" style="padding-left: 100px; padding-right: 100px; padding-top:15px">
+        <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:30px">
+            <div class="row row-cols-2" style="padding:7px">
+                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
+                <h1 class="paragraph text-end" id="txtStatus" > 120/120 completed </h1>
+                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
+                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Completed Oct 28, 2025 </h1>
+            </div>
+        </form>
+        <form class="card  corner-round" style="padding:15px; margin-top:5px">
+            <div class="row row-cols-2" style="padding:7px">
+                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
+                <h1 class="paragraph text-end" id="txtStatus" > 118/120 completed </h1>
+                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
+                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Completed Oct 28, 2025 </h1>
+            </div>
+        </form>
+    </div>
+    
+</div>
+
+
 <!-- in-depth group view (surveys,students, etc) -->
-<div class="container-fluid" id="viewGroupDetails" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
+<div class="container-fluid d-none" id="viewGroupDetails" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
     <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:70px;">
         <div class="row row-cols-2">
             <div class="col-4">
@@ -162,7 +188,7 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-center align-items-center" id="viewCreateSurvey">
+<div class="d-flex justify-content-center align-items-center d-none" id="viewCreateSurvey">
     <div class="card col-sm-11 col-md-10 col-lg-10 mt-3">
         <div class="card-body p-4">
             <form class="m-5" id="frmCreateSurvey">
