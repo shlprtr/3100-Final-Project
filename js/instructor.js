@@ -39,6 +39,45 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
 
 })
 
+//listen events for create survey view
+
+//adding a new answer on multiple choice -- doesnt work
+document.querySelector('#btnAddMC').addEventListener('click', (event) => {
+    //fetch group details
+    const htmlMCOption = `<div class="form-check ms-2 mb-2">
+                <input class="form-check-input" type="radio" name="q1" id="q1-a1">
+                <label class="form-check-label" for="q1-a1">Option 1</label>
+            </div>`
+    document.querySelector('#multipleChoice').innerHTMML += htmlMCOption
+})
+
+//adding a new answer on multiple choice -- doesnt work
+document.querySelector('#btnQuestionType').addEventListener('click', (event) => {
+    //fetch group details
+    const htmlMCOption = `<div class="form-check ms-2 mb-2">
+                <input class="form-check-input" type="radio" name="q1" id="q1-a1">
+                <label class="form-check-label" for="q1-a1">Option 1</label>
+            </div>`
+    document.querySelector('#multipleChoice').innerHTMML += htmlMCOption
+})
+
+//adding a changing question type -- doesnt work
+document.querySelector('#btnAddMC').addEventListener('click', (event) => {
+    selectQuestionType('AddMC')
+})
+
+document.querySelector('#btnAddMS').addEventListener('click', (event) => {
+    selectQuestionType('AddMS')
+})
+
+document.querySelector('#btnAddLikert').addEventListener('click', (event) => {
+    selectQuestionType('AddLikert')
+})
+
+document.querySelector('#btnAddShortAnswer').addEventListener('click', (event) => {
+    selectQuestionType('AddShortAnswer')
+})
+
 // function to display the right stuff based on selection
 function selectView(selected) {
     document.querySelector('#viewCurrent').classList.add('d-none')
@@ -50,5 +89,20 @@ function selectView(selected) {
     document.querySelector('#btnCompletedSurveys').classList.add('unselected')
 
     document.querySelector(`#btn${selected}Surveys`).classList.remove('unselected')
+    document.querySelector(`#view${selected}`).classList.remove('d-none')
+}
+
+function selectQuestionType(selected) {
+    document.querySelector('#viewMC').classList.add('d-none')
+    document.querySelector('#viewMS').classList.add('d-none')
+    document.querySelector('#viewLikert').classList.add('d-none')
+    document.querySelector('#viewShortAnswer').classList.add('d-none')
+
+    document.querySelector('#btnAddMC').classList.add('unselected')
+    document.querySelector('#btnAddMS').classList.add('unselected')
+    document.querySelector('#btnAddLikert').classList.add('unselected')
+    document.querySelector('#btnAddShortAnswer').classList.add('d-none')
+
+    document.querySelector(`#btn${selected}`).classList.remove('unselected')
     document.querySelector(`#view${selected}`).classList.remove('d-none')
 }
