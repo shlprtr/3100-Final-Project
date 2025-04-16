@@ -106,3 +106,19 @@ select:-webkit-autofill:focus {
 .selection-card {
     cursor: pointer
 }
+
+.input-outline {
+    border: 1px solid white
+}
+
+.modal-header,
+.modal-footer {
+    border: none;
+}
+
+.btn-secondary {
+    border-radius: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+}

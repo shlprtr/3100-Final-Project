@@ -1,7 +1,7 @@
 <!-- view all groups -->
 <div class="container-fluid" id="viewGroups">
     <div class="d-flex justify-content-end mt-3 me-2">
-        <button class="btn btn-outline-primary">Join Group</button>
+        <button class="btn btn-outline-primary" id="btnJoinGroupModal">Join Group</button>
     </div>
     
     <div class="d-flex flex-wrap margin-30" id="groupContainer">
@@ -23,9 +23,9 @@
     </div>
 </div>
 
-<!-- After clicking on a group: view surveys, see group members, see feedback-->
+<!-- After clicking on a group: view surveys, see group members, see feedback -->
 <div class="container-fluid d-none" id="selectedGroup">
-    <h1 class="d-flex justify-content-center text-white mt-3 mb-3" id="groupName"></h1>
+    <h1 class="margin-30 text-white mt-3 mb-5" id="groupName"></h1>
     <!-- view all surveys -->
     <div class="margin-30" id="viewOptions">
         <div class="d-flex justify-content-start row row-cols-6 mt-4">
@@ -43,14 +43,14 @@
             <div class="card selection-card shadow-sm mb-2 position-relative">
                 <div class="card-body">
                     <p>Mid-Year Peer Review</p>
-                    <p>CSC 461-002</p>
+                    <p>CSC 4610-002</p>
                     <a class="stretched-link" data-survey-id="Survey1"></a>
                 </div>
             </div>
             <div class="card selection-card shadow-sm mb-2 position-relative">
                 <div class="card-body">
                     <p>End-Year Peer Review</p>
-                    <p>CSC 461-002</p>
+                    <p>CSC 4610-002</p>
                     <a class="stretched-link" data-survey-id="Survey2"></a>
                 </div>
             </div>
@@ -90,53 +90,53 @@
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio1"
-                            value="option1" />
+                            value="option1" aria-label="Radio input option for 1" />
                         <label class="form-check-label" for="inlineRadio1">1</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio2"
-                            value="option2" />
+                            value="option2" aria-label="Radio input option for 2" />
                         <label class="form-check-label" for="inlineRadio2">2</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio3"
-                            value="option3" />
+                            value="option3" aria-label="Radio input option for 3" />
                         <label class="form-check-label" for="inlineRadio3">3</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio4"
-                            value="option4" />
+                            value="option4" aria-label="Radio input option for 4" />
                         <label class="form-check-label" for="inlineRadio4">4</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio5"
-                            value="option5" />
+                            value="option5" aria-label="Radio input option for 5" />
                         <label class="form-check-label" for="inlineRadio5">5</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio6"
-                            value="option6" />
+                            value="option6" aria-label="Radio input option for 6" />
                         <label class="form-check-label" for="inlineRadio6">6</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio7"
-                            value="option7" />
-                        <label class="form-check-label" for="inlineRadio6">7</label>
+                            value="option7" aria-label="Radio input option for 7" />
+                        <label class="form-check-label" for="inlineRadio7">7</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio8"
-                            value="option8" />
-                        <label class="form-check-label" for="inlineRadio6">8</label>
+                            value="option8" aria-label="Radio input option for 8" />
+                        <label class="form-check-label" for="inlineRadio8">8</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio9"
-                            value="option9" />
-                        <label class="form-check-label" for="inlineRadio6">9</label>
+                            value="option9" aria-label="Radio input option for 9" />
+                        <label class="form-check-label" for="inlineRadio9">9</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="q3" id="inlineRadio10"
-                            value="option10" />
-                        <label class="form-check-label" for="inlineRadio6">10</label>
+                            value="option10" aria-label="Radio input option for 10" />
+                        <label class="form-check-label" for="inlineRadio10">10</label>
                     </div>
                     <div class="d-inline me-4">
                         Excellent
@@ -172,23 +172,43 @@
     </div>
 </div>
 
-<!-- see feedback -->
+<!-- view all feedback -->
 <div class="container-fluid d-none" id="viewFeedback">
     <div class="margin-30">
         <div class="row mt-5" id="surveyContainer">
             <div class="card selection-card shadow-sm mb-2 position-relative">
                 <div class="card-body">
-                    <p>Emma Long</p>
-                    <p>You smell bad</p>
+                    <p>SURVEY NAME</p>
+                    <p>From </p>
                     <a class="stretched-link" data-survey-id="Survey1"></a>
                 </div>
             </div>
             <div class="card selection-card shadow-sm mb-2 position-relative">
                 <div class="card-body">
-                    <p>Ashley DANIELLE Porter</p>
+                    <p>SURVEY NAME</p>
                     <p>You aren't cool</p>
                     <a class="stretched-link" data-survey-id="Survey2"></a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- join group modal -->
+<div class="modal fade" id="joinGroupModal" tabindex="-1" role="dialog" aria-labelledby="joinGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="joinGroupModalLabel">Join A Group</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="ms-2 mt-2" for="txtJoinGroupModal">Enter Group Code:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtJoinGroupModal" aria-label="Input for group code">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Join</button>
             </div>
         </div>
     </div>

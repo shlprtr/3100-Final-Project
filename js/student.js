@@ -69,6 +69,7 @@ function selectView(selected) {
 }
 
 // modal to join group
-$('#modalJoinGroup').on('show.bs.modal', function () {
-    $('#txtModalJoinGroup').trigger('focus')
+document.querySelector('#btnJoinGroupModal').addEventListener('click', function() {
+    const joinGroupModal = new bootstrap.Modal(document.querySelector('#joinGroupModal'))
+    joinGroupModal.show()
 })
