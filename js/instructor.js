@@ -52,3 +52,9 @@ function selectView(selected) {
     document.querySelector(`#btn${selected}Surveys`).classList.remove('unselected')
     document.querySelector(`#view${selected}`).classList.remove('d-none')
 }
+
+// modal to create group
+document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
+    const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
+    createGroupModal.show()
+})

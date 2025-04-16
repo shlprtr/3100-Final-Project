@@ -1,3 +1,15 @@
+// default to student view
+fetch("pages/student.html")
+.then(response => response.text())
+.then(html => {
+    const objScript = document.createElement('script')
+    objScript.src = 'js/student.js'
+    objScript.type = 'text/javascript'
+    document.head.appendChild(objScript)
+    document.querySelector('#divView').innerHTML = html
+})
+.catch(error => console.erro("Error fetching student view:", error))
+
 // show instructor view
 document.querySelector('#btnInstructor').addEventListener('click', (event) => {
     document.querySelector('#btnInstructor').classList.remove('unselected')

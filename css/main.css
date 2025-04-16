@@ -145,3 +145,18 @@ select:-webkit-autofill:focus {
 .corner-round {
     border-radius: 20px;
 }
+
+.border-left {
+    border-left: 2px solid var(--dark-blue)
+}
+
+.list-group-item {
+    background-color: var(--dark-blue);
+    color: white;
+    border: var(--dark-blue);
+    margin: 5px;
+}
+
+.text-green {
+    color: greenyellow
+}

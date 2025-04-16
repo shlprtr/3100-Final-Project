@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-start row row-cols-6 mt-4" style="padding-left: 100px">
             <button class="btn btn-primary me-2" id="btnCurrentSurveys">Current</button>
             <button class="btn btn-primary unselected me-2" id="btnScheduledSurveys">Scheduled</button>
-            <button class="btn btn-primary unselected" id="btnCompletedSurveys">Completed</button>
+            <button class="btn btn-primary unselected me-2" id="btnCompletedSurveys">Completed</button>
             <button class="btn btn-outline-primary justify-content-end me-2" id="btnNewSurvey">+ New Survey</button>
         </div>
         
@@ -47,7 +47,7 @@
 
 <div class="container-fluid" id="viewGroupsProf">
     <div class="d-flex justify-content-end mt-3 me-2">
-        <button class="btn btn-outline-primary">Join Group</button>
+        <button class="btn btn-outline-primary" id="btnCreateGroupModal">Create Group</button>
     </div>
     
     <div class="d-flex flex-wrap" id="groupContainer" style="margin-left: 80px">
@@ -70,22 +70,22 @@
 </div>
 
 <!-- in-depth group view (surveys,students, etc) -->
-<div class="container-fluid d-none" id="viewGroupDetails" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
+<div class="container-fluid" id="viewGroupDetails" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
     <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:70px;">
         <div class="row row-cols-2">
-            <div class="col-8">
+            <div class="col-4">
                 <!-- name of the group selected -->
-                <div class="row row-cols-2" style="padding:7px">
+                <div style="padding:7px">
                     <h1 id="txtGroupName">CSC 2100-002</h1>
                 </div>
                 <div class="row row-cols-2 container-fluid" style="padding:30px">
                     <h3>Surveys</h3>
                     <button class="btn btn-outline-primary" id="btnNewSurvey">+ New Survey</button>
                 </div>
+                <!--list of surveys avaliable to be viewed -->
                 <div class="row">
-                    <!--list of surveys avaliable to be viewed -->
-                    <div class="col">
-                        <div class="card p-4 group-card selection-card position-relative me-2">
+                    <div class="col" id="divSurveyContainer">
+                        <div class="card bg-dark p-4 group-card selection-card position-relative me-2">
                             <h5>Mid-Year Peer Review</h5>
                             <p>Ends Oct 25th, 2025</p>
                             <a class="stretched-link" data-group-id="Group3"></a>
@@ -96,71 +96,68 @@
                             <a class="stretched-link" data-group-id="Group3"></a>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="border-left col-4">
+                <div class="row">
                     <!-- in depth view of chosen survey-->
-                    <div class="col">
-                        <h2>Mid-Year Peer Review</h2>
-                        <div class="row row-cols-2 container-fluid" style="padding:30px">
+                    <div class="col" id="divSurveyDetails">
+                        <h2 class="text-center mt-4">Mid-Year Peer Review</h2>
+                        <div class="row row-cols-2 d-flex justify-content-center">
                             <button type="button" class="btn btn-link" id="btnViewSurvey" style="color:white">View Status</button>
                             <button type="button" class="btn btn-link" id="btnViewResponses" style="color:white">View Responses</button>
                         </div>
                         <!-- View status table -->
-                        <div class="d-flex" style="padding:20px">
-                            <table id="tblStatusUncomplete">
-                                <thead id="txtUncomplete">
-                                    <tr>
-                                        <th scope="col"> 2 Students Not Completed</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Student1</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Student2</td>
-                                    </tr>
-                                </tbody>
-                                <thead id="txtComplete">
-                                    <tr>
-                                        <th scope="col"> 118 Students Completed</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Student3</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Student4</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div style="padding:20px">
+                            <label for="selStudentsNotCompleted" class="form-label text-danger">2 Students Not Completed:</label>
+                            <select id="selStudentsNotCompleted" class="bg-dark text-white form-select" multiple>
+                                <option value="Harry">Harry Potter</option>
+                                <option value="Ron">Ron Weasley</option>
+                            </select>
+                        </div>
+                        <div style="padding:20px">
+                            <label for="selStudentsCompleted" class="form-label text-green">95 Students Completed:</label>
+                            <select id="selStudentsCompleted" class="bg-dark text-white form-select" multiple>
+                                <option value="Hermione">Hermione Granger</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- list of students-->
-            <div class="d-flex justify-content-end margin-top:auto col-4" style="padding:80px">
-                <table id="tblStudents">
-                    <thead class="subheader">
-                        <tr>
-                            <th scope="col"> Students</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Student1</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Student2</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="border-left col-4" style="padding:100px">
+                <div class="row d-flex justify-content-center align-items-start">
+                    <h3 class="mb-4">Students</h2>
+                    <select id="selStudents" class="bg-dark text-white form-select" multiple>
+                        <option value="Harry">Harry Potter</option>
+                        <option value="Ron">Ron Weasley</option>
+                        <option value="Hermione">Hermione Granger</option>
+                    </select>
+                </div>
             </div>
         </div>
     </form>
+</div>
+</div>
+
+<!-- create group modal -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="ms-2 mt-2" for="txtCourse">Course:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course">
+                <label class="ms-2 mt-2" for="txtGroupName">Group Name:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtGroupName" aria-label="Input for group name">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
 </div>
