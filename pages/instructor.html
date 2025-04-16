@@ -1,42 +1,166 @@
 <!-- instructor view -->
-<div>
-    <div class="row row-cols-4" style="padding-top:40px; padding-left:100px">
-        <button class=" btn-hidden subheader">Scheduled</button>
-        <button class="btn-hidden subheader">Current</button>
-        <button class="btn-hidden subheader">Completed</button>
-        <button class="btn-secondary subheader">+ New Survey</button>
-    </div>
-    <div >
-        <form class="card  corner-round" style="padding:15px; width:80%;;">
-            <div class="row row-cols-2">
-                <h1 class="paragraph"> Mid Year Peer Review </h1>
-                <h1 class="paragraph text-justfy-left"> 64/120 completed </h1>
-                <h1 class="paragraph font-weight-light text-justfy-left"> CSC 1200-002 </h1>
-                <h1 class="paragraph font-weight-light text-justfy-left"> Ends Oct 28, 2025 </h1>
 
+<!-- view all surveys -->
+<div class="container-fluid" id="viewGroups">
+    <!--navigate between surveys grouped status-->
+    <div class="margin-30 row row-col-2" id="viewOptions">
+        <div class="d-flex justify-content-start row row-cols-6 mt-4" style="padding-left: 100px">
+            <button class="btn btn-primary me-2" id="btnCurrentSurveys">Current</button>
+            <button class="btn btn-primary unselected me-2" id="btnScheduledSurveys">Scheduled</button>
+            <button class="btn btn-primary unselected" id="btnCompletedSurveys">Completed</button>
+            <button class="btn btn-outline-primary justify-content-end me-2" id="btnNewSurvey">+ New Survey</button>
+        </div>
+        
+    </div>
+    <!--survey quick view card-->
+    <div id="viewCurrent" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
+        <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:30px">
+            <div class="row row-cols-2" style="padding:7px">
+                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
+                <h1 class="paragraph text-end" id="txtStatus" > 64/120 completed </h1>
+                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
+                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Ends Oct 28, 2025 </h1>
             </div>
+        </form>
+        <form class="card  corner-round" style="padding:15px; margin-top:5px">
+            <div class="row row-cols-2" style="padding:7px">
+                <h1 class="paragraph" id="txtTitle" > Mid Year Peer Review </h1>
+                <h1 class="paragraph text-end" id="txtStatus" > 64/120 completed </h1>
+                <h1 class="paragraph font-weight-light" id="txtGroup" > CSC 1200-002 </h1>
+                <h1 class="paragraph font-weight-light text-end" id="txtDueDate" > Ends Oct 28, 2025 </h1>
+            </div>
+        </form>
+    </div>
+
+    <div class="container-fluid d-none" id="viewScheduled">
+        <form>
+            <h1>viewScheduled</h1>
+        </form>
+    </div>
+    <div class="container-fluid d-none" id="viewCompleted">
+        <form>
+            <h2>viewCompleted</h2>
         </form>
     </div>
     
 </div>
 
-<div>
-            <div class="row row-cols-4" style="padding-top:40px; padding-left:100px">
-                <button class=" btn-hidden subheader">Scheduled</button>
-                <button class="btn-hidden subheader">Current</button>
-                <button class="btn-hidden subheader">Completed</button>
-                <button class="btn-secondary subheader">+ New Survey</button>
-            </div>
-            <div >
-                <form class="card  corner-round" style="padding:25px; padding-left:40px; padding-right:40px; width:80%;;">
-                    <div class="row row-cols-2">
-                        <h1 class="paragraph"> Mid Year Peer Review </h1>
-                        <h1 class="paragraph text-justfy-right text-end"> 64/120 completed </h1>
-                        <h1 class="paragraph font-weight-light"> CSC 1200-002 </h1>
-                        <h1 class="paragraph font-weight-light text-end"> Ends Oct 28, 2025 </h1>
-        
-                    </div>
-                </form>
-            </div>
-            
+<div class="container-fluid" id="viewGroupsProf">
+    <div class="d-flex justify-content-end mt-3 me-2">
+        <button class="btn btn-outline-primary">Join Group</button>
+    </div>
+    
+    <div class="d-flex flex-wrap" id="groupContainer" style="margin-left: 80px">
+        <div class="card shadow p-4 group-card selection-card position-relative me-2">
+            <h3>CSC 2100-002</h3>
+            <p>120 students</p>
+            <a class="stretched-link" data-group-id="Group1"></a>
         </div>
+        <div class="card shadow p-4 group-card selection-card position-relative me-2">
+            <h3>COURSE NAME</h3>
+            <p># of students</p>
+            <a class="stretched-link" data-group-id="Group2"></a>
+        </div>
+        <div class="card shadow p-4 group-card selection-card position-relative me-2">
+            <h3>COURSE NAME</h3>
+            <p># of students</p>
+            <a class="stretched-link" data-group-id="Group3"></a>
+        </div>
+    </div>
+</div>
+
+<!-- in-depth group view (surveys,students, etc) -->
+<div class="container-fluid d-none" id="viewGroupDetails" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
+    <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:70px;">
+        <div class="row row-cols-2">
+            <div class="col-8">
+                <!-- name of the group selected -->
+                <div class="row row-cols-2" style="padding:7px">
+                    <h1 id="txtGroupName">CSC 2100-002</h1>
+                </div>
+                <div class="row row-cols-2 container-fluid" style="padding:30px">
+                    <h3>Surveys</h3>
+                    <button class="btn btn-outline-primary" id="btnNewSurvey">+ New Survey</button>
+                </div>
+                <div class="row">
+                    <!--list of surveys avaliable to be viewed -->
+                    <div class="col">
+                        <div class="card p-4 group-card selection-card position-relative me-2">
+                            <h5>Mid-Year Peer Review</h5>
+                            <p>Ends Oct 25th, 2025</p>
+                            <a class="stretched-link" data-group-id="Group3"></a>
+                        </div>
+                        <div class="card p-4 group-card selection-card position-relative me-2">
+                            <h5>Pre-Exam 1 Confidence Survey</h5>
+                            <p>Ended Sept 13th, 2025</p>
+                            <a class="stretched-link" data-group-id="Group3"></a>
+                        </div>
+                    </div>
+                    <!-- in depth view of chosen survey-->
+                    <div class="col">
+                        <h2>Mid-Year Peer Review</h2>
+                        <div class="row row-cols-2 container-fluid" style="padding:30px">
+                            <button type="button" class="btn btn-link" id="btnViewSurvey" style="color:white">View Status</button>
+                            <button type="button" class="btn btn-link" id="btnViewResponses" style="color:white">View Responses</button>
+                        </div>
+                        <!-- View status table -->
+                        <div class="d-flex" style="padding:20px">
+                            <table id="tblStatusUncomplete">
+                                <thead id="txtUncomplete">
+                                    <tr>
+                                        <th scope="col"> 2 Students Not Completed</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Student1</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Student2</td>
+                                    </tr>
+                                </tbody>
+                                <thead id="txtComplete">
+                                    <tr>
+                                        <th scope="col"> 118 Students Completed</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Student3</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Student4</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- list of students-->
+            <div class="d-flex justify-content-end margin-top:auto col-4" style="padding:80px">
+                <table id="tblStudents">
+                    <thead class="subheader">
+                        <tr>
+                            <th scope="col"> Students</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Student1</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Student2</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
