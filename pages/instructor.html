@@ -1,30 +1,34 @@
 <!-- instructor view -->
 <div class="container-fluid" id="viewGroupsProf">
     <div class="d-flex justify-content-end mt-3 me-2">
-        <button class="btn btn-outline-primary" id="btnCreateGroupModal">Create Group</button>
+        <button class="btn btn-outline-primary" id="btnCreateGroupModal">+ New Class</button>
     </div>
     
-    <div class="d-flex flex-wrap" id="groupContainer" style="margin-left: 80px">
+    <div class="d-flex flex-wrap margin-30" id="groupContainer" style="margin-left: 80px">
         <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3>CSC 2100-002</h3>
-            <p>120 students</p>
+            <h3 style="margin-bottom:20px">CSC 2100-002</h3>
+            <p style="margin-bottom:0px">Start: 08/12/25</p>
+            <p>End: 12/11/25</p>
             <a class="stretched-link" data-group-id="Group1"></a>
         </div>
         <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3>COURSE NAME</h3>
-            <p># of students</p>
+            <h3 style="margin-bottom:20px">COURSE NAME</h3>
+            <p style="margin-bottom:0px">Start: </p>
+            <p>End: </p>
             <a class="stretched-link" data-group-id="Group2"></a>
         </div>
         <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3>COURSE NAME</h3>
-            <p># of students</p>
+            <h3 style="margin-bottom:20px">COURSE NAME</h3>
+            <p style="margin-bottom:0px">Start: </p>
+            <p>End: </p>
             <a class="stretched-link" data-group-id="Group3"></a>
         </div>
     </div>
 </div>
 
-<!-- view all surveys -->
-<div class="container-fluid" id="viewSurveys">
+
+<!-- view all surveys - PROBS GONNA GET RID OF ALL THIS SOOOOOO -->
+<div class="container-fluid d-none" id="viewSurveys">
     <!--navigate between surveys grouped status-->
     <div class="margin-30 row row-col-2" id="viewOptions">
         <div class="d-flex justify-content-start row row-cols-6 mt-5" style="padding-left: 100px">
@@ -166,28 +170,7 @@
 </div>
 </div>
 
-<!-- create group modal -->
-<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
-                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <label class="ms-2 mt-2" for="txtCourse">Course:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course">
-                <label class="ms-2 mt-2" for="txtGroupName">Group Name:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtGroupName" aria-label="Input for group name">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Create</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+<!--Create Survey Screen-->
 <div class="d-flex justify-content-center align-items-center d-none" id="viewCreateSurvey">
     <div class="card col-sm-11 col-md-10 col-lg-10 mt-3">
         <div class="card-body p-4">
@@ -230,8 +213,8 @@
                         </div>
                         <button type="button" class=" btn-secondary" id="btnAddMC" style="color: white"ria-expanded="false">+ option</button>
                     </div>
-                    <textarea class="form-control d-none" id="viewShortAnswer" rows="4" id="q2-a1"></textarea>
-                    <div class="text-center mb-3 d-none" id="viewLikert">
+                    <textarea class="form-control" id="viewShortAnswer" rows="4" id="q2-a1"></textarea>
+                    <div class="text-center mb-3" id="viewLikert">
                         <div class="d-inline mx-3">
                             Bad
                         </div>
@@ -299,3 +282,26 @@
     </div>
 </div>
 
+<!-- create group modal -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="ms-2 mt-2" for="txtCourse">Course:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course">
+                <label class="ms-2 mt-2" for="txtGroupName">Start Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtStartDate" aria-label="Input for course start date">
+                <label class="ms-2 mt-2" for="txtGroupName">End Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtEndDate" aria-label="Input for course end date">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="btnCreateGroup" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+</div>

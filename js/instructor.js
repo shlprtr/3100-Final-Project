@@ -1,3 +1,24 @@
+//DASHBOARD JS
+
+// new class
+document.querySelector('#btnCreateGroup').addEventListener('click', function() {
+    let strName = document.querySelector('#txtCourse').value
+    let strStartDate = document.querySelector('#txtStartDate').value
+    let strEndDate = document.querySelector('#txtEndDate').value
+    const htmlAddClass = `<div class="card shadow p-4 group-card selection-card position-relative me-2">
+                            <h3 style="margin-bottom:20px">${strName}</h3>
+                            <p style="margin-bottom:0px">Start: ${strStartDate}</p>
+                            <p>End: ${strEndDate}</p>
+                            <a class="stretched-link" data-group-id="${strName}"></a>
+                          </div>` //CHANGE data-group-id name probs
+    document.querySelector('#groupContainer').innerHTML += htmlAddClass
+})
+// modal to create group
+document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
+    const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
+    createGroupModal.show()
+})
+
 // display all surveys
 document.querySelector('#btnCurrentSurveys').addEventListener('click', (event) => {
     selectView('Current')
@@ -92,8 +113,3 @@ function selectQuestionType(selected) {
     document.querySelector(`#view${selected}`).classList.remove('d-none')
 }
 
-// modal to create group
-document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
-    const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
-    createGroupModal.show()
-})
