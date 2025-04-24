@@ -177,6 +177,97 @@ app.post('/courses', (req, res, next) => {
     })
 })
 
+// Add a social
+app.post('/socials', (req, res, next) => {
+    let strSocialID = uuidv4()
+    let strSocialType = req.body.socialType
+    let strUsername = req.body.username
+    let strUserID = req.body.userID
+
+    if (strSocialType.length < 1) {
+        return res.status(400).json({ error: "You must provide a social type" })
+    }
+    if (strUsername.length < 1) {
+        return res.status(400).json({ error: "You must provide a username" })
+    }
+    if (strUserID.length < 1) {
+        return res.status(400).json({ error: "You must provide a user to add a social" })
+    }
+
+    let strCommand = `INSERT INTO tblSocials VALUES (?, ?, ?, ?)`;
+    db.run(strCommand, [strSocialID, strSocialType, strUsername, strUserID], function (err) {
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error", message:err.message})
+        } else {
+            res.status(201).json({
+                status:"success"
+            })
+        }
+    })
+})
+
+// delete a social
+app.delete('/socials', (req, res, next) => {
+    let strSocialID = req.body.socialID
+    let strUsername = req.body.username
+
+    if (strSocialID.length < 1) {
+        return res.status(400).json({ error: "You must provide a socialID" })
+    }
+    let comDelete = `DELETE FROM tblSocials WHERE socialID = ?`
+    db.run(comDelete,[strSocialID],function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(201).json({status:"success",message:"Task Deleted"})
+        }
+    })
+})
+
+// Update a social
+app.put('/socials', (req, res, next) => {
+    let strSocialID = req.body.socialID
+    let strUsername = req.body.username
+
+    if (strSocialID.length < 1) {
+        return res.status(400).json({ error: "You must provide a socialID" })
+    }
+    if (strUsername.length < 1) {
+        return res.status(400).json({ error: "You must provide a username" })
+    }
+    let comUpdate = `UPDATE tblSocials SET username = ? WHERE socialID = ?`;
+    db.run(comUpdate, [strUsername, strSocialID], function (err) {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({ status: "error", message: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: "TaskID not found" });
+        }
+    })
+    res.status(200).json({ status: "success", message: "Task updated successfully" });
+});
+
+//Return all socials for a user
+app.get('/socials/:userID',(req,res,next) => {
+    let strUserID = req.params.userID
+    if(strUserID.length < 1){
+        return res.status(400).json({error:"You must provide a userID"})
+    }
+    let comSelect = "SELECT * FROM tblSocials WHERE UserID = ?"
+    db.all(comSelect, [strUserID], function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(200).json({status:"success",items:result})
+        }
+    })
+})
+
+
 
 app.get('/', (req, res, next) => {
     res.status(200).json({ message: "I am alive" })
