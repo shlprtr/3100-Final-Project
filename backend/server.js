@@ -14,6 +14,7 @@ app.use(cors())
 app.use(express.json())
 
 
+// create a new user
 app.post('/user', (req, res, next) => {
     let strUserID = uuidv4()
     let strEmail = req.body.email.trim().toLowerCase()
@@ -39,7 +40,7 @@ app.post('/user', (req, res, next) => {
     strPassword = bcrypt.hashSync(strPassword, intSalt)
     let strCommand = "INSERT INTO tblUsers (UserID, Email, FirstName, LastName, Password) VALUES (?, ?, ?, ?, ?)"
     let arrParameters = [strUserID, strEmail, strFirstName, strLastName, strPassword]
-    db.run(strCommand, arrParameters, function(err, result) {
+    db.run(strCommand, arrParameters, (err) => {
         if (err) {
             console.log(err)
             res.status(400).json({
@@ -50,6 +51,80 @@ app.post('/user', (req, res, next) => {
             res.status(201).json({
                 status: "success"
             })
+        }
+    })
+})
+
+// create a session for a user
+app.post('/sessions', (req, res, next) => {
+    const strEmail = req.body.email.trim().toLowerCase()
+    const strPassword = req.body.password
+
+    if (strEmail, strPassword == null) {
+        return res.status(400).json({ error: "You must provide an email and password" })
+    }
+
+    let strCommand = "SELECT Password, UserID FROM tblUsers WHERE Email = ?"
+    db.all(strCommand, [strEmail], (err, result) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            if (result.length == 0) {
+                res.status(401).json({ error: "Invalid email or password" })
+            } else {
+                let strHash = result[0].Password
+                if (bcrypt.compareSync(strPassword, strHash)) {
+                    // on success that the passwords match, create new session id using uuid and insert into tblSessions
+                    let strSessionID = uuidv4()
+                    let strUserID = result[0].UserID
+                    let datNow = new Date()
+                    let strNow = datNow.toISOString()
+                    let strCommand = "INSERT INTO tblSessions (SessionID, UserID, LastUsedDate, Status) VALUES (?, ?, ?, ?)"
+                    let arrParameters = [strSessionID, strUserID, strNow, "Active"]
+                    db.run(strCommand, arrParameters, (err) => {
+                        if (err) {
+                            console.log(err)
+                            res.status(400).json({
+                                status: "error",
+                                message: err.message
+                            })
+                        } else {
+                            res.status(201).json({
+                                status: "success",
+                                sessionid: strSessionID
+                            })
+                        }
+                    })
+                } else {
+                    res.status(401).json({ error: "Invalid email or password" })
+                }
+            }
+        }
+    })
+})
+
+// delete a session for a user
+app.delete('/sessions', (req, res, next) => {
+    const strSessionID = req.body.sessionid
+
+    if (strSessionID == null) {
+        return res.status(400).json({ error: "You must provide a session id" })
+    }
+
+    let strCommand = "DELETE FROM tblSessions WHERE SessionID = ?"
+    db.run(strCommand, [strSessionID], (err) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(204).end()
         }
     })
 })

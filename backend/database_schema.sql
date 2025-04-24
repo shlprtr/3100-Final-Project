@@ -98,8 +98,8 @@ CREATE TABLE tblGroupMembers (
 
 -- Sessions Table
 CREATE TABLE tblSessions (
-    SessionID INTEGER PRIMARY KEY AUTOINCREMENT,
-    UserID INTEGER,
+    SessionID TEXT PRIMARY KEY,
+    UserID TEXT,
     StartDateTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     LastUsedDate TIMESTAMP,
     Status TEXT,
