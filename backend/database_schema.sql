@@ -1,6 +1,6 @@
 -- Users Table
 CREATE TABLE tblUsers (
-    UserID TEXT PRIMARY KEY NOT NULL,
+    UserID TEXT PRIMARY KEY,
     Email TEXT UNIQUE NOT NULL,
     FirstName TEXT NOT NULL,
     LastName TEXT NOT NULL,
@@ -18,13 +18,13 @@ CREATE TABLE tblPhone (
     NationCode TEXT,
     AreaCode TEXT,
     PhoneNumber TEXT,
-    UserID INTEGER,
+    UserID TEXT,
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID)
 );
 
 -- Social Media Accounts
 CREATE TABLE tblSocials (
-    SocialID INTEGER PRIMARY KEY AUTOINCREMENT,
+    SocialID TEXT PRIMARY KEY,
     SocialType TEXT,
     Username TEXT,
     UserID INTEGER,
@@ -33,22 +33,22 @@ CREATE TABLE tblSocials (
 
 -- Courses Table
 CREATE TABLE tblCourses (
-    CourseID INTEGER PRIMARY KEY AUTOINCREMENT,
-    CourseTitle TEXT,
+    CourseID TEXT PRIMARY KEY,
+    CourseName TEXT,
     CourseNumber TEXT,
     SectionNumber TEXT,
     SemesterTerm TEXT,
     StartDate DATE,
     EndDate DATE,
     Enrollment INTEGER,
-    InstructorID INTEGER,
+    InstructorID TEXT,
     FOREIGN KEY (InstructorID) REFERENCES tblUsers(UserID)
 );
 
 -- Survey Table
 CREATE TABLE tblSurvey (
-    SurveyID INTEGER PRIMARY KEY AUTOINCREMENT,
-    CourseID INTEGER,
+    SurveyID TEXT PRIMARY KEY,
+    CourseID TEXT,
     Title TEXT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     EndDate TIMESTAMP,
@@ -57,8 +57,8 @@ CREATE TABLE tblSurvey (
 
 -- Survey Questions Table
 CREATE TABLE tblSurveyQuestion (
-    QuestionID INTEGER PRIMARY KEY AUTOINCREMENT,
-    SurveyID INTEGER,
+    QuestionID TEXT PRIMARY KEY,
+    SurveyID TEXT,
     Question TEXT,
     Options TEXT,  -- store JSON as TEXT in SQLite
     QuestionType TEXT,
@@ -67,12 +67,12 @@ CREATE TABLE tblSurveyQuestion (
 
 -- Survey Responses Table
 CREATE TABLE tblSurveyResponse (
-    ResponseID INTEGER PRIMARY KEY AUTOINCREMENT,
-    SurveyID INTEGER,
-    UserID INTEGER,
-    QuestionID INTEGER,
+    ResponseID TEXT PRIMARY KEY,
+    SurveyID TEXT,
+    UserID TEXT,
+    QuestionID TEXT,
     Response TEXT,
-    TargetUserID INTEGER,
+    TargetUserID TEXT,
     FOREIGN KEY (SurveyID) REFERENCES tblSurvey(SurveyID),
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID),
     FOREIGN KEY (QuestionID) REFERENCES tblSurveyQuestion(QuestionID),
@@ -81,17 +81,17 @@ CREATE TABLE tblSurveyResponse (
 
 -- Course Groups Table
 CREATE TABLE tblCourseGroups (
-    GroupID INTEGER PRIMARY KEY AUTOINCREMENT,
+    GroupID TEXT PRIMARY KEY,
     GroupName TEXT,
-    CourseID INTEGER,
+    CourseID TEXT,
     FOREIGN KEY (CourseID) REFERENCES tblCourses(CourseID)
 );
 
 -- Group Members Table
 CREATE TABLE tblGroupMembers (
-    GroupMemberID INTEGER PRIMARY KEY AUTOINCREMENT,
-    GroupID INTEGER,
-    UserID INTEGER,
+    GroupMemberID TEXT PRIMARY KEY,
+    GroupID TEXT,
+    UserID TEXT,
     FOREIGN KEY (GroupID) REFERENCES tblCourseGroups(GroupID),
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID)
 );
