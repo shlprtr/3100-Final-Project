@@ -93,6 +93,14 @@ app.post('/sessions', (req, res, next) => {
                                 message: err.message
                             })
                         } else {
+                            // potential security improvement using cookies
+                            // res.cookie('sessionid', strSessionID, {
+                            //     httpOnly: true,
+                            //     secure: true,
+                            //     sameSite: 'Strict',
+                            //     maxAge: 24 * 60 * 60 * 1000 // 1 day expiration
+                            // })
+
                             res.status(201).json({
                                 status: "success",
                                 sessionid: strSessionID
@@ -125,6 +133,46 @@ app.delete('/sessions', (req, res, next) => {
             })
         } else {
             res.status(204).end()
+        }
+    })
+})
+
+
+// create a course
+/*
+    TODO:
+    - add validation
+    - get the user id of current user from session id (cookies?)
+    - ensure dates are in correct format
+*/
+app.post('/courses', (req, res, next) => {
+    const strCourseID = uuidv4()
+    const strCourseName = req.body.courseName
+    const strCourseNumber = req.body.courseNumber
+    const strSectionNumber = req.body.sectionNumber
+    const strSemesterTerm = req.body.semesterTerm
+    const strStartDate = req.body.startDate
+    const strEndDate = req.body.endDate
+    const strInstructorID = req.body.instructorID
+
+    if (strInstructorID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate == null) {
+        return res.status(400).json({ error: "You must provide an instructor, course title, course number, section number, semester term, start date, and end date" })
+    }
+
+    let strCommand = "INSERT INTO tblCourses (CourseID, CourseName, CourseNumber, SectionNumber, SemesterTerm, StartDate, EndDate, InstructorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    let arrParameters = [strInstructorID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate, strInstructorID]
+    db.run(strCommand, arrParameters, (err) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(201).json({
+                status: "success",
+                message: "Course created"
+            })
         }
     })
 })
