@@ -5,9 +5,6 @@ CREATE TABLE tblUsers (
     FirstName TEXT NOT NULL,
     LastName TEXT NOT NULL,
     Password TEXT NOT NULL,
-    PreferredContactMethod TEXT,
-    Salutation TEXT,
-    Status TEXT,
     LastLoginDate TIMESTAMP,
     AccountCreationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -50,6 +47,7 @@ CREATE TABLE tblSurvey (
     SurveyID TEXT PRIMARY KEY,
     CourseID TEXT,
     Title TEXT,
+    Status TEXT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     EndDate TIMESTAMP,
     FOREIGN KEY (CourseID) REFERENCES tblCourses(CourseID)

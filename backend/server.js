@@ -13,13 +13,35 @@ var app = express()
 app.use(cors())
 app.use(express.json())
 
+// get user from id
+app.get('/user/:userid', (req, res, next) => {
+    const strUserID = req.params.userid
+
+    let strCommand = "SELECT * FROM tblUsers WHERE UserID = ?"
+    db.all(strCommand, [strUserID], (err, result) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(200).json({
+                status: "success",
+                firstName: result[0].FirstName,
+                lastName: result[0].LastName,
+                email: result[0].Email
+            })
+        }
+    })
+})
 
 // create a new user
 app.post('/user', (req, res, next) => {
-    let strUserID = uuidv4()
-    let strEmail = req.body.email.trim().toLowerCase()
-    let strFirstName = req.body.firstName
-    let strLastName = req.body.lastName
+    const strUserID = uuidv4()
+    const strEmail = req.body.email.trim().toLowerCase()
+    const strFirstName = req.body.firstName
+    const strLastName = req.body.lastName
     let strPassword = req.body.password
 
     // validate email format
@@ -153,6 +175,7 @@ app.post('/courses', (req, res, next) => {
     const strSemesterTerm = req.body.semesterTerm
     const strStartDate = req.body.startDate
     const strEndDate = req.body.endDate
+    // fix so its the current user
     const strInstructorID = req.body.instructorID
 
     if (strInstructorID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate == null) {
@@ -160,7 +183,7 @@ app.post('/courses', (req, res, next) => {
     }
 
     let strCommand = "INSERT INTO tblCourses (CourseID, CourseName, CourseNumber, SectionNumber, SemesterTerm, StartDate, EndDate, InstructorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-    let arrParameters = [strInstructorID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate, strInstructorID]
+    let arrParameters = [strCourseID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate, strInstructorID]
     db.run(strCommand, arrParameters, (err) => {
         if (err) {
             console.log(err)
@@ -176,6 +199,126 @@ app.post('/courses', (req, res, next) => {
         }
     })
 })
+
+// get all courses for a user (instructor)
+app.get('/courses/:userid', (req, res, next) => {
+    const strUserID = req.params.userid
+
+    let strCommand = "SELECT * FROM tblCourses WHERE InstructorID = ?"
+    db.all(strCommand, [strUserID], (err, result) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(200).json({
+                status: "success",
+                result: result
+            })
+        }
+    })
+})
+
+// get all groups for a course
+app.get('/courses/groups/:courseIid', (req, res, next) => {
+    const strCourseID = req.params.courseid
+
+    let strCommand = "SELECT * FROM tblCourseGroups WHERE CourseID = ?"
+    db.all(strCommand, [strCourseID], (err, result) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(200).json({
+                status: "success",
+                result: result
+            })
+        }
+    })
+})
+
+// create group for a course
+app.post('/courses/groups', (req, res, next) => {
+    const strGroupID = uuidv4()
+    const strCourseID = req.body.courseID
+    const strGroupName = req.body.groupName
+
+    if (strCourseID, strGroupName == null) {
+        return res.status(400).json({ error: "You must provide a course id and group name" })
+    }
+
+    let strCommand = "INSERT INTO tblCourseGroups VALUES (?, ?, ?)"
+    let arrParameters = [strGroupID, strGroupName, strCourseID]
+    db.run(strCommand, arrParameters, (err) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(201).json({
+                status: "success",
+                message: "Group created"
+            })
+        }
+    })
+})
+
+// get all users in a group
+app.get('/courses/groups/users/:groupid', (req, res, next) => {
+    const strGroupID = req.params.groupid
+
+    let strCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ?"
+    db.all(strCommand, [strGroupID], (err, result) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(200).json({
+                status: "success",
+                result: result
+            })
+        }
+    })
+})
+
+// add a user to a group
+app.post('/courses/groups/users', (req, res, next) => {
+    const strGroupMemberID = uuidv4()
+    const strGroupID = req.body.groupID
+    const strUserID = req.body.userID
+
+    if (strGroupID, strUserID == null) {
+        return res.status(400).json({ error: "You must provide a group id and user id" })
+    }
+
+    let strCommand = "INSERT INTO tblGroupMembers VALUES (?, ?, ?)"
+    let arrParameters = [strGroupMemberID, strGroupID, strUserID]
+    db.run(strCommand, arrParameters, (err) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(201).json({
+                status: "success",
+                message: "User added to group"
+            })
+        }
+    })
+})
+
 
 
 app.get('/', (req, res, next) => {
