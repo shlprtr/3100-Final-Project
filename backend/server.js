@@ -210,7 +210,6 @@ app.post('/socials', (req, res, next) => {
 // delete a social
 app.delete('/socials', (req, res, next) => {
     let strSocialID = req.body.socialID
-    let strUsername = req.body.username
 
     if (strSocialID.length < 1) {
         return res.status(400).json({ error: "You must provide a socialID" })
@@ -268,6 +267,108 @@ app.get('/socials/:userID',(req,res,next) => {
 })
 
 
+
+// Add a phone number
+app.post('/phone', (req, res, next) => {
+    let strPhoneID = uuidv4()
+    let strNationCode = req.body.nationCode
+    let strAreaCode = req.body.areaCode
+    let strPhoneNumber = req.body.phoneNumber
+    let strUserID = req.body.userID
+
+    if (strNationCode.length < 1) {
+        return res.status(400).json({ error: "You must provide a nation code" })
+    }
+    if (strAreaCode.length < 1) {
+        return res.status(400).json({ error: "You must provide an area code" })
+    }
+    if (strPhoneNumber.length < 1) {
+        return res.status(400).json({ error: "You must provide a phone number" })
+    }
+    if (strUserID.length < 1) {
+        return res.status(400).json({ error: "You must provide a user to add a social" })
+    }
+
+    let strCommand = `INSERT INTO tblPhone VALUES (?, ?, ?, ?, ?)`;
+    db.run(strCommand, [strPhoneID, strNationCode, strAreaCode, strPhoneNumber, strUserID], function (err) {
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error", message:err.message})
+        } else {
+            res.status(201).json({
+                status:"success"
+            })
+        }
+    })
+})
+
+// delete a phone number
+app.delete('/phone', (req, res, next) => {
+    let strPhoneID = req.body.phoneID
+
+    if (strPhoneID.length < 1) {
+        return res.status(400).json({ error: "You must provide a phoneID" })
+    }
+    let comDelete = `DELETE FROM tblPhone WHERE phoneID = ?`
+    db.run(comDelete,[strPhoneID],function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(201).json({status:"success",message:"Task Deleted"})
+        }
+    })
+})
+
+// Update a phone number
+app.put('/phone', (req, res, next) => {
+    let strPhoneID = req.body.phoneID
+    let strNationCode = req.body.nationCode
+    let strAreaCode = req.body.areaCode
+    let strPhoneNumber = req.body.phoneNumber
+
+    if (strPhoneID.length < 1) {
+        return res.status(400).json({ error: "You must provide a phoneID" })
+    }
+    if (strNationCode.length < 1) {
+        return res.status(400).json({ error: "You must provide a nation code" })
+    }
+    if (strAreaCode.length < 1) {
+        return res.status(400).json({ error: "You must provide an area code" })
+    }
+    if (strPhoneNumber.length < 1) {
+        return res.status(400).json({ error: "You must provide a phone number" })
+    }
+
+    let comUpdate = `UPDATE tblPhone SET NationCode = ?, AreaCode = ?, PhoneNumber = ? WHERE PhoneID = ?`;
+    db.run(comUpdate, [strNationCode, strAreaCode, strPhoneNumber, strPhoneID], function (err) {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({ status: "error", message: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: "TaskID not found" });
+        }
+        res.status(200).json({ status: "success", message: "Task updated successfully" });
+    })
+});
+
+//Return all phone numbers for a user
+app.get('/phone/:userID',(req,res,next) => {
+    let strUserID = req.params.userID
+    if(strUserID.length < 1){
+        return res.status(400).json({error:"You must provide a userID"})
+    }
+    let comSelect = "SELECT * FROM tblPhone WHERE UserID = ?"
+    db.all(comSelect, [strUserID], function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(200).json({status:"success",items:result})
+        }
+    })
+})
 
 app.get('/', (req, res, next) => {
     res.status(200).json({ message: "I am alive" })
