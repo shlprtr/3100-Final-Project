@@ -13,11 +13,12 @@ var app = express()
 app.use(cors())
 app.use(express.json())
 
-// get user from id
-app.get('/user/:userid', (req, res, next) => {
-    const strUserID = req.params.userid
 
-    let strCommand = "SELECT * FROM tblUsers WHERE UserID = ?"
+// get user info from session id
+app.get('/user', authenticateUser, (req, res, next) => {
+    const strUserID = req.userID
+
+    let strCommand = "SELECT FirstName, LastName, Email FROM tblUsers WHERE UserID = ?"
     db.all(strCommand, [strUserID], (err, result) => {
         if (err) {
             console.log(err)
@@ -36,7 +37,7 @@ app.get('/user/:userid', (req, res, next) => {
     })
 })
 
-// create a new user
+// create a new user (register)
 app.post('/user', (req, res, next) => {
     const strUserID = uuidv4()
     const strEmail = req.body.email.trim().toLowerCase()
@@ -70,14 +71,17 @@ app.post('/user', (req, res, next) => {
                 message: err.message
             })
         } else {
-            res.status(201).json({
-                status: "success"
-            })
+            res.status(201).json({ status: "success" })
         }
     })
 })
 
-// create a session for a user
+// check for active session
+app.get('/sessions', verifySession, (req, res, next) => {
+    res.status(200).json({ status: "success" })
+})
+
+// create a session for a user (login)
 app.post('/sessions', (req, res, next) => {
     const strEmail = req.body.email.trim().toLowerCase()
     const strPassword = req.body.password
@@ -115,18 +119,13 @@ app.post('/sessions', (req, res, next) => {
                                 message: err.message
                             })
                         } else {
-                            // potential security improvement using cookies
-                            // res.cookie('sessionid', strSessionID, {
-                            //     httpOnly: true,
-                            //     secure: true,
-                            //     sameSite: 'Strict',
-                            //     maxAge: 24 * 60 * 60 * 1000 // 1 day expiration
-                            // })
-
-                            res.status(201).json({
-                                status: "success",
-                                sessionid: strSessionID
+                            res.cookie('sessionID', strSessionID, {
+                                httpOnly: true,  // only accessible by the web server
+                                secure: true,  // only work across https
+                                sameSite: 'Strict',  // only send from same domain
+                                maxAge: 12 * 60 * 60 * 1000  // 12 hours
                             })
+                            res.status(201).json({ status: "success" })
                         }
                     })
                 } else {
@@ -137,15 +136,21 @@ app.post('/sessions', (req, res, next) => {
     })
 })
 
-// delete a session for a user
-app.delete('/sessions', (req, res, next) => {
-    const strSessionID = req.body.sessionid
+// update a session to inactive (logout)
+app.put('/sessions', (req, res, next) => {
+    const strSessionID = req.cookies.sessionID
+    verifySession(strSessionID)
+    .then((result) => {
+        if (result == false) {
+            return res.status(401).json({ error: "Invalid session identifier" })
+        }
+    })
+    .catch((err) => {
+        console.log(err)
+        res.status(400).json({ error: err.message })
+    })
 
-    if (strSessionID == null) {
-        return res.status(400).json({ error: "You must provide a session id" })
-    }
-
-    let strCommand = "DELETE FROM tblSessions WHERE SessionID = ?"
+    let strCommand = "UPDATE tblSessions SET Status = 'Inactive' WHERE SessionID = ?"
     db.run(strCommand, [strSessionID], (err) => {
         if (err) {
             console.log(err)
@@ -160,49 +165,9 @@ app.delete('/sessions', (req, res, next) => {
 })
 
 
-// create a course
-/*
-    TODO:
-    - add validation
-    - get the user id of current user from session id (cookies?)
-    - ensure dates are in correct format
-*/
-app.post('/courses', (req, res, next) => {
-    const strCourseID = uuidv4()
-    const strCourseName = req.body.courseName
-    const strCourseNumber = req.body.courseNumber
-    const strSectionNumber = req.body.sectionNumber
-    const strSemesterTerm = req.body.semesterTerm
-    const strStartDate = req.body.startDate
-    const strEndDate = req.body.endDate
-    // fix so its the current user
-    const strInstructorID = req.body.instructorID
-
-    if (strInstructorID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate == null) {
-        return res.status(400).json({ error: "You must provide an instructor, course title, course number, section number, semester term, start date, and end date" })
-    }
-
-    let strCommand = "INSERT INTO tblCourses (CourseID, CourseName, CourseNumber, SectionNumber, SemesterTerm, StartDate, EndDate, InstructorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-    let arrParameters = [strCourseID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate, strInstructorID]
-    db.run(strCommand, arrParameters, (err) => {
-        if (err) {
-            console.log(err)
-            res.status(400).json({
-                status: "error",
-                message: err.message
-            })
-        } else {
-            res.status(201).json({
-                status: "success",
-                message: "Course created"
-            })
-        }
-    })
-})
-
-// get all courses for a user (instructor)
-app.get('/courses/:userid', (req, res, next) => {
-    const strUserID = req.params.userid
+// get all courses a user instructs
+app.get('/courses', authenticateUser, (req, res, next) => {
+    const strUserID = req.userID
 
     let strCommand = "SELECT * FROM tblCourses WHERE InstructorID = ?"
     db.all(strCommand, [strUserID], (err, result) => {
@@ -221,12 +186,49 @@ app.get('/courses/:userid', (req, res, next) => {
     })
 })
 
-// get all groups for a course
-app.get('/courses/groups/:courseIid', (req, res, next) => {
-    const strCourseID = req.params.courseid
+// create a course
+/*
+    TODO:
+    - add validation
+    - ensure dates are in correct format
+*/
+app.post('/courses', authenticateUser, (req, res, next) => {
+    const strCourseID = uuidv4()
+    const strInstructorID = req.userid  // retrieved from authenticateUser middleware
+    const strCourseName = req.body.courseName
+    const strCourseNumber = req.body.courseNumber
+    const strSectionNumber = req.body.sectionNumber
+    const strSemesterTerm = req.body.semesterTerm
+    const strStartDate = req.body.startDate
+    const strEndDate = req.body.endDate
 
-    let strCommand = "SELECT * FROM tblCourseGroups WHERE CourseID = ?"
-    db.all(strCommand, [strCourseID], (err, result) => {
+    if (strInstructorID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate == null) {
+        return res.status(400).json({ error: "You must provide an instructor, course title, course number, section number, semester term, start date, and end date" })
+    }
+
+    let strCommand = "INSERT INTO tblCourses (CourseID, CourseName, CourseNumber, SectionNumber, SemesterTerm, StartDate, EndDate, InstructorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    let arrParameters = [strCourseID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate, strInstructorID]
+    db.run(strCommand, arrParameters, (err) => {
+        if (err) {
+            console.log(err)
+            res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(201).json({ status: "success" })
+        }
+    })
+})
+
+
+// get all groups for a course from session id
+app.get('/courses/groups', authenticateUser, (req, res, next) => {
+    const strUserID = req.userID
+    const strCourseID = req.body.courseID
+
+    let strCommand = "SELECT * FROM tblCourseGroups WHERE CourseID = ? AND InstructorID = ?"
+    db.all(strCommand, [strCourseID, strUserID], (err, result) => {
         if (err) {
             console.log(err)
             res.status(400).json({
@@ -262,17 +264,14 @@ app.post('/courses/groups', (req, res, next) => {
                 message: err.message
             })
         } else {
-            res.status(201).json({
-                status: "success",
-                message: "Group created"
-            })
+            res.status(201).json({ status: "success" })
         }
     })
 })
 
 // get all users in a group
-app.get('/courses/groups/users/:groupid', (req, res, next) => {
-    const strGroupID = req.params.groupid
+app.get('/courses/groups/users', (req, res, next) => {
+    const strGroupID = req.body.groupID
 
     let strCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ?"
     db.all(strCommand, [strGroupID], (err, result) => {
@@ -311,10 +310,7 @@ app.post('/courses/groups/users', (req, res, next) => {
                 message: err.message
             })
         } else {
-            res.status(201).json({
-                status: "success",
-                message: "User added to group"
-            })
+            res.status(201).json({ status: "success" })
         }
     })
 })
@@ -328,3 +324,53 @@ app.get('/', (req, res, next) => {
 app.listen(HTTP_PORT, () => {
     console.log("App listening on", HTTP_PORT)
 })
+
+// verify session id
+function verifySession(strSessionID) {
+    return new Promise((resolve, reject) => {
+        let strCommand = "SELECT * FROM tblSessions WHERE SessionID = ? AND Status = 'Active'"
+        db.all(strCommand, [strSessionID], (err, result) => {
+            if (err) {
+                console.log(err)
+                reject(err)
+            } else {
+                if (result.length == 0) {
+                    resolve(false)
+                } else {
+                    resolve(true)
+                }
+            }
+        })
+    })
+}
+
+// middleware to get user id from a valid session id
+function authenticateUser(req, res, next) {
+    const strSessionID = req.cookies.sessionID;
+
+    if (!strSessionID) {
+        return res.status(401).json({ error: "Unauthorized: No session ID provided" });
+    }
+
+    verifySession(strSessionID)
+    .then((isValid) => {
+        if (!isValid) {
+            return res.status(401).json({ error: "Unauthorized: Invalid session" });
+        }
+
+        // Retrieve the UserID from the session
+        const strCommand = "SELECT UserID FROM tblSessions WHERE SessionID = ?";
+        db.get(strCommand, [strSessionID], (err, row) => {
+            if (err || !row) {
+                return res.status(401).json({ error: "Unauthorized: Invalid session" });
+            }
+
+            req.userID = row.UserID; // Attach UserID to the request object
+            next();
+        });
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).json({ error: "Internal server error" });
+    });
+}
