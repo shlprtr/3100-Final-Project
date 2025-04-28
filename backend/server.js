@@ -470,6 +470,75 @@ app.get('/survey/:courseID',(req,res,next) => {
     })
 })
 
+// Add a survey question
+app.post('/surveyquestion', (req, res, next) => {
+    let strQuestionID = uuidv4()
+    let strSurveyID = req.body.surveyID
+    let strQuestion = req.body.question
+    let strOptions = req.body.options
+    let strQuestionType = req.body.questionType
+
+    if (strSurveyID.length < 1) {
+        return res.status(400).json({ error: "You must provide a surveyID"})
+    }
+    if (strQuestion.length < 1) {
+        return res.status(400).json({ error: "You must provide a survey question"})
+    }
+    if (strOptions.length < 1) {
+        return res.status(400).json({ error: "You must provide survey options"})
+    }
+    if (strQuestionType.length < 1) {
+        return res.status(400).json({ error: "You must provide a question type"})
+    }
+
+    let strCommand = `INSERT INTO tblSurveyQuestion VALUES (?, ?, ?, ?, ?)`;
+    db.run(strCommand, [strQuestionID, strSurveyID, strQuestion, strOptions, strQuestionType], function (err) {
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error", message:err.message})
+        } else {
+            res.status(201).json({
+                status:"success"
+            })
+        }
+    })
+})
+
+// delete a survey question
+app.delete('/surveyquestion', (req, res, next) => {
+    let strQuestionID = req.body.questionID
+
+    if (strQuestionID.length < 1) {
+        return res.status(400).json({ error: "You must provide a questionID" })
+    }
+    let comDelete = `DELETE FROM tblSurveyQuestion WHERE questionID = ?`
+    db.run(comDelete,[strQuestionID],function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(201).json({status:"success",message:"Task Deleted"})
+        }
+    })
+})
+
+//Return all survey questions for a survey
+app.get('/surveyquestion/:surveyID',(req,res,next) => {
+    let strSurveyID = req.params.surveyID
+    if(strSurveyID.length < 1){
+        return res.status(400).json({error:"You must provide a surveyID"})
+    }
+    let comSelect = "SELECT * FROM tblSurveyQuestion WHERE SurveyID = ?"
+    db.all(comSelect, [strSurveyID], function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(200).json({status:"success",items:result})
+        }
+    })
+})
+
 app.get('/', (req, res, next) => {
     res.status(200).json({ message: "I am alive" })
 })
