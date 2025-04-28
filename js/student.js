@@ -21,13 +21,19 @@ document.querySelector('#surveyContainer').addEventListener('click', (event) => 
         const strSurveyId = cardLink.getAttribute('data-survey-id')
         // fetch group details
 
-        document.querySelector('#frmSurvey').classList.remove('d-none')
-        document.querySelector('#selectedGroup').classList.add('d-none')
-
-        document.querySelector('#surveyName').innerHTML = strSurveyId
+        fetch("pages/studentsurvey.html")
+    .then(response => response.text())
+    .then(html => {
+        const objScript = document.createElement('script')
+        objScript.src = 'js/studentsurvey.js'
+        objScript.type = 'text/javascript'
+        document.head.appendChild(objScript)
+        document.querySelector('#divView').innerHTML = html
+    })
     }
 })
 
+   
 // display all surveys
 document.querySelector('#btnSurveys').addEventListener('click', (event) => {
     selectView('Surveys')
