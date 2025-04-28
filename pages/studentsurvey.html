@@ -1,0 +1,82 @@
+<div class="container mt-3">
+  <!-- All Submissions Button -->
+  <div class="d-flex justify-content-end">
+    <button
+      class="btn btn-outline-secondary"
+      onclick="location.href='allSubmissions.html'"
+    >
+      All Submissions
+    </button>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div
+    class="card p-4 w-75"
+    style="background-color: rgba(253, 236, 182, 0.698)"
+  >
+    <h1 class="text-center mb-4" style="color: black">Student Survey</h1>
+    <p class="text-center" style="color: black">
+      Please fill out the survey below as provided by your instructor.
+    </p>
+    <form id="studentSurveyForm">
+      <!-- Question 1 -->
+      <div class="mb-3">
+        <label for="question1" class="form-label" style="color: black">
+          1. How would you rate the class content?
+        </label>
+        <select id="question1" class="form-select" required>
+          <option value="" disabled selected>Select an option</option>
+          <option value="Excellent">Excellent</option>
+          <option value="Good">Good</option>
+          <option value="Average">Average</option>
+          <option value="Poor">Poor</option>
+        </select>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="mb-3">
+        <label for="question2" class="form-label" style="color: black">
+          2. What did you like most about the class?
+        </label>
+        <textarea
+          id="question2"
+          class="form-control"
+          rows="3"
+          placeholder="Write your answer here..."
+          required
+        ></textarea>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="mb-3">
+        <label for="question3" class="form-label" style="color: black">
+          3. Any suggestions for improvement?
+        </label>
+        <textarea
+          id="question3"
+          class="form-control"
+          rows="3"
+          placeholder="Write your answer here..."
+          required
+        ></textarea>
+      </div>
+
+      <!-- Submit Buttons -->
+      <div class="text-center">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg me-2"
+          id="btnPrivate"
+        >
+          Private
+        </button>
+        <button type="button" class="btn btn-secondary btn-lg" id="btnPublic">
+          Public
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../js/StudentPage.js"></script>

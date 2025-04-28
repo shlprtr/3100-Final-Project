@@ -63,3 +63,11 @@ document.querySelector('#btnJoinGroupModal').addEventListener('click', function(
     const joinGroupModal = new bootstrap.Modal(document.querySelector('#joinGroupModal'))
     joinGroupModal.show()
 })
+
+// button to go back to groups
+document.getElementById('btnBackToGroups').addEventListener('click', function () {
+    // Hide the surveys section
+    document.getElementById('viewSurveys').classList.add('d-none');
+    // Show the groups section
+    document.getElementById('viewGroups').classList.remove('d-none');
+});
