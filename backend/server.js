@@ -3,6 +3,7 @@ const cors = require('cors')
 const { v4:uuidv4 } = require('uuid')
 const sqlite3 = require('sqlite3').verbose()
 const bcrypt = require('bcrypt')
+const cookieParser = require('cookie-parser')
 
 const HTTP_PORT = 8000
 const intSalt = 10
@@ -10,8 +11,12 @@ const dbSource = 'reviewly.db'
 const db = new sqlite3.Database(dbSource)
 
 var app = express()
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:5500', // frontend, localhost development
+    credentials: true
+}))
 app.use(express.json())
+app.use(cookieParser())
 
 
 // get user info from session id
@@ -77,8 +82,24 @@ app.post('/user', (req, res, next) => {
 })
 
 // check for active session
-app.get('/sessions', verifySession, (req, res, next) => {
-    res.status(200).json({ status: "success" })
+app.get('/sessions', (req, res, next) => {
+    const strSessionID = req.cookies.sessionID
+    if (!strSessionID) {
+        return res.status(401).json({ error: "No session id provided" });
+    }
+
+    verifySession(strSessionID)
+    .then((result) => {
+        if (result == false) {
+            return res.status(401).json({ error: "Invalid session identifier" })
+        } else {
+            return res.status(200).json({ status: "success" })
+        }
+    })
+    .catch((err) => {
+        console.log(err)
+        res.status(400).json({ error: err.message })
+    })
 })
 
 // create a session for a user (login)
@@ -86,7 +107,7 @@ app.post('/sessions', (req, res, next) => {
     const strEmail = req.body.email.trim().toLowerCase()
     const strPassword = req.body.password
 
-    if (strEmail, strPassword == null) {
+    if (!strEmail || !strPassword) {
         return res.status(400).json({ error: "You must provide an email and password" })
     }
 
@@ -121,8 +142,8 @@ app.post('/sessions', (req, res, next) => {
                         } else {
                             res.cookie('sessionID', strSessionID, {
                                 httpOnly: true,  // only accessible by the web server
-                                secure: true,  // only work across https
-                                sameSite: 'Strict',  // only send from same domain
+                                secure: false,  // only work across https, false for localhost development
+                                sameSite: 'Lax',  // only send from same domain, lax for localhost development
                                 maxAge: 12 * 60 * 60 * 1000  // 12 hours
                             })
                             res.status(201).json({ status: "success" })
@@ -144,23 +165,23 @@ app.put('/sessions', (req, res, next) => {
         if (result == false) {
             return res.status(401).json({ error: "Invalid session identifier" })
         }
+
+        let strCommand = "UPDATE tblSessions SET Status = 'Inactive' WHERE SessionID = ?"
+        db.run(strCommand, [strSessionID], (err) => {
+            if (err) {
+                console.log(err)
+                res.status(400).json({
+                    status: "error",
+                    message: err.message
+                })
+            } else {
+                res.status(201).json({ status: "success" })
+            }
+        })
     })
     .catch((err) => {
         console.log(err)
         res.status(400).json({ error: err.message })
-    })
-
-    let strCommand = "UPDATE tblSessions SET Status = 'Inactive' WHERE SessionID = ?"
-    db.run(strCommand, [strSessionID], (err) => {
-        if (err) {
-            console.log(err)
-            res.status(400).json({
-                status: "error",
-                message: err.message
-            })
-        } else {
-            res.status(204).end()
-        }
     })
 })
 
@@ -194,7 +215,7 @@ app.get('/courses', authenticateUser, (req, res, next) => {
 */
 app.post('/courses', authenticateUser, (req, res, next) => {
     const strCourseID = uuidv4()
-    const strInstructorID = req.userid  // retrieved from authenticateUser middleware
+    const strInstructorID = req.userID  // retrieved from authenticateUser middleware
     const strCourseName = req.body.courseName
     const strCourseNumber = req.body.courseNumber
     const strSectionNumber = req.body.sectionNumber
@@ -246,47 +267,70 @@ app.get('/courses/groups', authenticateUser, (req, res, next) => {
 
 // create group for a course
 app.post('/courses/groups', (req, res, next) => {
-    const strGroupID = uuidv4()
-    const strCourseID = req.body.courseID
-    const strGroupName = req.body.groupName
-
-    if (strCourseID, strGroupName == null) {
-        return res.status(400).json({ error: "You must provide a course id and group name" })
-    }
-
-    let strCommand = "INSERT INTO tblCourseGroups VALUES (?, ?, ?)"
-    let arrParameters = [strGroupID, strGroupName, strCourseID]
-    db.run(strCommand, arrParameters, (err) => {
-        if (err) {
-            console.log(err)
-            res.status(400).json({
-                status: "error",
-                message: err.message
-            })
-        } else {
-            res.status(201).json({ status: "success" })
+    const strSessionID = req.cookies.sessionID
+    verifySession(strSessionID)
+    .then((result) => {
+        if (result == false) {
+            return res.status(401).json({ error: "Invalid session identifier" })
         }
+
+        const strGroupID = uuidv4()
+        const strCourseID = req.body.courseID
+        const strGroupName = req.body.groupName
+
+        if (strCourseID, strGroupName == null) {
+            return res.status(400).json({ error: "You must provide a course id and group name" })
+        }
+
+        let strCommand = "INSERT INTO tblCourseGroups VALUES (?, ?, ?)"
+        let arrParameters = [strGroupID, strGroupName, strCourseID]
+        db.run(strCommand, arrParameters, (err) => {
+            if (err) {
+                console.log(err)
+                res.status(400).json({
+                    status: "error",
+                    message: err.message
+                })
+            } else {
+                res.status(201).json({ status: "success" })
+            }
+        })
+    })
+    .catch((err) => {
+        console.log(err)
+        res.status(400).json({ error: err.message })
     })
 })
 
 // get all users in a group
 app.get('/courses/groups/users', (req, res, next) => {
-    const strGroupID = req.body.groupID
-
-    let strCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ?"
-    db.all(strCommand, [strGroupID], (err, result) => {
-        if (err) {
-            console.log(err)
-            res.status(400).json({
-                status: "error",
-                message: err.message
-            })
-        } else {
-            res.status(200).json({
-                status: "success",
-                result: result
-            })
+    const strSessionID = req.cookies.sessionID
+    verifySession(strSessionID)
+    .then((result) => {
+        if (result == false) {
+            return res.status(401).json({ error: "Invalid session identifier" })
         }
+
+        const strGroupID = req.body.groupID
+        let strCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ?"
+        db.all(strCommand, [strGroupID], (err, result) => {
+            if (err) {
+                console.log(err)
+                res.status(400).json({
+                    status: "error",
+                    message: err.message
+                })
+            } else {
+                res.status(200).json({
+                    status: "success",
+                    result: result
+                })
+            }
+        })
+    })
+    .catch((err) => {
+        console.log(err)
+        res.status(400).json({ error: err.message })
     })
 })
 
@@ -334,7 +378,7 @@ function verifySession(strSessionID) {
                 console.log(err)
                 reject(err)
             } else {
-                if (result.length == 0) {
+                if (!result || result.length == 0) {
                     resolve(false)
                 } else {
                     resolve(true)
@@ -360,12 +404,17 @@ function authenticateUser(req, res, next) {
 
         // Retrieve the UserID from the session
         const strCommand = "SELECT UserID FROM tblSessions WHERE SessionID = ?";
-        db.get(strCommand, [strSessionID], (err, row) => {
-            if (err || !row) {
+        db.all(strCommand, [strSessionID], (err, result) => {
+            if (err) {
+                console.error(err)
                 return res.status(401).json({ error: "Unauthorized: Invalid session" });
             }
 
-            req.userID = row.UserID; // Attach UserID to the request object
+            if (!result || result.length === 0) {
+                return res.status(401).json({ error: "Unauthorized: Invalid session" });
+            }
+
+            req.userID = result[0].UserID // Attach UserID to the request object
             next();
         });
     })
