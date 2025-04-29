@@ -12,6 +12,7 @@ document.querySelector('#btnCreateGroup').addEventListener('click', function() {
                             <a class="stretched-link" data-group-id="${strName}"></a>
                           </div>` //CHANGE data-group-id name probs
     document.querySelector('#groupContainer').innerHTML += htmlAddClass
+    let strCode = generateClassCode()
 })
 // modal to create group
 document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
@@ -112,4 +113,25 @@ function selectQuestionType(selected) {
     document.querySelector(`#btn${selected}`).classList.remove('unselected')
     document.querySelector(`#view${selected}`).classList.remove('d-none')
 }
+
+function generateClassCode(info){
+    let x = 0;
+    let code =''
+
+    // Creates a random number of length 6
+    while ( x < 6) {
+        code += Math.floor(Math.random() * 10);
+        x++
+    }
+}
+
+// function verifyCode(code){
+//     if(strClassCode.length < 6 || strClassCode.length > 6 || isNaN(strClassCode)){
+//         blnError = true
+//         strMessage += '<p class="mb-0 mt-0">You must enter a valid code</p>'
+//     }
+//     //now 
+// }
+
+
 

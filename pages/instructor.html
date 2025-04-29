@@ -103,7 +103,7 @@
 <div class="container-fluid d-none" id="viewGroupDetails" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
     <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:70px;">
         <div class="row row-cols-2">
-            <div class="col-4">
+            <div class="col-4" id="surveyNav">
                 <!-- name of the group selected -->
                 <div style="padding:7px">
                     <h1 id="txtGroupName">CSC 2100-002</h1>
@@ -114,10 +114,15 @@
                 </div>
                 <!--list of surveys avaliable to be viewed -->
                 <div class="row">
-                    <div class="col" id="divSurveyContainer">
+                    <div class="col container overflow-auto " id="divSurveyContainer">
                         <div class="card bg-dark p-4 group-card selection-card position-relative me-2">
                             <h5>Mid-Year Peer Review</h5>
                             <p>Ends Oct 25th, 2025</p>
+                            <a class="stretched-link" data-group-id="Group3"></a>
+                        </div>
+                        <div class="card p-4 group-card selection-card position-relative me-2">
+                            <h5>Pre-Exam 1 Confidence Survey</h5>
+                            <p>Ended Sept 13th, 2025</p>
                             <a class="stretched-link" data-group-id="Group3"></a>
                         </div>
                         <div class="card p-4 group-card selection-card position-relative me-2">
