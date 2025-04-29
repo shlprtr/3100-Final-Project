@@ -61,7 +61,7 @@ app.post('/user', (req, res, next) => {
     if (!passwordRegex.test(strPassword)) {
         return res.status(400).json({
             error: "Password must be at least 8 characters long, include at least one uppercase letter, one lowercase letter, one number, and one special character"
-        });
+        })
     }
 
     // hash password and attempt to create user
@@ -141,7 +141,7 @@ app.post('/sessions', (req, res, next) => {
     })
 })
 
-// update a session to inactive (logout)
+// update a session to 'inactive' (logout)
 app.put('/sessions', verifySession, (req, res, next) => {
     const strSessionID = req.cookies.sessionID
 
@@ -197,7 +197,7 @@ app.post('/courses', authenticateUser, (req, res, next) => {
     const strStartDate = req.body.startDate
     const strEndDate = req.body.endDate
 
-    if (strInstructorID, strCourseName, strCourseNumber, strSectionNumber, strSemesterTerm, strStartDate, strEndDate == null) {
+    if (!strInstructorID || !strCourseName || !strCourseNumber || !strSectionNumber || !strSemesterTerm || !strStartDate || !strEndDate) {
         return res.status(400).json({ error: "You must provide an instructor, course title, course number, section number, semester term, start date, and end date" })
     }
 
@@ -217,7 +217,7 @@ app.post('/courses', authenticateUser, (req, res, next) => {
 })
 
 
-// get all groups for a course from session id
+// get all groups for a course where current user is the instructor
 app.get('/courses/groups/:courseid', authenticateUser, (req, res, next) => {
     const strUserID = req.userID
     const strCourseID = req.params.courseid
@@ -255,20 +255,35 @@ app.post('/courses/groups', authenticateUser, (req, res, next) => {
         return res.status(400).json({ error: "You must provide a course id and group name" })
     }
 
-    let strCommand = "INSERT INTO tblCourseGroups VALUES (?, ?, ?)"
-    let arrParameters = [strGroupID, strGroupName, strCourseID]
-    db.run(strCommand, arrParameters, (err) => {
+    // check if user is the instructor
+    let strCheckCommand = "SELECT * FROM tblCourses WHERE CourseID = ? AND InstructorID = ?"
+    db.all(strCheckCommand, [strCourseID, strUserID], (err, result) => {
         if (err) {
             console.log(err)
-            res.status(400).json({
+            return res.status(400).json({
                 status: "error",
                 message: err.message
             })
-        } else {
-            res.status(201).json({ status: "success" })
         }
-    })
 
+        if (result.length == 0) {
+            return res.status(401).json({ error: "You are not the instructor for this course" })
+        }
+
+        let strCommand = "INSERT INTO tblCourseGroups VALUES (?, ?, ?)"
+        let arrParameters = [strGroupID, strGroupName, strCourseID]
+        db.run(strCommand, arrParameters, (err) => {
+            if (err) {
+                console.log(err)
+                res.status(400).json({
+                    status: "error",
+                    message: err.message
+                })
+            } else {
+                res.status(201).json({ status: "success" })
+            }
+        })
+    })
 })
 
 // get all users in a group
@@ -298,23 +313,43 @@ app.post('/courses/groups/users', authenticateUser, (req, res, next) => {
     const strGroupID = req.body.groupID
     const strUserID = req.userID
 
-    if (strGroupID, strUserID == null) {
+    if (!strGroupID || !strUserID) {
         return res.status(400).json({ error: "You must provide a group id and user id" })
     }
 
-    let strCommand = "INSERT INTO tblGroupMembers VALUES (?, ?, ?)"
-    let arrParameters = [strGroupMemberID, strGroupID, strUserID]
-    db.run(strCommand, arrParameters, (err) => {
+    // check if user already in group
+    let strCheckCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ? AND UserID = ?"
+    db.all(strCheckCommand, [strGroupID, strUserID], (err, result) => {
         if (err) {
             console.log(err)
-            res.status(400).json({
+            return res.status(400).json({
                 status: "error",
                 message: err.message
             })
-        } else {
-            res.status(201).json({ status: "success" })
         }
+
+        if (result.length > 0) {
+            return res.status(400).json({
+                status: "error",
+                message: "User is already a member of this group"
+            })
+        }
+
+        let strCommand = "INSERT INTO tblGroupMembers VALUES (?, ?, ?)"
+        let arrParameters = [strGroupMemberID, strGroupID, strUserID]
+        db.run(strCommand, arrParameters, (err) => {
+            if (err) {
+                console.log(err)
+                res.status(400).json({
+                    status: "error",
+                    message: err.message
+                })
+            } else {
+                res.status(201).json({ status: "success" })
+            }
+        })
     })
+
 })
 
 // delete currest user from group
@@ -340,6 +375,7 @@ app.delete('/courses/groups/users', authenticateUser, (req, res, next) => {
     })
 })
 
+
 app.get('/', (req, res, next) => {
     res.status(200).json({ message: "I am alive" })
 })
@@ -363,7 +399,7 @@ function verifySession(req, res, next) {
             return res.status(500).json({ error: "Internal server error" });
         }
 
-        if (!result || result.length == 0) {
+        if (result.length == 0) {
             return res.status(401).json({ error: "Unauthorized: Invalid session" });
         }
 
@@ -387,7 +423,7 @@ function authenticateUser(req, res, next) {
                 return res.status(401).json({ error: "Unauthorized: Invalid session" });
             }
     
-            if (!result || result.length === 0) {
+            if (result.length === 0) {
                 return res.status(401).json({ error: "Unauthorized: Invalid session" });
             }
     
