@@ -211,7 +211,24 @@
         <div class="row">
           <div class="col" id="divSurveyDetails">
             <h2 class="text-center mt-4">Mid-Year Peer Review</h2>
-
+            <div class="row row-cols-2 d-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-link"
+                id="btnViewSurvey"
+                style="color: white"
+              >
+                View Status
+              </button>
+              <button
+                type="button"
+                class="btn btn-link"
+                id="btnViewResponses"
+                style="color: white"
+              >
+                View Responses
+              </button>
+            </div>
             <!-- Status table -->
             <div style="padding: 20px">
               <label
@@ -241,6 +258,21 @@
               </select>
             </div>
           </div>
+        </div>
+      </div>
+      <!-- List of students -->
+      <div class="border-left col-4" style="padding: 100px">
+        <div class="row d-flex justify-content-center align-items-start">
+          <h3 class="mb-4">Students</h3>
+          <select
+            id="selStudents"
+            class="bg-dark text-white form-select"
+            multiple
+          >
+            <option value="Harry">Harry Potter</option>
+            <option value="Ron">Ron Weasley</option>
+            <option value="Hermione">Hermione Granger</option>
+          </select>
         </div>
       </div>
     </div>
