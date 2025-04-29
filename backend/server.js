@@ -539,6 +539,101 @@ app.get('/surveyquestion/:surveyID',(req,res,next) => {
     })
 })
 
+// Add a survey response
+app.post('/surveyresponse', authenticateUser, (req, res, next) => {
+    const strResponseID = uuidv4()
+    const strSurveyID= req.body.surveyID
+    const strInstructorID = req.userID  // retrieved from authenticateUser middleware
+    const strQuestionID = req.body.questionID
+    const strResponse = req.body.response
+    const strTargetUserID = req.body.targetUserID
+
+    if (strSurveyID.length < 1) {
+        return res.status(400).json({ error: "You must provide a surveyID"})
+    }
+    if (strQuestionID.length < 1) {
+        return res.status(400).json({ error: "You must provide a questionID"})
+    }
+    if (strResponse.length < 1) {
+        return res.status(400).json({ error: "You must provide a response"})
+    }
+    if (strTargetUserID.length < 1) {
+        return res.status(400).json({ error: "You must provide a target userID"})
+    }
+
+    let strCommand = `INSERT INTO tblSurveyResponse VALUES (?, ?, ?, ?, ?, ?)`;
+    db.run(strCommand, [strResponseID, strSurveyID, strInstructorID, strQuestionID, strResponse, strTargetUserID], function (err) {
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error", message:err.message})
+        } else {
+            res.status(201).json({
+                status:"success"
+            })
+        }
+    })
+})
+
+// delete a survey response
+app.delete('/surveyresponse', (req, res, next) => {
+    let strResponseID = req.body.responseID
+
+    if (strResponseID.length < 1) {
+        return res.status(400).json({ error: "You must provide a responseID" })
+    }
+    let comDelete = `DELETE FROM tblSurveyResponse WHERE responseID = ?`
+    db.run(comDelete,[strResponseID],function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(201).json({status:"success",message:"Task Deleted"})
+        }
+    })
+})
+
+// Update a survey response
+app.put('/surveyresponse', (req, res, next) => {
+    let strResponseID = req.body.responseID
+    let strResponse = req.body.response
+
+    if (strResponseID.length < 1) {
+        return res.status(400).json({ error: "You must provide a responseID" })
+    }
+    if (strResponse.length < 1) {
+        return res.status(400).json({ error: "You must provide a response" })
+    }
+
+    let comUpdate = `UPDATE tblSurveyResponse SET Response = ? WHERE ResponseID = ?`;
+    db.run(comUpdate, [strResponse, strResponseID], function (err) {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({ status: "error", message: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: "TaskID not found" });
+        }
+        res.status(200).json({ status: "success", message: "Task updated successfully" });
+    })
+});
+
+//Return all survey response for a survey
+app.get('/surveyresponse/:surveyID',(req,res,next) => {
+    let strSurveyID = req.params.surveyID
+    if(strSurveyID.length < 1){
+        return res.status(400).json({error:"You must provide a surveyID"})
+    }
+    let comSelect = "SELECT * FROM tblSurveyResponse WHERE SurveyID = ?"
+    db.all(comSelect, [strSurveyID], function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(200).json({status:"success",items:result})
+        }
+    })
+})
+
 app.get('/', (req, res, next) => {
     res.status(200).json({ message: "I am alive" })
 })
