@@ -154,6 +154,11 @@ app.put('/sessions', verifySession, (req, res, next) => {
                 message: err.message
             })
         } else {
+            res.clearCookie('sessionID', {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'Lax'
+            })
             res.status(201).json({ status: "success" })
         }
     })
