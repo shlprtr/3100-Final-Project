@@ -1,0 +1,57 @@
+<!-- view account information -->
+<div id="viewAccount" class=" " style="padding-left: 100px; padding-right: 100px; padding-top:15px; color:white">
+    <div class="row" tyle="padding:50px">
+        <div class="col-5" style="padding-right:50px">
+            <h1 style="padding:15px; ">About</h1>
+            <label class="ms-2 mt-2" for="txtFirstName">First Name</label>
+            <input readonly class="form-control-plaintext form-control input-outline mt-1" type="text" id="txtCurrFirstName" aria-label="First Name" value="email@example.com">
+            <label class="ms-2 mt-2" for="txtLastName">Last Name</label>
+            <input readonly class="form-control-plaintext form-control input-outline mt-1" type="text" id="txtLastName" aria-label="Last Name" value="email@example.com">
+            <label class="ms-2 mt-2" for="txtPhoneNum">Phone Number</label>
+            <input readonly class="form-control-plaintext form-control input-outline mt-1" type="text" id="txtPhoneNum" aria-label="Phone Number" value="email@example.com">
+            <div class="row-col-2" style="padding:15px">
+                <button class="btn btn-primary me-2" id="btnLogOut">Log Out</button>
+                <button class="btn btn-outline-primary justify-content-end me-2" id="btnEdit">Edit</button>
+            </div>
+        </div>
+        <div class="col-5">
+            <h1 class="col-6" style="padding:15px">Social Media</h1>
+            <label class="ms-2 mt-2" for="txtEmail">Email</label>
+            <input readonly class="form-control-plaintext form-control input-outline mt-1" type="text" id="txtEmail" aria-label="Input for Email" value="email@example.com">
+            <label class="ms-2 mt-2" for="txtDiscord">Discord</label>
+            <input readonly class="form-control-plaintext form-control input-outline mt-1" type="text" id="txtDiscord" aria-label="Input for Discord Username" value="email@example.com">
+            <label class="ms-2 mt-2" for="txtGitHub">GitHub</label>
+            <input readonly class="form-control-plaintext form-control input-outline mt-1" type="text" id="txtGitHub" aria-label="Input for GitHub Username" value="email@example.com">
+            <label class="ms-2 mt-2" for="txtTeams">Teams</label>
+            <input readonly class="form-control-plaintext form-control input-outline mt-1" type="text" id="txtTeams" aria-label="Input for Teams Username" value="email@example.com">
+        </div>
+    </div>
+</div>
+
+<!-- edit account information -->
+<div id="editAccount" class="d-none" style="padding-left: 100px; padding-right: 100px; padding-top:15px; color:white">
+    <div class="row" tyle="padding:50px">
+        <div class="col-5" style="padding-right:50px">
+            <h1 style="padding:15px; ">About</h1>
+            <label class="ms-2 mt-2" for="txtFirstName">First Name</label>
+            <input class="form-control input-outline mt-1" type="text" id="txtFirstName" aria-label="First Name">
+            <label class="ms-2 mt-2" for="txtLastName">Last Name</label>
+            <input class="form-control input-outline mt-1" type="text" id="txtLastName" aria-label="Last Name">
+            <label class="ms-2 mt-2" for="txtPhoneNum">Phone Number</label>
+            <input class="form-control input-outline mt-1" type="text" id="txtPhoneNum" aria-label="Phone Number">
+            <div class="row-col-2" style="padding:15px">
+                <button class="btn btn-outline-primary me-2" id="btnSaveEdit">Save</button>
+            </div>
+        </div>
+        <div class="col-5">
+            <h1 class="col-6" style="padding:15px">Social Media</h1>
+            <label class="ms-2 mt-2" id="txtCurrEmail" for="txtEmail">Email</label>
+            <input class="form-control input-outline mt-1" type="text" id="txtEmail" aria-label="Input for Email" placeholder=" ">
+            <label class="ms-2 mt-2" id="txtCurrDiscord" for="txtDiscord">Discord</label>
+            <input class="form-control input-outline mt-1" type="text" id="txtDiscord" aria-label="Input for Discord Username" placeholder=" ">
+            <label class="ms-2 mt-2" id="txtCurrGitHub" for="txtGitHub">GitHub</label>
+            <input class="form-control input-outline mt-1" type="text" id="txtGitHub" aria-label="Input for GitHub Username" placeholder=" ">
+            <label class="ms-2 mt-2" id="txtCurrGitHub" for="txtTeams">Teams</label>
+            <input class="form-control input-outline mt-1" type="text" id="txtTeams" aria-label="Input for Teams Username" placeholder=" ">
+        </div>
+    </div>
