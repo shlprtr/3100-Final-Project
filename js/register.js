@@ -46,13 +46,30 @@ document.querySelector('#btnRegister').addEventListener('click', (event) => {
             color: 'white'
         })
     } else {
-        Swal.fire({
-            title: 'Success!',
-            text: 'You have successfully registered',
-            icon: 'success',
-            confirmButtonColor: 'var(--dark-purple)',
-            background: 'var(--dark-blue)',
-            color: 'white'
+        // create user, temporary until possible apiService.js
+        const response = fetch('http://localhost:8000/user', {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                email: strEmail,
+                firstName: strFirstName,
+                lastName: strLastName,
+                password: strPassword
+            })
         })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Error', error))
+
+        // Swal.fire({
+        //     title: 'Success!',
+        //     text: 'You have successfully registered',
+        //     icon: 'success',
+        //     confirmButtonColor: 'var(--dark-purple)',
+        //     background: 'var(--dark-blue)',
+        //     color: 'white'
+        // })
     }
 })

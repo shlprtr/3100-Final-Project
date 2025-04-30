@@ -34,7 +34,7 @@ const renderContent = async (route) => {
         }
     } catch (error) {
         console.error(error);
-        app.innerHTML = '<h1>Error loading content.</h1>';
+        app.innerHTML = '<h1 class="text-white">Error loading content.</h1>';
     }
 }
 
@@ -44,7 +44,7 @@ const navigate = async (route) => {
 
     if (objRouteInfo && objRouteInfo.authRequired && !(await isSessionValid())) {
         console.log("Redirecting to landing page due to invalid session.")
-        location.hash = '/#'
+        location.hash = ''
         return
     }
 
@@ -54,8 +54,16 @@ const navigate = async (route) => {
 }
 
 // handle hash changes
-window.addEventListener('hashchange', () => {
+window.addEventListener('hashchange', async () => {
     const newRoute = location.hash || '/#'
+    const objRouteInfo = ROUTES[newRoute]
+
+    if (objRouteInfo && objRouteInfo.authRequired && !(await isSessionValid())) {
+        console.log("Redirecting to landing page due to invalid session.")
+        location.hash = ''
+        return
+    }
+
     if (newRoute !== currentRoute) {
         currentRoute = newRoute
         renderContent(currentRoute)
@@ -81,8 +89,7 @@ const isSessionValid = async () => {
         credentials: 'include'
     })
     const data = await response.json()
-    // return data.status === 'success'
-    return true
+    return data.status === 'success'
 }
 
 export { initializeRoutes, navigate }
