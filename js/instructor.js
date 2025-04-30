@@ -18,13 +18,15 @@ document.querySelector('#btnCreateGroupModal').addEventListener('click', functio
     createGroupModal.show()
 })
 
+
 // listener for clicking a group card
 document.querySelector('#groupContainer').addEventListener('click', (event) => {
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
-        document.querySelector('#viewGroupDetails').classList.remove('d-none')
-        document.querySelector('#viewSurveys').classList.add('d-none')
         document.querySelector('#viewGroupsProf').classList.add('d-none')
+        document.querySelector('#viewGroupDetails').classList.add('d-none')
+
+        document.querySelector('#viewGroupDetails').classList.remove('d-none')
     }
 })
 
@@ -98,5 +100,5 @@ document.querySelector('#btnNewSurvey').addEventListener('click', function() {
         document.head.appendChild(objScript)
         document.querySelector('#divView').innerHTML = html
     })
-    .catch(error => console.erro("Error fetching new survey form:", error))
+    .catch(error => console.error("Error fetching new survey form:", error))
 })

@@ -28,7 +28,7 @@
 
 <!-- in-depth group view (surveys,students, etc) -->
 <div class="container-fluid d-none" id="viewGroupDetails" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
-    <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:70px;">
+    <form class="card corner-round" id="frmAllGroups" style="padding:15px; margin-top:70px;">
         <div class="row row-cols-2">
             <div class="col-4" id="surveyNav">
                 <!-- name of the group selected -->
@@ -39,7 +39,7 @@
                     <h3>Surveys</h3>
                     <button class="btn btn-outline-primary" id="btnNewSurvey">+ New Survey</button>
                 </div>
-                <!--list of surveys avaliable to be viewed -->
+                <!--list of surveys avaliable to be viewed -->viewGroupDetails
                 <div class="row">
                     <div class="col container overflow-auto " id="divSurveyContainer">
                         <div class="card bg-dark p-4 group-card selection-card position-relative me-2">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div class="border-left col-4">
+            <div class="border-left col-4" id="viewGroupDetails">
                 <div class="row">
                     <!-- in depth view of chosen survey-->
                     <div class="col" id="divSurveyDetails">
@@ -99,30 +99,6 @@
             </div>
         </div>
     </form>
-</div>
-
-<!-- Create group modal -->
-<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
-                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <label class="ms-2 mt-2" for="txtCourse">Course:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course" />
-                <label class="ms-2 mt-2" for="txtGroupName">Group Name:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtGroupName" aria-label="Input for group name" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="button" class="btn btn-primary">Create</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- Create survey view -->
@@ -213,28 +189,27 @@
             </form>
         </div>
     </div>
-
-    <!-- create group modal -->
-    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <label class="ms-2 mt-2" for="txtCourse">Course:</label>
-                    <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course">
-                    <label class="ms-2 mt-2" for="txtGroupName">Start Date (MM/DD/YY):</label>
-                    <input class="form-control input-outline mt-1" type="text" id="txtStartDate" aria-label="Input for course start date">
-                    <label class="ms-2 mt-2" for="txtGroupName">End Date (MM/DD/YY):</label>
-                    <input class="form-control input-outline mt-1" type="text" id="txtEndDate" aria-label="Input for course end date">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="btnCreateGroup" class="btn btn-primary">Create</button>
-                </div>
+</div>
+<!-- create group modal -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="ms-2 mt-2" for="txtCourse">Course:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course">
+                <label class="ms-2 mt-2" for="txtGroupName">Start Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtStartDate" aria-label="Input for course start date">
+                <label class="ms-2 mt-2" for="txtGroupName">End Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtEndDate" aria-label="Input for course end date">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="btnCreateGroup" class="btn btn-primary">Create</button>
             </div>
         </div>
     </div>
+</div>
