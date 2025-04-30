@@ -23,8 +23,7 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
         document.querySelector('#viewGroupDetails').classList.remove('d-none')
-        document.querySelector('#viewSurveys').classList.add('d-none')
-        document.querySelector('#viewGroupsProf').classList.add('d-none')
+        document.querySelector('#groupContainer').classList.add('d-none')
     }
 })
 
