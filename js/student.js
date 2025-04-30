@@ -21,13 +21,19 @@ document.querySelector('#surveyContainer').addEventListener('click', (event) => 
         const strSurveyId = cardLink.getAttribute('data-survey-id')
         // fetch group details
 
-        document.querySelector('#frmSurvey').classList.remove('d-none')
-        document.querySelector('#selectedGroup').classList.add('d-none')
-
-        document.querySelector('#surveyName').innerHTML = strSurveyId
+        fetch("pages/studentsurvey.html")
+    .then(response => response.text())
+    .then(html => {
+        const objScript = document.createElement('script')
+        objScript.src = 'js/studentsurvey.js'
+        objScript.type = 'text/javascript'
+        document.head.appendChild(objScript)
+        document.querySelector('#divView').innerHTML = html
+    })
     }
 })
 
+   
 // display all surveys
 document.querySelector('#btnSurveys').addEventListener('click', (event) => {
     selectView('Surveys')
@@ -63,3 +69,11 @@ document.querySelector('#btnJoinGroupModal').addEventListener('click', function(
     const joinGroupModal = new bootstrap.Modal(document.querySelector('#joinGroupModal'))
     joinGroupModal.show()
 })
+
+// button to go back to groups
+document.getElementById('btnBackToGroups').addEventListener('click', function () {
+    // Hide the surveys section
+    document.getElementById('viewSurveys').classList.add('d-none');
+    // Show the groups section
+    document.getElementById('viewGroups').classList.remove('d-none');
+});

@@ -177,3 +177,6 @@ select:-webkit-autofill:focus {
     color: greenyellow
 }
 
+.bgpurple {
+    background-color: var(--dark-purple) !important;
+}
