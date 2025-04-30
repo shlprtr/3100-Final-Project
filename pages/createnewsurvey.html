@@ -1,0 +1,142 @@
+<!-- Main container for the "Create New Survey" page -->
+<div
+  class="d-flex justify-content-center align-items-center"
+  id="divHome"
+  style="min-height: 100vh"
+>
+  <!-- Form for creating a new survey -->
+  <form
+    class="card bgpurple col-10 mt-3 mb-3 d-flex flex-column justify-content-center align-items-center"
+    id="frmHome"
+    style="min-height: 600px; padding-bottom: 20px"
+  >
+    <!-- Header displaying the class and section name -->
+    <h1 class="text-center mt-2 mb-3" style="font-size: 50px; color: white">
+      Class Name (Section Name)
+    </h1>
+
+    <!-- Input field for adding a survey title -->
+    <div
+      class="d-flex flex-column align-items-start mt-2"
+      style="gap: 5px; width: 100%; max-width: 600px"
+    >
+      <label for="txtSurveyTitle" class="mb-0" style="color: white"
+        >Survey Title:</label
+      >
+      <input
+        id="txtSurveyTitle"
+        class="form-control"
+        type="text"
+        placeholder="Survey Title"
+        aria-label="Input for Survey Title"
+        required
+        style="width: 100%"
+      />
+    </div>
+    <div
+      class="d-flex justify-content-start mt-2"
+      style="width: 100%; max-width: 600px"
+    >
+      <button
+        id="btnAddTitle"
+        class="btn btn-secondary"
+        type="button"
+        style="
+          background-color: transparent;
+          color: white;
+          border: 1px solid white;
+        "
+        onmouseover="this.style.backgroundColor='#BF3475'; this.style.color='white';"
+        onmouseout="this.style.backgroundColor='transparent'; this.style.color='white';"
+      >
+        Add Title
+      </button>
+    </div>
+
+    <!-- Dropdown for selecting a question type -->
+    <div
+      class="d-flex flex-column align-items-start mt-3"
+      style="gap: 5px; width: 100%; max-width: 600px"
+    >
+      <label for="cboQuestion" class="mb-0" style="color: white"
+        >Add A Question:</label
+      >
+      <select
+        id="cboQuestion"
+        class="form-control"
+        placeholder="Question"
+        aria-label="Add a question"
+        style="width: 100%"
+      >
+        <option value="">Select Question Type</option>
+        <option value="multiple choice">Multiple Choice</option>
+        <option value="likert scale">Likert Scale</option>
+        <option value="short answer">Short Answer</option>
+      </select>
+    </div>
+    <div
+      class="d-flex justify-content-start mt-2"
+      style="width: 100%; max-width: 600px"
+    >
+      <button
+        id="btnCreateNewQuestion"
+        class="btn btn-secondary"
+        type="button"
+        style="
+          background-color: transparent;
+          color: white;
+          border: 1px solid white;
+        "
+        onmouseover="this.style.backgroundColor='#BF3475'; this.style.color='white';"
+        onmouseout="this.style.backgroundColor='transparent'; this.style.color='white';"
+        onclick="addQuestion()"
+      >
+        Create Question
+      </button>
+    </div>
+
+    <!-- Container for dynamically creating questions -->
+    <div
+      id="divCreateQuestion"
+      style="width: 100%; max-width: 600px; margin-top: 20px"
+    ></div>
+
+    <!-- Buttons at the bottom of the card -->
+    <div
+      class="d-flex justify-content-center align-items-center mt-4"
+      style="gap: 10px; width: 100%; max-width: 600px"
+    >
+      <!-- Create Survey Button -->
+      <button
+        id="btnCreateSurvey"
+        class="btn btn-secondary col-lg-5"
+        type="button"
+        style="
+          background-color: transparent;
+          color: white;
+          border: 1px solid white;
+        "
+        onmouseover="this.style.backgroundColor='#BF3475'; this.style.color='white';"
+        onmouseout="this.style.backgroundColor='transparent'; this.style.color='white';"
+      >
+        Create Survey
+      </button>
+
+      <!-- Return to Class Button -->
+      <button
+        id="btnReturnToClass"
+        class="btn btn-secondary col-lg-5"
+        type="button"
+        style="
+          background-color: transparent;
+          color: white;
+          border: 1px solid white;
+        "
+        onmouseover="this.style.backgroundColor='#BF3475'; this.style.color='white';"
+        onmouseout="this.style.backgroundColor='transparent'; this.style.color='white';"
+      >
+        Return To Class
+      </button>
+    </div>
+  </form>
+</div>
