@@ -1,10 +1,44 @@
 :root {
+    --white: #FFFFFF;
     --light-yellow: #FFE58A;
     --yellow: #FFCE61;
     --orange: #EE6C45;
     --dark-pink: #BF3475;
     --dark-purple: #50366F;
     --dark-blue: #1F214D;
+}
+
+.background {
+    margin: 0;
+    height: auto;
+    min-height: 100vh;
+    background: linear-gradient(
+        165deg,
+        var(--white) 0%,
+        var(--white) 300px,
+        var(--yellow) 300px,
+        var(--yellow) 330px,
+        var(--dark-pink) 330px,
+        var(--dark-pink) 360px,
+        var(--dark-blue) 360px,
+        var(--dark-blue) 100%
+    );
+}
+
+@media (min-width: 800px) {
+    .background {
+        background: linear-gradient(
+            165deg,
+            var(--white) 0%,
+            var(--white) 40%,
+            var(--yellow) 40%,
+            var(--yellow) 43%,
+            var(--dark-pink) 43%,
+            var(--dark-pink) 46%,
+            var(--dark-blue) 46%,
+            var(--dark-blue) 100%
+        );
+    }
 }
 
 nav {

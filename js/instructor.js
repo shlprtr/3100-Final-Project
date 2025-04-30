@@ -1,17 +1,21 @@
-// display all surveys
-document.querySelector('#btnCurrentSurveys').addEventListener('click', (event) => {
-    selectView('Current')
+// new class
+document.querySelector('#btnCreateGroup').addEventListener('click', function() {
+    let strName = document.querySelector('#txtCourse').value
+    let strStartDate = document.querySelector('#txtStartDate').value
+    let strEndDate = document.querySelector('#txtEndDate').value
+    const htmlAddClass = `<div class="card shadow p-4 group-card selection-card position-relative me-2">
+                            <h3 style="margin-bottom:20px">${strName}</h3>
+                            <p style="margin-bottom:0px">Start: ${strStartDate}</p>
+                            <p>End: ${strEndDate}</p>
+                            <a class="stretched-link" data-group-id="${strName}"></a>
+                          </div>` //CHANGE data-group-id name probs
+    document.querySelector('#groupContainer').innerHTML += htmlAddClass
+    let strCode = generateClassCode()
 })
-
-// display all members
-document.querySelector('#btnScheduledSurveys').addEventListener('click', (event) => {
-    selectView('Scheduled')
-
-})
-
-// display all feedback
-document.querySelector('#btnCompletedSurveys').addEventListener('click', (event) => {
-    selectView('Completed')
+// modal to create group
+document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
+    const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
+    createGroupModal.show()
 })
 
 // listener for clicking a group card
@@ -63,20 +67,6 @@ document.querySelector('#btnAddShortAnswer').addEventListener('click', (event) =
     selectQuestionType('AddShortAnswer')
 })
 
-// function to display the right stuff based on selection
-function selectView(selected) {
-    document.querySelector('#viewCurrent').classList.add('d-none')
-    document.querySelector('#viewScheduled').classList.add('d-none')
-    document.querySelector('#viewCompleted').classList.add('d-none')
-
-    document.querySelector('#btnCurrentSurveys').classList.add('unselected')
-    document.querySelector('#btnScheduledSurveys').classList.add('unselected')
-    document.querySelector('#btnCompletedSurveys').classList.add('unselected')
-
-    document.querySelector(`#btn${selected}Surveys`).classList.remove('unselected')
-    document.querySelector(`#view${selected}`).classList.remove('d-none')
-}
-
 function selectQuestionType(selected) {
     document.querySelector('#viewMC').classList.add('d-none')
     document.querySelector('#viewMS').classList.add('d-none')
@@ -97,6 +87,25 @@ document.querySelector('#btnCreateGroupModal').addEventListener('click', functio
     const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
     createGroupModal.show()
 })
+
+function generateClassCode(info){
+    let x = 0;
+    let code =''
+
+    // Creates a random number of length 6
+    while ( x < 6) {
+        code += Math.floor(Math.random() * 10);
+        x++
+    }
+}
+
+// function verifyCode(code){
+//     if(strClassCode.length < 6 || strClassCode.length > 6 || isNaN(strClassCode)){
+//         blnError = true
+//         strMessage += '<p class="mb-0 mt-0">You must enter a valid code</p>'
+//     }
+//     //now 
+// }
 
 // create survey button functionality
 document.querySelector('#btnNewSurvey').addEventListener('click', function() {
