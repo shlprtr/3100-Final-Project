@@ -67,6 +67,27 @@ document.querySelector('#btnAddShortAnswer').addEventListener('click', (event) =
     selectQuestionType('AddShortAnswer')
 })
 
+function selectQuestionType(selected) {
+    document.querySelector('#viewMC').classList.add('d-none')
+    document.querySelector('#viewMS').classList.add('d-none')
+    document.querySelector('#viewLikert').classList.add('d-none')
+    document.querySelector('#viewShortAnswer').classList.add('d-none')
+
+    document.querySelector('#btnAddMC').classList.add('unselected')
+    document.querySelector('#btnAddMS').classList.add('unselected')
+    document.querySelector('#btnAddLikert').classList.add('unselected')
+    document.querySelector('#btnAddShortAnswer').classList.add('d-none')
+
+    document.querySelector(`#btn${selected}`).classList.remove('unselected')
+    document.querySelector(`#view${selected}`).classList.remove('d-none')
+}
+
+// modal to create group
+document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
+    const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
+    createGroupModal.show()
+})
+
 function generateClassCode(info){
     let x = 0;
     let code =''
@@ -85,7 +106,6 @@ function generateClassCode(info){
 //     }
 //     //now 
 // }
-
 
 // create survey button functionality
 document.querySelector('#btnNewSurvey').addEventListener('click', function() {
