@@ -1,3 +1,25 @@
+//DASHBOARD JS
+
+// new class
+document.querySelector('#btnCreateGroup').addEventListener('click', function() {
+    let strName = document.querySelector('#txtCourse').value
+    let strStartDate = document.querySelector('#txtStartDate').value
+    let strEndDate = document.querySelector('#txtEndDate').value
+    const htmlAddClass = `<div class="card shadow p-4 group-card selection-card position-relative me-2">
+                            <h3 style="margin-bottom:20px">${strName}</h3>
+                            <p style="margin-bottom:0px">Start: ${strStartDate}</p>
+                            <p>End: ${strEndDate}</p>
+                            <a class="stretched-link" data-group-id="${strName}"></a>
+                          </div>` //CHANGE data-group-id name probs
+    document.querySelector('#groupContainer').innerHTML += htmlAddClass
+    let strCode = generateClassCode()
+})
+// modal to create group
+document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
+    const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
+    createGroupModal.show()
+})
+
 // display all surveys
 document.querySelector('#btnCurrentSurveys').addEventListener('click', (event) => {
     selectView('Current')
@@ -111,3 +133,24 @@ document.querySelector('#btnNewSurvey').addEventListener('click', function() {
     })
     .catch(error => console.erro("Error fetching new survey form:", error))
 })
+function generateClassCode(info){
+    let x = 0;
+    let code =''
+
+    // Creates a random number of length 6
+    while ( x < 6) {
+        code += Math.floor(Math.random() * 10);
+        x++
+    }
+}
+
+// function verifyCode(code){
+//     if(strClassCode.length < 6 || strClassCode.length > 6 || isNaN(strClassCode)){
+//         blnError = true
+//         strMessage += '<p class="mb-0 mt-0">You must enter a valid code</p>'
+//     }
+//     //now 
+// }
+
+
+
