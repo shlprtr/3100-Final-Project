@@ -36,29 +36,9 @@ document.querySelector('#btnLogin').addEventListener('click', (event) => {
             background: 'var(--dark-blue)',
             color: 'white'
         })
-        fetch("pages/dashboard.html")
-        .then(response => response.text())
-        .then(html => {
-            const objScript = document.createElement('script')
-            objScript.src = 'js/dashboard.js'
-            objScript.type = 'text/javascript'
-            document.head.appendChild(objScript)
-            document.querySelector('#divContent').innerHTML = html
-        })
-        .catch(error => console.erro("Error fetching dashboard:", error))
-    }
-})
 
-// swap to register component
-document.querySelector('#btnSwapLogin').addEventListener('click', (event) => {
-    fetch("pages/register.html")
-    .then(response => response.text())
-    .then(html => {
-        const objScript = document.createElement('script')
-        objScript.src = 'js/register.js'
-        objScript.type = 'text/javascript'
-        document.head.appendChild(objScript)
-        document.querySelector('#divContent').innerHTML = html
-    })
-    .catch(error => console.erro("Error fetching registration:", error))
+        // make api call to login
+
+        navigate('#/dashboard')
+    }
 })
