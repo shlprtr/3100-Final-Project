@@ -1,37 +1,323 @@
 <!-- Instructor view: Displays all groups created by the instructor -->
 <div class="container-fluid" id="viewGroupsProf">
   <!-- Button to open the "Create Group" modal -->
-  <div class="d-flex justify-content-end mt-3 me-2"><button class="btn btn-outline-primary" id="btnCreateGroupModal">Create Group</button></div>
+  <div class="d-flex justify-content-end mt-3 me-2">
+    <button class="btn btn-outline-primary" id="btnCreateGroupModal">
+      Create Group
+    </button>
+  </div>
 
   <!-- Group cards container -->
   <div class="d-flex flex-wrap" id="groupContainer" style="margin-left: 80px">
     <!-- Example group card -->
-    <div class="card shadow p-4 group-card selection-card position-relative me-2"><h3>CSC 2100-002</h3><p>120 students</p><a class="stretched-link" data-group-id="Group1"></a></div>
+    <div class="card shadow p-4 group-card selection-card position-relative me-2">
+      <h3>CSC 2100-002</h3>
+      <p>120 students</p>
+      <a class="stretched-link" data-group-id="Group1"></a>
+    </div>
     <!-- Repeatable group card -->
-    <div class="card shadow p-4 group-card selection-card position-relative me-2"><h3>COURSE NAME</h3><p># of students</p><a class="stretched-link" data-group-id="Group2"></a></div>
+    <div class="card shadow p-4 group-card selection-card position-relative me-2">
+      <h3>COURSE NAME</h3>
+      <p># of students</p>
+      <a class="stretched-link" data-group-id="Group2"></a>
+    </div>
+    <div class="card shadow p-4 group-card selection-card position-relative me-2">
+      <h3>COURSE NAME</h3>
+      <p># of students</p>
+      <a class="stretched-link" data-group-id="Group3"></a>
+    </div>
+  </div>
+</div>
+
+<!-- View all surveys -->
+<div class="container-fluid" id="viewSurveys">
+  <!-- Navigation buttons to switch between survey statuses -->
+  <div class="margin-30 row row-col-2" id="viewOptions">
+    <div class="d-flex justify-content-start row row-cols-6 mt-5" style="padding-left: 100px">
+      <button class="btn btn-primary me-2" id="btnCurrentSurveys">
+        Current
+      </button>
+      <button class="btn btn-primary unselected me-2" id="btnScheduledSurveys">
+        Scheduled
+      </button>
+      <button class="btn btn-primary unselected me-2" id="btnCompletedSurveys">
+        Completed
+      </button>
+      <button class="btn btn-outline-primary justify-content-end me-2" id="btnNewSurvey">
+        + New Survey
+      </button>
+    </div>
   </div>
 
-  <!-- View all surveys -->
-  <div class="container-fluid" id="viewSurveys">
-    <!-- Navigation buttons to switch between survey statuses -->
-    <div class="margin-30 row row-col-2" id="viewOptions">
-      <div class="d-flex justify-content-start row row-cols-6 mt-5" style="padding-left: 100px">
-        <button class="btn btn-primary me-2" id="btnCurrentSurveys">Current</button>
-        <button class="btn btn-primary unselected me-2" id="btnScheduledSurveys">Scheduled</button>
-        <button class="btn btn-primary unselected me-2" id="btnCompletedSurveys">Completed</button>
-        <button class="btn btn-outline-primary justify-content-end me-2" id="btnNewSurvey">+ New Survey</button>
+  <!-- Current surveys section -->
+  <div id="viewCurrent" style="padding-left: 100px; padding-right: 100px; padding-top: 15px">
+    <!-- Example survey card -->
+    <form class="card corner-round" id="frmSurvey" style="padding: 15px; margin-top: 30px">
+      <div class="row row-cols-2" style="padding: 7px">
+        <h1 class="paragraph" id="txtTitle">Mid Year Peer Review</h1>
+        <h1 class="paragraph text-end" id="txtStatus">64/120 completed</h1>
+        <h1 class="paragraph font-weight-light" id="txtGroup">CSC 1200-002</h1>
+        <h1 class="paragraph font-weight-light text-end" id="txtDueDate">
+          Ends Oct 28, 2025
+        </h1>
+      </div>
+    </form>
+    <!-- Repeatable survey card -->
+    <form class="card corner-round" style="padding: 15px; margin-top: 5px">
+      <div class="row row-cols-2" style="padding: 7px">
+        <h1 class="paragraph" id="txtTitle">Mid Year Peer Review</h1>
+        <h1 class="paragraph text-end" id="txtStatus">64/120 completed</h1>
+        <h1 class="paragraph font-weight-light" id="txtGroup">CSC 1200-002</h1>
+        <h1 class="paragraph font-weight-light text-end" id="txtDueDate">
+          Ends Oct 28, 2025
+        </h1>
+      </div>
+    </form>
+  </div>
+
+  <!-- Scheduled surveys section -->
+  <div id="viewScheduled" class="d-none" style="padding-left: 100px; padding-right: 100px; padding-top: 15px">
+    <!-- Example scheduled survey card -->
+    <form class="card corner-round" id="frmSurvey" style="padding: 15px; margin-top: 30px">
+      <div class="row row-cols-2" style="padding: 7px">
+        <h1 class="paragraph" id="txtTitle">Mid Year Peer Review</h1>
+        <h1 class="paragraph text-end" id="txtStatus">0/120 completed</h1>
+        <h1 class="paragraph font-weight-light" id="txtGroup">CSC 1200-002</h1>
+        <h1 class="paragraph font-weight-light text-end" id="txtDueDate">
+          Opens Oct 28, 2025
+        </h1>
+      </div>
+    </form>
+    <!-- Repeatable scheduled survey card -->
+    <form class="card corner-round" style="padding: 15px; margin-top: 5px">
+      <div class="row row-cols-2" style="padding: 7px">
+        <h1 class="paragraph" id="txtTitle">Mid Year Peer Review</h1>
+        <h1 class="paragraph text-end" id="txtStatus">0/120 completed</h1>
+        <h1 class="paragraph font-weight-light" id="txtGroup">CSC 1200-002</h1>
+        <h1 class="paragraph font-weight-light text-end" id="txtDueDate">
+          Opens Oct 28, 2025
+        </h1>
+      </div>
+    </form>
+  </div>
+
+  <!-- Completed surveys section -->
+  <div id="viewCompleted" class="d-none" style="padding-left: 100px; padding-right: 100px; padding-top: 15px">
+    <!-- Example completed survey card -->
+    <form class="card corner-round" id="frmSurvey" style="padding: 15px; margin-top: 30px">
+      <div class="row row-cols-2" style="padding: 7px">
+        <h1 class="paragraph" id="txtTitle">Mid Year Peer Review</h1>
+        <h1 class="paragraph text-end" id="txtStatus">120/120 completed</h1>
+        <h1 class="paragraph font-weight-light" id="txtGroup">CSC 1200-002</h1>
+        <h1 class="paragraph font-weight-light text-end" id="txtDueDate">
+          Completed Oct 28, 2025
+        </h1>
+      </div>
+    </form>
+    <!-- Repeatable completed survey card -->
+    <form class="card corner-round" style="padding: 15px; margin-top: 5px">
+      <div class="row row-cols-2" style="padding: 7px">
+        <h1 class="paragraph" id="txtTitle">Mid Year Peer Review</h1>
+        <h1 class="paragraph text-end" id="txtStatus">118/120 completed</h1>
+        <h1 class="paragraph font-weight-light" id="txtGroup">CSC 1200-002</h1>
+        <h1 class="paragraph font-weight-light text-end" id="txtDueDate">
+          Completed Oct 28, 2025
+        </h1>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- In-depth group view: Displays surveys, students, and other details -->
+<div class="container-fluid d-none" id="viewGroupDetails"
+  style="padding-left: 100px; padding-right: 100px; padding-top: 30px">
+  <form class="card corner-round" id="frmSurvey" style="padding: 15px; margin-top: 70px">
+    <div class="row row-cols-2">
+      <!-- Group details -->
+      <div class="col-4">
+        <div style="padding: 7px">
+          <h1 id="txtGroupName">CSC 2100-002</h1>
+        </div>
+        <div class="row row-cols-2 container-fluid" style="padding: 30px">
+          <h3>Surveys</h3>
+          <button class="btn btn-outline-primary" id="btnNewSurvey">
+            + New Survey
+          </button>
+        </div>
+        <!-- List of surveys -->
+        <div class="row">
+          <div class="col" id="divSurveyContainer">
+            <div class="card bg-dark p-4 group-card selection-card position-relative me-2">
+              <h5>Mid-Year Peer Review</h5>
+              <p>Ends Oct 25th, 2025</p>
+              <a class="stretched-link" data-group-id="Group3"></a>
+            </div>
+            <div class="card p-4 group-card selection-card position-relative me-2">
+              <h5>Pre-Exam 1 Confidence Survey</h5>
+              <p>Ended Sept 13th, 2025</p>
+              <a class="stretched-link" data-group-id="Group3"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Survey details -->
+      <div class="border-left col-4">
+        <div class="row">
+          <div class="col" id="divSurveyDetails">
+            <h2 class="text-center mt-4">Mid-Year Peer Review</h2>
+            <div class="row row-cols-2 d-flex justify-content-center">
+              <button type="button" class="btn btn-link" id="btnViewSurvey" style="color: white">
+                View Status
+              </button>
+              <button type="button" class="btn btn-link" id="btnViewResponses" style="color: white">
+                View Responses
+              </button>
+            </div>
+            <!-- Status table -->
+            <div style="padding: 20px">
+              <label for="selStudentsNotCompleted" class="form-label text-danger">2 Students Not Completed:</label>
+              <select id="selStudentsNotCompleted" class="bg-dark text-white form-select" multiple>
+                <option value="Harry">Harry Potter</option>
+                <option value="Ron">Ron Weasley</option>
+              </select>
+            </div>
+            <div style="padding: 20px">
+              <label for="selStudentsCompleted" class="form-label text-green">95 Students Completed:</label>
+              <select id="selStudentsCompleted" class="bg-dark text-white form-select" multiple>
+                <option value="Hermione">Hermione Granger</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- List of students -->
+      <div class="border-left col-4" style="padding: 100px">
+        <div class="row d-flex justify-content-center align-items-start">
+          <h3 class="mb-4">Students</h3>
+          <select id="selStudents" class="bg-dark text-white form-select" multiple>
+            <option value="Harry">Harry Potter</option>
+            <option value="Ron">Ron Weasley</option>
+            <option value="Hermione">Hermione Granger</option>
+          </select>
+        </div>
       </div>
     </div>
+  </form>
+</div>
 
-    <!-- Current surveys section -->
-    <div id="viewCurrent" style="padding-left: 100px; padding-right: 100px; padding-top: 15px">
-      <!-- Example survey card -->
-      <form class="card corner-round" id="frmSurvey" style="padding: 15px; margin-top: 30px">
-        <div class="row row-cols-2" style="padding: 7px">
-          <h1 class="paragraph" id="txtTitle">Mid Year Peer Review</h1>
-          <h1 class="paragraph text-end" id="txtStatus">64/120 completed</h1>
-          <h1 class="paragraph font-weight-light" id="txtGroup">CSC 1200-002</h1>
-          <h1 class="paragraph font-weight-light text-end" id="txtDueDate">Ends Oct 28, 2025</h1>
+<!-- Create group modal -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
+        <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label class="ms-2 mt-2" for="txtCourse">Course:</label>
+        <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course" />
+        <label class="ms-2 mt-2" for="txtGroupName">Group Name:</label>
+        <input class="form-control input-outline mt-1" type="text" id="txtGroupName"
+          aria-label="Input for group name" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Create</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create survey view -->
+<div class="d-flex justify-content-center align-items-center d-none" id="viewCreateSurvey">
+  <div class="card col-sm-11 col-md-10 col-lg-10 mt-3">
+    <div class="card-body p-4">
+      <form class="m-5" id="frmCreateSurvey">
+        <div class="d-flex row justify-content-end mt-3 me-2">
+          <button class="btn col-1 me-3 btn-outline-primary" id="btnStopEditing">
+            Save
+          </button>
+          <button class="btn col-1 btn-outline-primary" id="btnStopEditing">
+            Deploy
+          </button>
+        </div>
+        <p class="fw-bold">Title:</p>
+        <div class="form-outline ms-2 me- mb-4">
+          <textarea class="form-control" rows="1" id="txtTitle"></textarea>
+        </div>
+        <div class="row" id="queston1">
+          <p class="col-2 me-2 mt-2 fw-bold">Question 1:</p>
+          <div class="col-1 me-2 mb-4" id="btnQuestionType">
+            <button type="button" class="dropdown-toggle btn-secondary" style="color: white" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              Type
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <button class="dropdown-item" id="btnAddMC" type="button">
+                  Multiple Choice
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" id="btnAddMS" type="button">
+                  Multiple Select
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" id="btnAddLikert" type="button">
+                  Likert Scale
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" id="btnAddShortAnswer" type="button">
+                  Short Answer
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="form-outline ms-2 me-2 mb-4" id="Q1AnswerSection">
+          <div class="" id="viewMC">
+            <div class="form-check ms-2 mb-2">
+              <input class="form-check-input" type="radio" name="q1" id="q1-a1" />
+              <label class="form-check-label" for="q1-a1">Option 1</label>
+            </div>
+            <div class="form-check ms-2 mb-2">
+              <input class="form-check-input" type="radio" name="q1" id="q1-a2" />
+              <label class="form-check-label" for="q1-a2">Option 2</label>
+            </div>
+            <div class="form-check ms-2 mb-2">
+              <input class="form-check-input" type="radio" name="q1" id="q1-a2" />
+              <label class="form-check-label" for="q1-a2">Option 3</label>
+            </div>
+            <button type="button" class="btn-secondary" id="btnAddMC" style="color: white" aria-expanded="false">
+              + option
+            </button>
+          </div>
+          <textarea class="form-control d-none" id="viewShortAnswer" rows="4" id="q2-a1"></textarea>
+          <div class="text-center mb-3 d-none" id="viewLikert">
+            <div class="d-inline mx-3">Bad</div>
+            <!-- Likert scale options -->
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="q3" id="inlineRadio1" value="option1"
+                aria-label="Radio input option for 1" />
+              <label class="form-check-label" for="inlineRadio1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="q3" id="inlineRadio2" value="option2"
+                aria-label="Radio input option for 2" />
+              <label class="form-check-label" for="inlineRadio2">2</label>
+            </div>
+            <!-- Add more Likert scale options as needed -->
+            <div class="d-inline me-4">Excellent</div>
+          </div>
+          <button type="button" class="dropdown-toggle btn-secondary mt-5" style="color: white"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            + Question
+          </button>
         </div>
       </form>
     </div>
