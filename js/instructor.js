@@ -97,3 +97,17 @@ document.querySelector('#btnCreateGroupModal').addEventListener('click', functio
     const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
     createGroupModal.show()
 })
+
+// create survey button functionality
+document.querySelector('#btnNewSurvey').addEventListener('click', function() { 
+    fetch("pages/createnewsurvey.html")
+    .then(response => response.text())
+    .then(html => {
+        const objScript = document.createElement('script')
+        objScript.src = 'js/createnewsurvey.js'
+        objScript.type = 'text/javascript'
+        document.head.appendChild(objScript)
+        document.querySelector('#divView').innerHTML = html
+    })
+    .catch(error => console.erro("Error fetching new survey form:", error))
+})
