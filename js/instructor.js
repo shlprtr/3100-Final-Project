@@ -1,5 +1,3 @@
-//DASHBOARD JS
-
 // new class
 document.querySelector('#btnCreateGroup').addEventListener('click', function() {
     let strName = document.querySelector('#txtCourse').value
@@ -18,22 +16,6 @@ document.querySelector('#btnCreateGroup').addEventListener('click', function() {
 document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
     const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
     createGroupModal.show()
-})
-
-// display all surveys
-document.querySelector('#btnCurrentSurveys').addEventListener('click', (event) => {
-    selectView('Current')
-})
-
-// display all members
-document.querySelector('#btnScheduledSurveys').addEventListener('click', (event) => {
-    selectView('Scheduled')
-
-})
-
-// display all feedback
-document.querySelector('#btnCompletedSurveys').addEventListener('click', (event) => {
-    selectView('Completed')
 })
 
 // listener for clicking a group card
@@ -85,35 +67,6 @@ document.querySelector('#btnAddShortAnswer').addEventListener('click', (event) =
     selectQuestionType('AddShortAnswer')
 })
 
-// function to display the right stuff based on selection
-function selectView(selected) {
-    document.querySelector('#viewCurrent').classList.add('d-none')
-    document.querySelector('#viewScheduled').classList.add('d-none')
-    document.querySelector('#viewCompleted').classList.add('d-none')
-
-    document.querySelector('#btnCurrentSurveys').classList.add('unselected')
-    document.querySelector('#btnScheduledSurveys').classList.add('unselected')
-    document.querySelector('#btnCompletedSurveys').classList.add('unselected')
-
-    document.querySelector(`#btn${selected}Surveys`).classList.remove('unselected')
-    document.querySelector(`#view${selected}`).classList.remove('d-none')
-}
-
-function selectQuestionType(selected) {
-    document.querySelector('#viewMC').classList.add('d-none')
-    document.querySelector('#viewMS').classList.add('d-none')
-    document.querySelector('#viewLikert').classList.add('d-none')
-    document.querySelector('#viewShortAnswer').classList.add('d-none')
-
-    document.querySelector('#btnAddMC').classList.add('unselected')
-    document.querySelector('#btnAddMS').classList.add('unselected')
-    document.querySelector('#btnAddLikert').classList.add('unselected')
-    document.querySelector('#btnAddShortAnswer').classList.add('d-none')
-
-    document.querySelector(`#btn${selected}`).classList.remove('unselected')
-    document.querySelector(`#view${selected}`).classList.remove('d-none')
-}
-
 function generateClassCode(info){
     let x = 0;
     let code =''
@@ -132,9 +85,6 @@ function generateClassCode(info){
 //     }
 //     //now 
 // }
-
-
-
 
 
 // create survey button functionality
