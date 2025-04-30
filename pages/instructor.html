@@ -125,30 +125,6 @@
   </form>
 </div>
 
-<!-- Create group modal -->
-<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content bg-dark text-white">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
-                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <label class="ms-2 mt-2" for="txtCourse">Course:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course" />
-                <label class="ms-2 mt-2" for="txtGroupName">Group Name:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtGroupName" aria-label="Input for group name" />
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="button" class="btn btn-primary">Create</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Create survey view -->
 <div class="d-flex justify-content-center align-items-center d-none" id="viewCreateSurvey">
     <div class="card col-sm-11 col-md-10 col-lg-10 mt-3">
@@ -237,34 +213,29 @@
             </form>
         </div>
     </div>
+</div>
 
-    <!-- create group modal -->
-    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <label class="ms-2 mt-2" for="txtCourse">Course:</label>
-                    <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course">
-                    <label class="ms-2 mt-2" for="txtGroupName">Start Date (MM/DD/YY):</label>
-                    <input class="form-control input-outline mt-1" type="text" id="txtStartDate" aria-label="Input for course start date">
-                    <label class="ms-2 mt-2" for="txtGroupName">End Date (MM/DD/YY):</label>
-                    <input class="form-control input-outline mt-1" type="text" id="txtEndDate" aria-label="Input for course end date">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="btnCreateGroup" class="btn btn-primary">Create</button>
-                </div>
+<!-- create group modal -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
-            <!-- Add more Likert scale options as needed -->
-            <div class="d-inline me-4">Excellent</div>
-          </div>
+            <div class="modal-body">
+                <label class="ms-2 mt-2" for="txtCourse">Course:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course">
+                <label class="ms-2 mt-2" for="txtGroupName">Start Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtStartDate" aria-label="Input for course start date">
+                <label class="ms-2 mt-2" for="txtGroupName">End Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtEndDate" aria-label="Input for course end date">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="btnCreateGroup" class="btn btn-primary">Create</button>
+            </div>
         </div>
-      </form>
     </div>
-  </div>
 </div>
