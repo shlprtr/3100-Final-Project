@@ -13,14 +13,35 @@ document.querySelector('#btnScheduledSurveys').addEventListener('click', (event)
 document.querySelector('#btnCompletedSurveys').addEventListener('click', (event) => {
     selectView('Completed')
 })
+// new class
+document.querySelector('#btnCreateGroup').addEventListener('click', function() {
+    let strName = document.querySelector('#txtCourse').value
+    let strStartDate = document.querySelector('#txtStartDate').value
+    let strEndDate = document.querySelector('#txtEndDate').value
+    const htmlAddClass = `<div class="card shadow p-4 group-card selection-card position-relative me-2">
+                            <h3 style="margin-bottom:20px">${strName}</h3>
+                            <p style="margin-bottom:0px">Start: ${strStartDate}</p>
+                            <p>End: ${strEndDate}</p>
+                            <a class="stretched-link" data-group-id="${strName}"></a>
+                          </div>` //CHANGE data-group-id name probs
+    document.querySelector('#groupContainer').innerHTML += htmlAddClass
+    let strCode = generateClassCode()
+})
+// modal to create group
+document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
+    const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
+    createGroupModal.show()
+})
+
 
 // listener for clicking a group card
 document.querySelector('#groupContainer').addEventListener('click', (event) => {
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
-        document.querySelector('#viewGroupDetails').classList.remove('d-none')
-        document.querySelector('#viewSurveys').classList.add('d-none')
         document.querySelector('#viewGroupsProf').classList.add('d-none')
+        document.querySelector('#viewGroupDetails').classList.add('d-none')
+
+        document.querySelector('#viewGroupDetails').classList.remove('d-none')
     }
 })
 
@@ -97,6 +118,25 @@ document.querySelector('#btnCreateGroupModal').addEventListener('click', functio
     const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
     createGroupModal.show()
 })
+function generateClassCode(info){
+    let x = 0;
+    let code =''
+
+    // Creates a random number of length 6
+    while ( x < 6) {
+        code += Math.floor(Math.random() * 10);
+        x++
+    }
+}
+
+// function verifyCode(code){
+//     if(strClassCode.length < 6 || strClassCode.length > 6 || isNaN(strClassCode)){
+//         blnError = true
+//         strMessage += '<p class="mb-0 mt-0">You must enter a valid code</p>'
+//     }
+//     //now 
+// }
+
 
 // create survey button functionality
 document.querySelector('#btnNewSurvey').addEventListener('click', function() {
@@ -109,5 +149,5 @@ document.querySelector('#btnNewSurvey').addEventListener('click', function() {
         document.head.appendChild(objScript)
         document.querySelector('#divView').innerHTML = html
     })
-    .catch(error => console.erro("Error fetching new survey form:", error))
+    .catch(error => console.error("Error fetching new survey form:", error))
 })
