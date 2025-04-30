@@ -8,7 +8,7 @@
   </div>
 
   <!-- Group cards container -->
-  <div class="d-flex flex-wrap" id="groupContainer" style="margin-left: 80px">
+  <div class="d-flex flex-wrap margin-30" id="groupContainer">  
     <!-- Example group card -->
     <div
       class="card shadow p-4 group-card selection-card position-relative me-2"
@@ -35,64 +35,6 @@
   </div>
 </div>
 
-<!-- View all surveys -->
-<div class="container-fluid" id="viewSurveys">
-  <!-- Navigation buttons to switch between survey statuses -->
-  <div class="margin-30 row row-col-2" id="viewOptions">
-    <div
-      class="d-flex justify-content-start row row-cols-6 mt-5"
-      style="padding-left: 100px"
-    >
-      <button class="btn btn-primary me-2" id="btnCurrentSurveys">
-        Current
-      </button>
-      <button class="btn btn-primary unselected me-2" id="btnScheduledSurveys">
-        Scheduled
-      </button>
-      <button class="btn btn-primary unselected me-2" id="btnCompletedSurveys">
-        Completed
-      </button>
-      <button
-        class="btn btn-outline-primary justify-content-end me-2"
-        id="btnNewSurvey"
-      >
-        + New Survey
-      </button>
-    </div>
-  </div>
-
-  <!-- Current surveys section -->
-  <div
-    id="viewCurrent"
-    style="padding-left: 100px; padding-right: 100px; padding-top: 15px"
-  >
-    <!-- Example survey card -->
-    <form
-      class="card corner-round"
-      id="frmSurvey"
-      style="padding: 15px; margin-top: 30px"
-    >
-      <div class="row row-cols-2" style="padding: 7px">
-        <h1 class="paragraph" id="txtTitle">Mid Year Peer Review</h1>
-        <h1 class="paragraph text-end" id="txtStatus">64/120 completed</h1>
-        <h1 class="paragraph font-weight-light" id="txtGroup">CSC 1200-002</h1>
-        <h1 class="paragraph font-weight-light text-end" id="txtDueDate">
-          Ends Oct 28, 2025
-        </h1>
-      </div>
-    </form>
-    <!-- Repeatable survey card -->
-    <form class="card corner-round" style="padding: 15px; margin-top: 5px">
-      <div class="row row-cols-2" style="padding: 7px">
-        <h1 class="paragraph" id="txtTitle">Mid Year Peer Review</h1>
-        <h1 class="paragraph text-end" id="txtStatus">64/120 completed</h1>
-        <h1 class="paragraph font-weight-light" id="txtGroup">CSC 1200-002</h1>
-        <h1 class="paragraph font-weight-light text-end" id="txtDueDate">
-          Ends Oct 28, 2025
-        </h1>
-      </div>
-    </form>
-  </div>
 
   <!-- Scheduled surveys section -->
   <div
@@ -179,12 +121,6 @@
       <div class="col-4">
         <div style="padding: 7px">
           <h1 id="txtGroupName">CSC 2100-002</h1>
-        </div>
-        <div class="row row-cols-2 container-fluid" style="padding: 30px">
-          <h3>Surveys</h3>
-          <button class="btn btn-outline-primary" id="btnNewSurvey">
-            + New Survey
-          </button>
         </div>
         <!-- List of surveys -->
         <div class="row">

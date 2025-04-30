@@ -99,7 +99,7 @@ document.querySelector('#btnCreateGroupModal').addEventListener('click', functio
 })
 
 // create survey button functionality
-document.querySelector('#btnNewSurvey').addEventListener('click', function() {
+document.querySelector('#btnNewSurvey').addEventListener('click', function() { 
     fetch("pages/createnewsurvey.html")
     .then(response => response.text())
     .then(html => {
