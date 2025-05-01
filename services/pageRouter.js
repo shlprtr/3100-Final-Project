@@ -7,11 +7,19 @@ let currentRoute = location.hash || '/#'  // default landing page
 // load the content of the page for a route
 const renderContent = async (route) => {
     try {
-        console.log('Loading:', route)
         const objRouteInfo = ROUTES[route];
         if (!objRouteInfo) {
             throw new Error('Route not found');
         }
+
+        // check if session is valid
+        if (objRouteInfo && objRouteInfo.authRequired && !(await isSessionValid())) {
+            console.log("Redirecting to landing page due to invalid session.")
+            location.hash = ''
+            return
+        }
+
+        console.log('Loading:', route)
 
         const response = await fetch(`${objRouteInfo.filePath}?t=${Date.now()}`)
         if (!response.ok) {
@@ -59,12 +67,6 @@ window.addEventListener('hashchange', async () => {
     const newRoute = location.hash || '/#'
     const objRouteInfo = ROUTES[newRoute]
 
-    if (objRouteInfo && objRouteInfo.authRequired && !(await isSessionValid())) {
-        console.log("Redirecting to landing page due to invalid session.")
-        location.hash = ''
-        return
-    }
-
     if (newRoute !== currentRoute) {
         currentRoute = newRoute
         renderContent(currentRoute)
@@ -75,7 +77,7 @@ window.addEventListener('hashchange', async () => {
 const initializeRoutes = async () => {
     let strValidatedRoute
     if (await isSessionValid()) {
-        strValidatedRoute = '#/dashboard'
+        strValidatedRoute = '#/student'
     } else {
         strValidatedRoute = '/#'  // landing page
     }

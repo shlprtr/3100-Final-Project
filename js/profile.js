@@ -9,7 +9,7 @@ document.querySelector('#btnLogOut').addEventListener('click', async (event) => 
     const objResponse = await ApiService.logout()
     console.log(objResponse)
     if (objResponse.success) {
-        navigate('/#')
+        navigate('')
     } else {
         console.error('Error logging out:', objResponse.error)
     }
