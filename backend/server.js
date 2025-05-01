@@ -217,18 +217,13 @@ app.post('/courses', authenticateUser, (req, res, next) => {
 })
 
 
-// get all groups for a course where current user is the instructor
-app.get('/courses/groups/:courseid', authenticateUser, (req, res, next) => {
+// get all groups for a course
+app.get('/courses/groups/:courseid', authenticateUser, verifyInstructor, (req, res, next) => {
     const strUserID = req.userID
     const strCourseID = req.params.courseid
 
-    let strCommand = `
-        SELECT cg.*
-        FROM tblCourseGroups cg
-        JOIN tblCourses c ON cg.CourseID = c.CourseID
-        WHERE cg.CourseID = ? AND c.InstructorID = ?
-    `
-    db.all(strCommand, [strCourseID, strUserID], (err, result) => {
+    let strCommand = "SELECT * FROM tblCourseGroups WHERE CourseID = ?"
+    db.all(strCommand, [strCourseID], (err, result) => {
         if (err) {
             console.log(err)
             res.status(400).json({
@@ -245,7 +240,7 @@ app.get('/courses/groups/:courseid', authenticateUser, (req, res, next) => {
 })
 
 // create group for a course
-app.post('/courses/groups', authenticateUser, (req, res, next) => {
+app.post('/courses/groups', authenticateUser, verifyInstructor, (req, res, next) => {
     const strGroupID = uuidv4()
     const strCourseID = req.body.courseID
     const strGroupName = req.body.groupName
@@ -255,34 +250,18 @@ app.post('/courses/groups', authenticateUser, (req, res, next) => {
         return res.status(400).json({ error: "You must provide a course id and group name" })
     }
 
-    // check if user is the instructor
-    let strCheckCommand = "SELECT * FROM tblCourses WHERE CourseID = ? AND InstructorID = ?"
-    db.all(strCheckCommand, [strCourseID, strUserID], (err, result) => {
+    let strCommand = "INSERT INTO tblCourseGroups VALUES (?, ?, ?)"
+    let arrParameters = [strGroupID, strGroupName, strCourseID]
+    db.run(strCommand, arrParameters, (err) => {
         if (err) {
             console.log(err)
-            return res.status(400).json({
+            res.status(400).json({
                 status: "error",
                 message: err.message
             })
+        } else {
+            res.status(201).json({ status: "success" })
         }
-
-        if (result.length == 0) {
-            return res.status(401).json({ error: "You are not the instructor for this course" })
-        }
-
-        let strCommand = "INSERT INTO tblCourseGroups VALUES (?, ?, ?)"
-        let arrParameters = [strGroupID, strGroupName, strCourseID]
-        db.run(strCommand, arrParameters, (err) => {
-            if (err) {
-                console.log(err)
-                res.status(400).json({
-                    status: "error",
-                    message: err.message
-                })
-            } else {
-                res.status(201).json({ status: "success" })
-            }
-        })
     })
 })
 
@@ -377,11 +356,11 @@ app.delete('/courses/groups/users', authenticateUser, (req, res, next) => {
 
 
 // create a social
-app.post('/socials', (req, res, next) => {
+app.post('/socials', authenticateUser, (req, res, next) => {
     let strSocialID = uuidv4()
     let strSocialType = req.body.socialType
     let strUsername = req.body.username
-    let strUserID = req.body.userID
+    let strUserID = req.userID
 
     if (strSocialType.length < 1) {
         return res.status(400).json({ error: "You must provide a social type" })
@@ -407,14 +386,16 @@ app.post('/socials', (req, res, next) => {
 })
 
 // delete a social
-app.delete('/socials', (req, res, next) => {
+app.delete('/socials', authenticateUser, (req, res, next) => {
     let strSocialID = req.body.socialID
+    let strUserID = req.userID
 
     if (strSocialID.length < 1) {
-        return res.status(400).json({ error: "You must provide a socialID" })
+        return res.status(400).json({ error: "You must provide a social id" })
     }
-    let comDelete = `DELETE FROM tblSocials WHERE socialID = ?`
-    db.run(comDelete,[strSocialID],function(err,result){
+
+    let comDelete = `DELETE FROM tblSocials WHERE SocialID = ? AND UserID = ?`
+    db.run(comDelete,[strSocialID,strUserID],function(err){
         if(err){
             console.log(err)
             res.status(400).json({status:"error",message:err.message})
@@ -425,9 +406,10 @@ app.delete('/socials', (req, res, next) => {
 })
 
 // update a social
-app.put('/socials', (req, res, next) => {
+app.put('/socials', authenticateUser, (req, res, next) => {
     let strSocialID = req.body.socialID
     let strUsername = req.body.username
+    let strUserID = req.userID
 
     if (strSocialID.length < 1) {
         return res.status(400).json({ error: "You must provide a socialID" })
@@ -435,8 +417,8 @@ app.put('/socials', (req, res, next) => {
     if (strUsername.length < 1) {
         return res.status(400).json({ error: "You must provide a username" })
     }
-    let comUpdate = `UPDATE tblSocials SET username = ? WHERE socialID = ?`;
-    db.run(comUpdate, [strUsername, strSocialID], function (err) {
+    let comUpdate = `UPDATE tblSocials SET Username = ? WHERE SocialID = ? AND UserID = ?`;
+    db.run(comUpdate, [strUsername, strSocialID, strUserID], function (err) {
         if (err) {
             console.log(err);
             return res.status(400).json({ status: "error", message: err.message });
@@ -449,30 +431,28 @@ app.put('/socials', (req, res, next) => {
 });
 
 // get all socials for a user
-app.get('/socials/:userID',(req,res,next) => {
-    let strUserID = req.params.userID
-    if(strUserID.length < 1){
-        return res.status(400).json({error:"You must provide a userID"})
-    }
+app.get('/socials', authenticateUser, (req,res,next) => {
+    let strUserID = req.userID
+
     let comSelect = "SELECT * FROM tblSocials WHERE UserID = ?"
     db.all(comSelect, [strUserID], function(err,result){
         if(err){
             console.log(err)
             res.status(400).json({status:"error",message:err.message})
         } else {
-            res.status(200).json({status:"success",items:result})
+            res.status(200).json({status:"success",result:result})
         }
     })
 })
 
 
 // create a phone number
-app.post('/phone', (req, res, next) => {
+app.post('/phone', authenticateUser, (req, res, next) => {
     let strPhoneID = uuidv4()
     let strNationCode = req.body.nationCode
     let strAreaCode = req.body.areaCode
     let strPhoneNumber = req.body.phoneNumber
-    let strUserID = req.body.userID
+    let strUserID = req.userID
 
     if (strNationCode.length < 1) {
         return res.status(400).json({ error: "You must provide a nation code" })
@@ -482,9 +462,6 @@ app.post('/phone', (req, res, next) => {
     }
     if (strPhoneNumber.length < 1) {
         return res.status(400).json({ error: "You must provide a phone number" })
-    }
-    if (strUserID.length < 1) {
-        return res.status(400).json({ error: "You must provide a user to add a social" })
     }
 
     let strCommand = `INSERT INTO tblPhone VALUES (?, ?, ?, ?, ?)`;
@@ -501,14 +478,15 @@ app.post('/phone', (req, res, next) => {
 })
 
 // delete a phone number
-app.delete('/phone', (req, res, next) => {
+app.delete('/phone', authenticateUser, (req, res, next) => {
     let strPhoneID = req.body.phoneID
+    let strUserID = req.userID
 
     if (strPhoneID.length < 1) {
         return res.status(400).json({ error: "You must provide a phoneID" })
     }
-    let comDelete = `DELETE FROM tblPhone WHERE phoneID = ?`
-    db.run(comDelete,[strPhoneID],function(err,result){
+    let comDelete = `DELETE FROM tblPhone WHERE PhoneID = ? AND UserID = ?`
+    db.run(comDelete,[strPhoneID, strUserID],function(err){
         if(err){
             console.log(err)
             res.status(400).json({status:"error",message:err.message})
@@ -519,11 +497,12 @@ app.delete('/phone', (req, res, next) => {
 })
 
 // update a phone number
-app.put('/phone', (req, res, next) => {
+app.put('/phone', authenticateUser, (req, res, next) => {
     let strPhoneID = req.body.phoneID
     let strNationCode = req.body.nationCode
     let strAreaCode = req.body.areaCode
     let strPhoneNumber = req.body.phoneNumber
+    let strUserID = req.userID
 
     if (strPhoneID.length < 1) {
         return res.status(400).json({ error: "You must provide a phoneID" })
@@ -538,8 +517,8 @@ app.put('/phone', (req, res, next) => {
         return res.status(400).json({ error: "You must provide a phone number" })
     }
 
-    let comUpdate = `UPDATE tblPhone SET NationCode = ?, AreaCode = ?, PhoneNumber = ? WHERE PhoneID = ?`;
-    db.run(comUpdate, [strNationCode, strAreaCode, strPhoneNumber, strPhoneID], function (err) {
+    let comUpdate = `UPDATE tblPhone SET NationCode = ?, AreaCode = ?, PhoneNumber = ? WHERE PhoneID = ? AND UserID = ?`;
+    db.run(comUpdate, [strNationCode, strAreaCode, strPhoneNumber, strPhoneID, strUserID], function (err) {
         if (err) {
             console.log(err);
             return res.status(400).json({ status: "error", message: err.message });
@@ -551,31 +530,30 @@ app.put('/phone', (req, res, next) => {
     })
 });
 
-// get all phone numbers for a user
-app.get('/phone/:userID',(req,res,next) => {
-    let strUserID = req.params.userID
-    if(strUserID.length < 1){
-        return res.status(400).json({error:"You must provide a userID"})
-    }
+// get phone number for a user
+app.get('/phone', authenticateUser, (req,res,next) => {
+    let strUserID = req.userID
+
     let comSelect = "SELECT * FROM tblPhone WHERE UserID = ?"
     db.all(comSelect, [strUserID], function(err,result){
         if(err){
             console.log(err)
             res.status(400).json({status:"error",message:err.message})
         } else {
-            res.status(200).json({status:"success",items:result})
+            res.status(200).json({status:"success",result:result})
         }
     })
 })
 
-
+// TODO: user verifyInstructor middleware to ensure user is instructor for course
 // create a survey
-app.post('/survey', (req, res, next) => {
+app.post('/survey', authenticateUser, (req, res, next) => {
     let strSurveyID = uuidv4()
     let strCourseID = req.body.courseID
     let strTitle = req.body.title
     let strStartDate = req.body.startDate
     let strEndDate = req.body.endDate
+    let strUserID = req.userID
 
     if (strCourseID.length < 1) {
         return res.status(400).json({ error: "You must provide a valid course"})
@@ -590,43 +568,77 @@ app.post('/survey', (req, res, next) => {
         return res.status(400).json({ error: "You must provide an end date"})
     }
 
-
-    let strCommand = `INSERT INTO tblSurvey VALUES (?, ?, ?, ?, ?)`;
-    db.run(strCommand, [strSurveyID, strCourseID, strTitle, strStartDate, strEndDate], function (err) {
-        if(err){
+    // check if user is the instructor
+    let strCheckCommand = "SELECT * FROM tblCourses WHERE CourseID = ? AND InstructorID = ?"
+    db.all(strCheckCommand, [strCourseID, strUserID], (err, result) => {
+        if (err) {
             console.log(err)
-            res.status(400).json({status:"error", message:err.message})
-        } else {
-            res.status(201).json({
-                status:"success"
+            return res.status(400).json({
+                status: "error",
+                message: err.message
             })
         }
+
+        if (result.length == 0) {
+            return res.status(401).json({ error: "You are not the instructor for this course" })
+        }
+
+        let strCommand = `INSERT INTO tblSurvey VALUES (?, ?, ?, ?, ?)`;
+        db.run(strCommand, [strSurveyID, strCourseID, strTitle, strStartDate, strEndDate], function (err) {
+            if(err){
+                console.log(err)
+                res.status(400).json({status:"error", message:err.message})
+            } else {
+                res.status(201).json({
+                    status:"success"
+                })
+            }
+        })
     })
 })
 
 // delete a survey
-app.delete('/survey', (req, res, next) => {
+app.delete('/survey', authenticateUser, (req, res, next) => {
     let strSurveyID = req.body.surveyID
+    let strUserID = req.userID
 
     if (strSurveyID.length < 1) {
         return res.status(400).json({ error: "You must provide a surveyID" })
     }
-    let comDelete = `DELETE FROM tblSurvey WHERE surveyID = ?`
-    db.run(comDelete,[strSurveyID],function(err,result){
-        if(err){
+
+    // check if user is the instructor
+    let strCheckCommand = "SELECT * FROM tblCourses WHERE CourseID = ? AND InstructorID = ?"
+    db.all(strCheckCommand, [strCourseID, strUserID], (err, result) => {
+        if (err) {
             console.log(err)
-            res.status(400).json({status:"error",message:err.message})
-        } else {
-            res.status(201).json({status:"success",message:"Task Deleted"})
+            return res.status(400).json({
+                status: "error",
+                message: err.message
+            })
         }
+
+        if (result.length == 0) {
+            return res.status(401).json({ error: "You are not the instructor for this course" })
+        }
+
+        let comDelete = `DELETE FROM tblSurvey WHERE surveyID = ?`
+        db.run(comDelete,[strSurveyID],function(err){
+            if(err){
+                console.log(err)
+                res.status(400).json({status:"error",message:err.message})
+            } else {
+                res.status(201).json({status:"success",message:"Task Deleted"})
+            }
+        })
     })
 })
 
 // update a survey
-app.put('/survey', (req, res, next) => {
+app.put('/survey', authenticateUser, (req, res, next) => {
     let strSurveyID = req.body.surveyID
     let strStartDate = req.body.startDate
     let strEndDate = req.body.endDate
+    let strUserID = req.userID
 
     if (strSurveyID.length < 1) {
         return res.status(400).json({ error: "You must provide a surveyID" })
@@ -638,45 +650,81 @@ app.put('/survey', (req, res, next) => {
         return res.status(400).json({ error: "You must provide an end date"})
     }
 
-
-    let comUpdate = `UPDATE tblSurvey SET StartDate = ?, EndDate = ? WHERE SurveyID = ?`;
-    db.run(comUpdate, [strStartDate, strEndDate, strSurveyID], function (err) {
+    // check if user is the instructor
+    let strCheckCommand = "SELECT * FROM tblCourses WHERE CourseID = ? AND InstructorID = ?"
+    db.all(strCheckCommand, [strCourseID, strUserID], (err, result) => {
         if (err) {
-            console.log(err);
-            return res.status(400).json({ status: "error", message: err.message });
+            console.log(err)
+            return res.status(400).json({
+                status: "error",
+                message: err.message
+            })
         }
-        if (this.changes === 0) {
-            return res.status(404).json({ error: "TaskID not found" });
+
+        if (result.length == 0) {
+            return res.status(401).json({ error: "You are not the instructor for this course" })
         }
-        res.status(200).json({ status: "success", message: "Task updated successfully" });
+
+        let comUpdate = `UPDATE tblSurvey SET StartDate = ?, EndDate = ? WHERE SurveyID = ?`;
+        db.run(comUpdate, [strStartDate, strEndDate, strSurveyID], function (err) {
+            if (err) {
+                console.log(err);
+                return res.status(400).json({ status: "error", message: err.message });
+            }
+            if (this.changes === 0) {
+                return res.status(404).json({ error: "TaskID not found" });
+            }
+            res.status(200).json({ status: "success", message: "Task updated successfully" });
+        })
     })
 });
 
 // get all surveys for a class
-app.get('/survey/:courseID',(req,res,next) => {
+app.get('/survey/:courseID', authenticateUser, (req,res,next) => {
     let strCourseID = req.params.courseID
+    let strUserID = req.userID
+
     if(strCourseID.length < 1){
         return res.status(400).json({error:"You must provide a courseID"})
     }
-    let comSelect = "SELECT * FROM tblSurvey WHERE CourseID = ?"
-    db.all(comSelect, [strCourseID], function(err,result){
-        if(err){
+
+    // check if user is the instructor
+    let strCheckCommand = "SELECT * FROM tblCourses WHERE CourseID = ? AND InstructorID = ?"
+    db.all(strCheckCommand, [strCourseID, strUserID], (err, result) => {
+        if (err) {
             console.log(err)
-            res.status(400).json({status:"error",message:err.message})
-        } else {
-            res.status(200).json({status:"success",items:result})
+            return res.status(400).json({
+                status: "error",
+                message: err.message
+            })
         }
+
+        if (result.length == 0) {
+            return res.status(401).json({ error: "You are not the instructor for this course" })
+        }
+
+        let comSelect = "SELECT * FROM tblSurvey WHERE CourseID = ?"
+        db.all(comSelect, [strCourseID], function(err,result){
+            if(err){
+                console.log(err)
+                res.status(400).json({status:"error",message:err.message})
+            } else {
+                res.status(200).json({status:"success",result:result})
+            }
+        })
     })
+    
 })
 
 
 // create a survey question
-app.post('/surveyquestion', (req, res, next) => {
+app.post('/surveyquestion', authenticateUser, (req, res, next) => {
     let strQuestionID = uuidv4()
     let strSurveyID = req.body.surveyID
     let strQuestion = req.body.question
     let strOptions = req.body.options
     let strQuestionType = req.body.questionType
+    let strUserID = req.userID
 
     if (strSurveyID.length < 1) {
         return res.status(400).json({ error: "You must provide a surveyID"})
@@ -690,6 +738,34 @@ app.post('/surveyquestion', (req, res, next) => {
     if (strQuestionType.length < 1) {
         return res.status(400).json({ error: "You must provide a question type"})
     }
+
+    // check if user is the instructor
+    let strCheckCommand = "SELECT * FROM tblCourses WHERE CourseID = ? AND InstructorID = ?"
+    db.all(strCheckCommand, [strCourseID, strUserID], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        }
+
+        if (result.length == 0) {
+            return res.status(401).json({ error: "You are not the instructor for this course" })
+        }
+
+        let comUpdate = `UPDATE tblSurvey SET StartDate = ?, EndDate = ? WHERE SurveyID = ?`;
+        db.run(comUpdate, [strStartDate, strEndDate, strSurveyID], function (err) {
+            if (err) {
+                console.log(err);
+                return res.status(400).json({ status: "error", message: err.message });
+            }
+            if (this.changes === 0) {
+                return res.status(404).json({ error: "TaskID not found" });
+            }
+            res.status(200).json({ status: "success", message: "Task updated successfully" });
+        })
+    })
 
     let strCommand = `INSERT INTO tblSurveyQuestion VALUES (?, ?, ?, ?, ?)`;
     db.run(strCommand, [strQuestionID, strSurveyID, strQuestion, strOptions, strQuestionType], function (err) {
@@ -705,7 +781,7 @@ app.post('/surveyquestion', (req, res, next) => {
 })
 
 // delete a survey question
-app.delete('/surveyquestion', (req, res, next) => {
+app.delete('/surveyquestion', verifySession, (req, res, next) => {
     let strQuestionID = req.body.questionID
 
     if (strQuestionID.length < 1) {
@@ -723,7 +799,7 @@ app.delete('/surveyquestion', (req, res, next) => {
 })
 
 // get all survey questions for a survey
-app.get('/surveyquestion/:surveyID',(req,res,next) => {
+app.get('/surveyquestion/:surveyID', verifySession, (req,res,next) => {
     let strSurveyID = req.params.surveyID
     if(strSurveyID.length < 1){
         return res.status(400).json({error:"You must provide a surveyID"})
@@ -734,7 +810,7 @@ app.get('/surveyquestion/:surveyID',(req,res,next) => {
             console.log(err)
             res.status(400).json({status:"error",message:err.message})
         } else {
-            res.status(200).json({status:"success",items:result})
+            res.status(200).json({status:"success",result:result})
         }
     })
 })
@@ -776,7 +852,7 @@ app.post('/surveyresponse', authenticateUser, (req, res, next) => {
 })
 
 // delete a survey response
-app.delete('/surveyresponse', (req, res, next) => {
+app.delete('/surveyresponse', verifySession, (req, res, next) => {
     let strResponseID = req.body.responseID
 
     if (strResponseID.length < 1) {
@@ -794,7 +870,7 @@ app.delete('/surveyresponse', (req, res, next) => {
 })
 
 // udpate a survey response
-app.put('/surveyresponse', (req, res, next) => {
+app.put('/surveyresponse', verifySession, (req, res, next) => {
     let strResponseID = req.body.responseID
     let strResponse = req.body.response
 
@@ -819,7 +895,7 @@ app.put('/surveyresponse', (req, res, next) => {
 });
 
 // get all survey response for a survey
-app.get('/surveyresponse/:surveyID',(req,res,next) => {
+app.get('/surveyresponse/:surveyID', verifySession, (req,res,next) => {
     let strSurveyID = req.params.surveyID
     if(strSurveyID.length < 1){
         return res.status(400).json({error:"You must provide a surveyID"})
@@ -830,7 +906,7 @@ app.get('/surveyresponse/:surveyID',(req,res,next) => {
             console.log(err)
             res.status(400).json({status:"error",message:err.message})
         } else {
-            res.status(200).json({status:"success",items:result})
+            res.status(200).json({status:"success",result:result})
         }
     })
 })
@@ -889,5 +965,32 @@ function authenticateUser(req, res, next) {
             req.userID = result[0].UserID // Attach UserID to the request object
             next();
         });
+    })
+}
+
+// check if user is the instructor
+function verifyInstructor(req, res, next) {
+    const strUserID = req.userID
+    const strCourseID = req.params.courseid || req.body.courseID  // check both
+
+    if (!strCourseID) {
+        return res.status(400).json({ error: "You must provide a course ID" })
+    }
+
+    let strCheckCommand = "SELECT * FROM tblCourses WHERE CourseID = ? AND InstructorID = ?"
+    db.all(strCheckCommand, [strCourseID, strUserID], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(400).json({
+                status: "error",
+                message: err.message
+            })
+        }
+
+        if (result.length == 0) {
+            return res.status(401).json({ error: "You are not the instructor for this course" })
+        } else {
+            return res.status(200).json({ status: "success" })
+        }
     })
 }

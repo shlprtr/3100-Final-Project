@@ -24,7 +24,7 @@ CREATE TABLE tblSocials (
     SocialID TEXT PRIMARY KEY,
     SocialType TEXT,
     Username TEXT,
-    UserID INTEGER,
+    UserID TEXT,
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID)
 );
 
