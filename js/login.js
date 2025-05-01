@@ -16,7 +16,7 @@ document.querySelector('#btnLogin').addEventListener('click', async () => {
             background: 'var(--dark-blue)',
             color: 'white'
         })
-        navigate('#/dashboard')
+        navigate('#/student')
     } else {
         Swal.fire({
             title: 'Oh no, an error occurred!',

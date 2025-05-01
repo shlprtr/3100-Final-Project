@@ -14,11 +14,6 @@ export const ROUTES = {
         scriptPath: 'js/register.js',
         authRequired: false
     },
-    '#/dashboard': {
-        filePath: 'pages/dashboard.html',
-        scriptPath: 'js/dashboard.js',
-        authRequired: true
-    },
     '#/instructor': {
         filePath: 'pages/instructor.html',
         scriptPath: 'js/instructor.js',
@@ -27,6 +22,11 @@ export const ROUTES = {
     '#/student': {
         filePath: 'pages/student.html',
         scriptPath: 'js/student.js',
+        authRequired: true
+    },
+    '#/profile': {
+        filePath: 'pages/profile.html',
+        scriptPath: 'js/profile.js',
         authRequired: true
     }
 }

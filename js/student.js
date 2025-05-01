@@ -22,18 +22,18 @@ document.querySelector('#surveyContainer').addEventListener('click', (event) => 
         // fetch group details
 
         fetch("pages/studentsurvey.html")
-    .then(response => response.text())
-    .then(html => {
-        const objScript = document.createElement('script')
-        objScript.src = 'js/studentsurvey.js'
-        objScript.type = 'text/javascript'
-        document.head.appendChild(objScript)
-        document.querySelector('#divView').innerHTML = html
-    })
+        .then(response => response.text())
+        .then(html => {
+            const objScript = document.createElement('script')
+            objScript.src = 'js/studentsurvey.js'
+            objScript.type = 'text/javascript'
+            document.head.appendChild(objScript)
+            document.querySelector('#divView').innerHTML = html
+        })
     }
 })
 
-   
+
 // display all surveys
 document.querySelector('#btnSurveys').addEventListener('click', (event) => {
     selectView('Surveys')
@@ -74,6 +74,7 @@ document.querySelector('#btnJoinGroupModal').addEventListener('click', function(
 document.getElementById('btnBackToGroups').addEventListener('click', function () {
     // Hide the surveys section
     document.getElementById('viewSurveys').classList.add('d-none');
+    document.getElementById('selectedGroup').classList.add('d-none');
     // Show the groups section
     document.getElementById('viewGroups').classList.remove('d-none');
 });

@@ -1,18 +1,18 @@
+import { navigate } from '../services/pageRouter.js'
+import { ApiService } from '../services/apiService.js'
+
 {/* <button class="btn btn-primary me-2" id="btnLogOut">Log Out</button>
 <button class="btn btn-outline-primary justify-content-end me-2" id="btnEdit">Edit</button>
 <button class="btn btn-outline-primary me-2 d-none" id="btnSaveEdit">Save</button> */}
 
-document.querySelector('#btnLogOut').addEventListener('click', (event) => {
-    fetch("pages/login.html")
-.then(response => response.text())
-.then(html => {
-    const objScript = document.createElement('script')
-    objScript.src = 'js/login.js'
-    objScript.type = 'text/javascript'
-    document.head.appendChild(objScript)
-    document.querySelector('#divView').innerHTML = html
-})
-.catch(error => console.error("You did not log out sucessfully: ", error))
+document.querySelector('#btnLogOut').addEventListener('click', async (event) => {
+    const objResponse = await ApiService.logout()
+    console.log(objResponse)
+    if (objResponse.success) {
+        navigate('/#')
+    } else {
+        console.error('Error logging out:', objResponse.error)
+    }
 })
 
 document.querySelector('#btnEdit').addEventListener('click', (event) => {

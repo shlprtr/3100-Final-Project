@@ -1,3 +1,12 @@
+<nav class="navbar">
+    <div class="container-fluid justify-content-between">
+        <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
+        <button class="btn btn-primary me-2 ms-auto" type="button" id="btnInstructor" onClick="location.hash='#/instructor'">Instructor View</button>
+        <button class="btn btn-primary unselected me-2" type="button" id="btnStudent" onClick="location.hash='#/student'">Student View</button>
+        <button class="btn btn-primary unselected me-2" type="button" id="btnProfile" onclick="location.hash='#/profile'"> Profile</button>
+    </div>
+</nav>
+
 <!-- Instructor view: Displays all groups created by the instructor -->
 <div class="container-fluid" id="viewGroupsProf">
     <!-- Button to open the "Create Group" modal -->
@@ -170,8 +179,8 @@
                                 <label class="form-check-label" for="q1-a2">Option 2</label>
                             </div>
                             <div class="form-check ms-2 mb-2">
-                                <input class="form-check-input" type="radio" name="q1" id="q1-a2" />
-                                <label class="form-check-label" for="q1-a2">Option 3</label>
+                                <input class="form-check-input" type="radio" name="q1" id="q1-a3" />
+                                <label class="form-check-label" for="q1-a3">Option 3</label>
                             </div>
                             <button type="button" class="btn-secondary" id="btnAddMC" style="color: white"
                                 aria-expanded="false">
@@ -219,10 +228,10 @@
                     <label class="ms-2 mt-2" for="txtCourse">Course:</label>
                     <input class="form-control input-outline mt-1" type="text" id="txtCourse"
                         aria-label="Input for course">
-                    <label class="ms-2 mt-2" for="txtGroupName">Start Date (MM/DD/YY):</label>
+                    <label class="ms-2 mt-2" for="txtStartDate">Start Date (MM/DD/YY):</label>
                     <input class="form-control input-outline mt-1" type="text" id="txtStartDate"
                         aria-label="Input for course start date">
-                    <label class="ms-2 mt-2" for="txtGroupName">End Date (MM/DD/YY):</label>
+                    <label class="ms-2 mt-2" for="txtEndDate">End Date (MM/DD/YY):</label>
                     <input class="form-control input-outline mt-1" type="text" id="txtEndDate"
                         aria-label="Input for course end date">
                 </div>
