@@ -1,4 +1,5 @@
 import { ROUTES } from './routes.js'
+import { ApiService } from './apiService.js'
 
 const app = document.querySelector('#divContent')
 let currentRoute = location.hash || '/#'  // default landing page
@@ -85,11 +86,8 @@ const initializeRoutes = async () => {
 
 // use endpoint to check if session is valid
 const isSessionValid = async () => {
-    const response = await fetch('http://localhost:8000/sessions', {
-        credentials: 'include'
-    })
-    const data = await response.json()
-    return data.status === 'success'
+    const objResponse = await ApiService.checkSession()
+    return objResponse.success
 }
 
 export { initializeRoutes, navigate }
