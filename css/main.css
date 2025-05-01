@@ -214,3 +214,16 @@ select:-webkit-autofill:focus {
 .bgpurple {
     background-color: var(--dark-purple) !important;
 }
+
+.btn-secondary {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Pink hover effect */
+  .btn-secondary:hover {
+    background-color: #BF3475;
+    color: white;
+  }

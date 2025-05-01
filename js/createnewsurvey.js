@@ -174,29 +174,60 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
 });
 
 document.querySelector('#btnCreateSurvey').addEventListener('click', (event) => {
-    fetch("components/instructorhome.html")
-    .then(response => response.text())
-    .then(html => {
-        const objScript = document.createElement('script');
-        objScript.src = 'js/instructorhome.js'; 
-        objScript.type = 'text/javascript';
-        document.head.appendChild(objScript);
-        document.querySelector('#divTopLanding').innerHTML = '';
-        document.querySelector('#divTopLanding').innerHTML = html;       
-    })
-    .catch(error => console.error("Error fetching chart:", error));
+    // Get the survey preview content
+    const surveyPreview = document.querySelector('#divSurveys').innerHTML;
+
+    // Check if the survey has content
+    if (!surveyPreview.trim()) {
+        // Show SweetAlert2 error message
+        Swal.fire({
+            title: "Error",
+            text: "You must add at least one question to create a survey.",
+            icon: "error",
+            confirmButtonText: "OK",
+        });
+        return;
+    }
+
+    // Show SweetAlert2 success message
+    Swal.fire({
+        title: "Survey Created!",
+        text: "Your survey has been successfully created.",
+        icon: "success",
+        confirmButtonText: "View Surveys",
+        showCancelButton: true,
+        cancelButtonText: "Stay Here",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Save the survey preview to localStorage (or send it to the server)
+            localStorage.setItem('surveyPreview', surveyPreview);
+
+            // // Redirect to createdsurveys.html     ----Database info for current and old surveys to be shown
+            // window.location.href = "createdsurveys.html";
+        }
+    });
+});
+
+// Display the survey preview on the createdsurveys.html page
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname.includes('createdsurveys.html')) {
+        const surveyPreview = localStorage.getItem('surveyPreview');
+        if (surveyPreview) {
+            document.querySelector('#divCreatedSurveys').innerHTML = surveyPreview;
+        }
+    }
 });
 
 document.querySelector('#btnReturnToClass').addEventListener('click', (event) => {
-    fetch("components/instructorhome.html")
+    fetch("pages/instructor.html")
     .then(response => response.text())
     .then(html => {
         const objScript = document.createElement('script');
-        objScript.src = 'js/instructorhome.js'; 
+        objScript.src = 'js/instructor.js'; 
         objScript.type = 'text/javascript';
         document.head.appendChild(objScript);
-        document.querySelector('#divTopLanding').innerHTML = '';
-        document.querySelector('#divTopLanding').innerHTML = html;       
+        document.querySelector('#divHome').innerHTML = '';
+        document.querySelector('#divHome').innerHTML = html;       
     })
     .catch(error => console.error("Error fetching chart:", error));
 });
