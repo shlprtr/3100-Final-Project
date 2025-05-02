@@ -7,7 +7,6 @@ import { ApiService } from '../services/apiService.js'
 
 document.querySelector('#btnLogOut').addEventListener('click', async (event) => {
     const objResponse = await ApiService.logout()
-    console.log(objResponse)
     if (objResponse.success) {
         navigate('')
     } else {

@@ -2,7 +2,21 @@ import { navigate } from '../services/pageRouter.js'
 import { ApiService } from '../services/apiService.js'
 
 // login
-document.querySelector('#btnLogin').addEventListener('click', async () => {
+document.querySelector('#btnLogin').addEventListener('click', login)
+
+// login with enter key
+document.getElementById("txtEmail").addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+        login()
+    }
+})
+document.getElementById("txtPassword").addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+        login()
+    }
+})
+
+async function login() {
     const strEmail = document.querySelector('#txtEmail').value
     const strPassword = document.querySelector('#txtPassword').value
 
@@ -27,4 +41,4 @@ document.querySelector('#btnLogin').addEventListener('click', async () => {
             color: 'white'
         })
     }
-})
+}
