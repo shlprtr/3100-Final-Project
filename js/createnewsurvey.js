@@ -76,15 +76,17 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                     });
                 }
                 else {
-                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1" style="color:black; font-size: 25px;">${strMultipleChoiceQuestion}</p>`
+                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1">${strMultipleChoiceQuestion}</p>`
                     let answersHTML = '<ul class="mb-4">'
                     answerInputs.forEach((input, index) => {
                         const answerText = input.value.trim()
                         if (answerText.length > 0) {
                             strAnswer += `<input type="radio" id="${answerText}" value="${answerText}" style="margin-left: 30px" name="${strMultipleChoiceQuestion}">`
-                            strAnswer += `<label for="${answerText}" style="margin-left: 15px; font-size: 20px; color: black">${answerText}</label><br>`
+                            strAnswer += `<label for="${answerText}" style="margin-left: 15px;">${answerText}</label><br>`
                         }
+                        console.log(strAnswer)
                     })
+                    console.log("HER", strAnswer)
                     document.querySelector('#divSurveys').innerHTML += `<div class="mb-4">${strAnswer}</div>`
                 }
             });
@@ -127,15 +129,15 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                 }
                 else {
                     let strAnswer = ''
-                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1" style="color:black; font-size: 25px;">${strLikertQuestion}</p>`
+                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1">${strLikertQuestion}</p>`
                     strAnswer += '<div class="d-flex" style="display: inline-block; justify-content: space-between">'
-                    strAnswer += `<p class="mb-1" style="color:black; font-size: 20px;">${strLikertQuestion1}</p>`
+                    strAnswer += `<p class="mb-1">${strLikertQuestion1}</p>`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 1" value="${strLikertQuestion} 1" name="${strLikertQuestion}">`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 2" value="${strLikertQuestion} 2" name="${strLikertQuestion}">`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 3" value="${strLikertQuestion} 3" name="${strLikertQuestion}">`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 4" value="${strLikertQuestion} 4" name="${strLikertQuestion}">`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 5" value="${strLikertQuestion} 5" name="${strLikertQuestion}">`
-                    strAnswer += `<p class="mb-1" style="color:black; font-size: 20px;">${strLikertQuestion2}</p>`
+                    strAnswer += `<p class="mb-1">${strLikertQuestion2}</p>`
                     strAnswer += '</div>'
                     document.querySelector('#divSurveys').innerHTML += `<div class="mb-4">${strAnswer}</div>`
                 }
@@ -164,8 +166,8 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                     });
                 }
                 else {
-                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1" style="color:black; font-size: 25px;">${strShortAnswerQuestion}</p>`
-                    document.querySelector('#divSurveys').innerHTML += '<textarea id="txtResponseShortAnswer" rows="5" mb-4" cols="40" wrap="soft" style="font-size: 20px;"  placeholder="Enter your response here" aria-label="Input for Short Answer"></textarea>'
+                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1">${strShortAnswerQuestion}</p>`
+                    document.querySelector('#divSurveys').innerHTML += '<textarea id="txtResponseShortAnswer" rows="3" mb-4" cols="40" wrap="soft" class="text-white" placeholder="Enter your response here" aria-label="Input for Short Answer"></textarea>'
                     
                 }
             });
