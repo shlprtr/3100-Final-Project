@@ -1,5 +1,5 @@
 // new class
-document.querySelector('#btnCreateGroup').addEventListener('click', function() {
+document.querySelector('#btnCreateCourse').addEventListener('click', function() {
     let strName = document.querySelector('#txtCourse').value
     let strStartDate = document.querySelector('#txtStartDate').value
     let strEndDate = document.querySelector('#txtEndDate').value
@@ -12,10 +12,11 @@ document.querySelector('#btnCreateGroup').addEventListener('click', function() {
     document.querySelector('#groupContainer').innerHTML += htmlAddClass
     let strCode = generateClassCode()
 })
-// modal to create group
-document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
-    const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
-    createGroupModal.show()
+
+// modal to create course
+document.querySelector('#btnCreateCourseModal').addEventListener('click', function() {
+    const createCourseModal = new bootstrap.Modal(document.querySelector('#createCourseModal'))
+    createCourseModal.show()
 })
 
 // listener for clicking a group card
@@ -23,8 +24,9 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
         document.querySelector('#viewGroupDetails').classList.remove('d-none')
-        document.querySelector('#viewSurveys').classList.add('d-none')
-        document.querySelector('#viewGroupsProf').classList.add('d-none')
+        document.querySelector('#groupContainer').classList.add('d-none')
+        document.querySelector('#divCreateCourseModal').classList.add('d-none')
+        document.querySelector('#divCreateGroupModal').classList.remove('d-none')
     }
 })
 

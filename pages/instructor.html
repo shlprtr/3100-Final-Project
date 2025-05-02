@@ -1,131 +1,115 @@
 <!-- Instructor view: Displays all groups created by the instructor -->
 <div class="container-fluid" id="viewGroupsProf">
-  <!-- Button to open the "Create Group" modal -->
-  <div class="d-flex justify-content-end mt-3 me-2">
-    <button class="btn btn-outline-primary" id="btnCreateGroupModal">
-      Create Group
-    </button>
-  </div>
+    <!-- Button to open the "Create Course" modal -->
+    <div class="d-flex justify-content-end mt-3 me-2" id="divCreateCourseModal">
+        <button class="btn btn-outline-primary" id="btnCreateCourseModal">
+            Create Course
+        </button>
+    </div>
+    <!-- Button to open the "Create Group" modal -->
+    <div class="d-flex justify-content-end mt-3 me-2 d-none" id="divCreateGroupModal">
+        <button class="btn btn-outline-primary" id="btnCreateGroupModal">
+            Create Group
+        </button>
+    </div>
 
-  
-  <!-- Group cards container -->
-  <div class="d-flex flex-wrap margin-30" id="groupContainer">
-    <!-- Example group card -->
-    <div class="card shadow p-4 group-card selection-card position-relative me-2">
-        <h3 style="margin-bottom:20px">CSC 2100-002</h3>
-        <p style="margin-bottom:0px">Start: 08/12/25</p>
-        <p>End: 12/11/25</p>
-        <a class="stretched-link" data-group-id="Group1"></a>
+    <!-- Group cards container -->
+    <div class="d-flex flex-wrap margin-30" id="groupContainer">
+        <!-- Example group card -->
+        <div class="card shadow p-4 group-card selection-card position-relative me-2">
+            <h3 style="margin-bottom:20px">CSC 2100-002</h3>
+            <p style="margin-bottom:0px">Start: 08/12/25</p>
+            <p>End: 12/11/25</p>
+            <a class="stretched-link" data-group-id="Group1"></a>
+        </div>
+        <div class="card shadow p-4 group-card selection-card position-relative me-2">
+            <h3 style="margin-bottom:20px">COURSE NAME</h3>
+            <p style="margin-bottom:0px">Start: </p>
+            <p>End: </p>
+            <a class="stretched-link" data-group-id="Group2"></a>
+        </div>
+        <div class="card shadow p-4 group-card selection-card position-relative me-2">
+            <h3 style="margin-bottom:20px">COURSE NAME</h3>
+            <p style="margin-bottom:0px">Start: </p>
+            <p>End: </p>
+            <a class="stretched-link" data-group-id="Group3"></a>
+        </div>
     </div>
-    <div class="card shadow p-4 group-card selection-card position-relative me-2">
-        <h3 style="margin-bottom:20px">COURSE NAME</h3>
-        <p style="margin-bottom:0px">Start: </p>
-        <p>End: </p>
-        <a class="stretched-link" data-group-id="Group2"></a>
-    </div>
-    <div class="card shadow p-4 group-card selection-card position-relative me-2">
-        <h3 style="margin-bottom:20px">COURSE NAME</h3>
-        <p style="margin-bottom:0px">Start: </p>
-        <p>End: </p>
-        <a class="stretched-link" data-group-id="Group3"></a>
-    </div>
-</div>
 
-<!-- in-depth group view (surveys,students, etc) -->
-<div class="container-fluid d-none margin-30" id="viewGroupDetails" style="padding-right: 100px; padding-top:30px">
-    <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:70px;">
-        <div class="row row-cols-2">
-            <div class="col-4" id="surveyNav">
-                <!-- name of the group selected -->
-                <div style="padding:7px">
-                    <h1 id="txtGroupName">CSC 2100-002</h1>
-                </div>
-                <div class="row row-cols-2 container-fluid" style="padding:30px">
-                    <h3>Surveys</h3>
-                    <button class="btn btn-outline-primary" id="btnNewSurvey" type="button" >+ New Survey</button>
-                </div>
-                <!--list of surveys avaliable to be viewed -->
-                <div class="row">
-                    <div class="col container overflow-auto " id="divSurveyContainer">
-                        <div class="card bg-dark p-4 group-card selection-card position-relative me-2">
-                            <h5>Mid-Year Peer Review</h5>
-                            <p>Ends Oct 25th, 2025</p>
-                            <a class="stretched-link" data-group-id="Group3"></a>
-                        </div>
-                        <div class="card p-4 group-card selection-card position-relative me-2">
-                            <h5>Pre-Exam 1 Confidence Survey</h5>
-                            <p>Ended Sept 13th, 2025</p>
-                            <a class="stretched-link" data-group-id="Group3"></a>
-                        </div>
-                        <div class="card p-4 group-card selection-card position-relative me-2">
-                            <h5>Pre-Exam 1 Confidence Survey</h5>
-                            <p>Ended Sept 13th, 2025</p>
-                            <a class="stretched-link" data-group-id="Group3"></a>
+    <!-- in-depth group view (surveys,students, etc) -->
+    <div class="container-fluid d-none margin-30" id="viewGroupDetails" style="padding-right: 100px; padding-top:30px">
+        <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:70px;">
+            <div class="row row-cols-2">
+                <div class="col-4" id="surveyNav">
+                    <!-- name of the group selected -->
+                    <div style="padding:7px">
+                        <h1 id="txtGroupName">CSC 2100-002</h1>
+                    </div>
+                    <div class="row row-cols-2 container-fluid" style="padding:30px">
+                        <h3>Surveys</h3>
+                        <button class="btn btn-outline-primary" id="btnNewSurvey" type="button">+ New Survey</button>
+                    </div>
+                    <!--list of surveys avaliable to be viewed -->
+                    <div class="row">
+                        <div class="col container overflow-auto " id="divSurveyContainer">
+                            <div class="card bg-dark p-4 group-card selection-card position-relative me-2">
+                                <h5>Mid-Year Peer Review</h5>
+                                <p>Ends Oct 25th, 2025</p>
+                                <a class="stretched-link" data-group-id="Group3"></a>
+                            </div>
+                            <div class="card p-4 group-card selection-card position-relative me-2">
+                                <h5>Pre-Exam 1 Confidence Survey</h5>
+                                <p>Ended Sept 13th, 2025</p>
+                                <a class="stretched-link" data-group-id="Group3"></a>
+                            </div>
+                            <div class="card p-4 group-card selection-card position-relative me-2">
+                                <h5>Pre-Exam 1 Confidence Survey</h5>
+                                <p>Ended Sept 13th, 2025</p>
+                                <a class="stretched-link" data-group-id="Group3"></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Survey details -->
-        <div class="border-left col-4">
-          <div class="row">
-            <div class="col" id="divSurveyDetails">
-              <h2 class="text-center mt-4">Mid-Year Peer Review</h2>
-              <div class="row row-cols-2 d-flex justify-content-center">
-                <button
-                  type="button"
-                  class="btn btn-link"
-                  id="btnViewSurvey"
-                  style="color: white"
-                >
-                  View Status
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-link"
-                  id="btnViewResponses"
-                  style="color: white"
-                >
-                  View Responses
-                </button>
-              </div>
-            <!-- Status table -->
-            <div style="padding: 20px">
-              <label
-                for="selStudentsNotCompleted"
-                class="form-label text-danger"
-                >2 Students Not Completed:</label
-              >
-              <select
-                id="selStudentsNotCompleted"
-                class="bg-dark text-white form-select"
-                multiple
-              >
-                <option value="Harry">Harry Potter</option>
-                <option value="Ron">Ron Weasley</option>
-              </select>
+            <!-- Survey details -->
+            <div class="border-left col-4">
+                <div class="row">
+                    <div class="col" id="divSurveyDetails">
+                        <h2 class="text-center mt-4">Mid-Year Peer Review</h2>
+                        <div class="row row-cols-2 d-flex justify-content-center">
+                            <button type="button" class="btn btn-link" id="btnViewSurvey" style="color: white">
+                                View Status
+                            </button>
+                            <button type="button" class="btn btn-link" id="btnViewResponses" style="color: white">
+                                View Responses
+                            </button>
+                        </div>
+                        <!-- Status table -->
+                        <div style="padding: 20px">
+                            <label for="selStudentsNotCompleted" class="form-label text-danger">2 Students Not
+                                Completed:</label>
+                            <select id="selStudentsNotCompleted" class="bg-dark text-white form-select" multiple>
+                                <option value="Harry">Harry Potter</option>
+                                <option value="Ron">Ron Weasley</option>
+                            </select>
+                        </div>
+                        <div style="padding: 20px">
+                            <label for="selStudentsCompleted" class="form-label text-green">95 Students
+                                Completed:</label>
+                            <select id="selStudentsCompleted" class="bg-dark text-white form-select" multiple>
+                                <option value="Hermione">Hermione Granger</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div style="padding: 20px">
-              <label for="selStudentsCompleted" class="form-label text-green"
-                >95 Students Completed:</label
-              >
-              <select
-                id="selStudentsCompleted"
-                class="bg-dark text-white form-select"
-                multiple
-              >
-                <option value="Hermione">Hermione Granger</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
+        </form>
     </div>
-  </form>
 </div>
 
 <!-- Create group modal -->
-<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content bg-dark text-white">
             <div class="modal-header">
@@ -133,16 +117,15 @@
                 <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <label class="ms-2 mt-2" for="txtCourse">Course:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course" />
                 <label class="ms-2 mt-2" for="txtGroupName">Group Name:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtGroupName" aria-label="Input for group name" />
+                <input class="form-control input-outline mt-1" type="text" id="txtGroupName"
+                    aria-label="Input for group name" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" class="btn btn-primary">Create</button>
+                <button type="button" id="btnCreateGroup" class="btn btn-primary">Create</button>
             </div>
         </div>
     </div>
@@ -168,7 +151,8 @@
                 <div class="row" id="queston1">
                     <p class="col-2 me-2 mt-2 fw-bold">Question 1:</p>
                     <div class="col-1 me-2 mb-4" id="btnQuestionType">
-                        <button type="button" class="dropdown-toggle btn-secondary" style="color: white" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="dropdown-toggle btn-secondary" style="color: white"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             Type
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -219,51 +203,62 @@
                         <div class="d-inline mx-3">Bad</div>
                         <!-- Likert scale options -->
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="q3" id="inlineRadio1" value="option1" aria-label="Radio input option for 1" />
+                            <input class="form-check-input" type="radio" name="q3" id="inlineRadio1" value="option1"
+                                aria-label="Radio input option for 1" />
                             <label class="form-check-label" for="inlineRadio1">1</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="q3" id="inlineRadio2" value="option2" aria-label="Radio input option for 2" />
+                            <input class="form-check-input" type="radio" name="q3" id="inlineRadio2" value="option2"
+                                aria-label="Radio input option for 2" />
                             <label class="form-check-label" for="inlineRadio2">2</label>
                         </div>
                         <!-- Add more Likert scale options as needed -->
                         <div class="d-inline me-4">Excellent</div>
                     </div>
-                    <button type="button" class="dropdown-toggle btn-secondary mt-5" style="color: white" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="dropdown-toggle btn-secondary mt-5" style="color: white"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         + Question
                     </button>
                 </div>
             </form>
         </div>
     </div>
+</div>
 
-    <!-- create group modal -->
-    <div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <label class="ms-2 mt-2" for="txtCourse">Course:</label>
-                    <input class="form-control input-outline mt-1" type="text" id="txtCourse" aria-label="Input for course">
-                    <label class="ms-2 mt-2" for="txtGroupName">Start Date (MM/DD/YY):</label>
-                    <input class="form-control input-outline mt-1" type="text" id="txtStartDate" aria-label="Input for course start date">
-                    <label class="ms-2 mt-2" for="txtGroupName">End Date (MM/DD/YY):</label>
-                    <input class="form-control input-outline mt-1" type="text" id="txtEndDate" aria-label="Input for course end date">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="btnCreateGroup" class="btn btn-primary">Create</button>
-                </div>
+<!-- create course modal -->
+<div class="modal fade" id="createCourseModal" tabindex="-1" role="dialog" aria-labelledby="createCourseModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCourseModalLabel">Create A Group</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
             </div>
-            <!-- Add more Likert scale options as needed -->
-            <div class="d-inline me-4">Excellent</div>
-          </div>
+            <div class="modal-body">
+                <label class="ms-2 mt-2" for="txtCourse">Course Name:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtCourseName"
+                    aria-label="Input for course name" placeholder="Software Engineering I">
+                <label class="ms-2 mt-2" for="txtCourseNumber">Course Number:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtCourseNumber"
+                    aria-label="Input for course number" placeholder="CSC-4610">
+                <label class="ms-2 mt-2" for="txtSectionNumber">Section Number:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtSectionNumber"
+                    aria-label="Input for section number" placeholder="001">
+                <label class="ms-2 mt-2" for="txtSemester">Semester:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtSemester"
+                    aria-label="Input for semester" placeholder="Spring 2025">
+                <label class="ms-2 mt-2" for="txtStartDate">Start Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtStartDate"
+                    aria-label="Input for course start date">
+                <label class="ms-2 mt-2" for="txtEndDate">End Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtEndDate"
+                    aria-label="Input for course end date">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="btnCreateCourse" class="btn btn-primary">Create</button>
+            </div>
         </div>
-      </form>
     </div>
-  </div>
 </div>
