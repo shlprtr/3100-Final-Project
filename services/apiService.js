@@ -1,5 +1,5 @@
 export class ApiService {
-    static strBaseURL = 'http://127.0.0.1:8000'
+    static strBaseURL = 'http://localhost:8000'
     static objDefaultHeaders = {
         'Content-Type': 'application/json',
     }
@@ -99,6 +99,76 @@ export class ApiService {
     static async logout() {
         try {
             const objResponse = await this.put('/sessions')
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
+
+    static async addsocial(strSocialType, strUsername) {
+        const objBody = {
+            socialType: strSocialType,
+            username: strUsername
+        }
+
+        try {
+            const objResponse = await this.post('/socials', objBody)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            }
+        }
+    }
+
+    static async deletesocial(strSocialID) {
+        const objBody = {
+            socialID: strSocialID
+        }
+
+        try {
+            const objResponse = await this.delete('/socials', objBody)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            }
+        }
+    }
+
+    static async updatesocial(strSocialID, strUsername) {
+        const objBody = {
+            socialID: strSocialID,
+            username: strUsername
+        }
+
+        try {
+            const objResponse = await this.put('/socials', objBody)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            }
+        }
+    }
+
+    static async viewsocials() {
+        try {
+            const objResponse = await this.get('/socials')
             return objResponse
         } catch (error) {
             console.error('Error:', error)
