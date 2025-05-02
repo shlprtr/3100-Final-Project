@@ -7,6 +7,7 @@ import { ApiService } from '../services/apiService.js'
 
 var objResponse
 var objResponseUser
+var objResponsePhone
 
 document.querySelector('#btnLogOut').addEventListener('click', async (event) => {
     const objResponse = await ApiService.logout()
@@ -29,6 +30,9 @@ document.querySelector('#btnEdit').addEventListener('click', async () => {
 
     objResponseUser = await ApiService.viewuser()
     console.log(objResponseUser)
+
+    objResponsePhone = await ApiService.viewphone()
+    console.log(objResponsePhone)
 })
 
 document.querySelector('#btnSaveEdit').addEventListener('click', async () => {
@@ -46,6 +50,8 @@ document.querySelector('#btnSaveEdit').addEventListener('click', async () => {
     const socialsdata = objResponse.data
     const socials = socialsdata.result
     const userdata = objResponseUser.data
+    const phonedata = objResponsePhone.data
+    const phone = phonedata.result
 
     var discordID = ''
     var gitHubID = ''
@@ -67,7 +73,15 @@ document.querySelector('#btnSaveEdit').addEventListener('click', async () => {
 
     objResponse = await ApiService.updateuser(tempFirstName, tempLastName, tempEmail)
 
-
+    if (strPhoneNumber.length > 0) {
+        if (phone.length === 0) {
+            objResponse = await ApiService.addphone(strPhoneNumber)
+        }
+        else {
+            let strPhoneID = phone[0].PhoneID
+            objResponse = await ApiService.updatephone(strPhoneID, strPhoneNumber)
+        }
+    }
 
     for (let i = 0; i < socials.length; i++) {
         let strSocialID = socials[i].SocialID

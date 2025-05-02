@@ -474,23 +474,15 @@ app.get('/socials', authenticateUser, (req,res,next) => {
 // create a phone number
 app.post('/phone', authenticateUser, (req, res, next) => {
     let strPhoneID = uuidv4()
-    let strNationCode = req.body.nationCode
-    let strAreaCode = req.body.areaCode
     let strPhoneNumber = req.body.phoneNumber
     let strUserID = req.userID
 
-    if (strNationCode.length < 1) {
-        return res.status(400).json({ error: "You must provide a nation code" })
-    }
-    if (strAreaCode.length < 1) {
-        return res.status(400).json({ error: "You must provide an area code" })
-    }
     if (strPhoneNumber.length < 1) {
         return res.status(400).json({ error: "You must provide a phone number" })
     }
 
-    let strCommand = `INSERT INTO tblPhone VALUES (?, ?, ?, ?, ?)`;
-    db.run(strCommand, [strPhoneID, strNationCode, strAreaCode, strPhoneNumber, strUserID], function (err) {
+    let strCommand = `INSERT INTO tblPhone VALUES (?, ?, ?)`;
+    db.run(strCommand, [strPhoneID, strPhoneNumber, strUserID], function (err) {
         if(err){
             console.log(err)
             res.status(400).json({status:"error", message:err.message})
@@ -524,26 +516,18 @@ app.delete('/phone', authenticateUser, (req, res, next) => {
 // update a phone number
 app.put('/phone', authenticateUser, (req, res, next) => {
     let strPhoneID = req.body.phoneID
-    let strNationCode = req.body.nationCode
-    let strAreaCode = req.body.areaCode
     let strPhoneNumber = req.body.phoneNumber
     let strUserID = req.userID
 
     if (strPhoneID.length < 1) {
         return res.status(400).json({ error: "You must provide a phoneID" })
     }
-    if (strNationCode.length < 1) {
-        return res.status(400).json({ error: "You must provide a nation code" })
-    }
-    if (strAreaCode.length < 1) {
-        return res.status(400).json({ error: "You must provide an area code" })
-    }
     if (strPhoneNumber.length < 1) {
         return res.status(400).json({ error: "You must provide a phone number" })
     }
 
-    let comUpdate = `UPDATE tblPhone SET NationCode = ?, AreaCode = ?, PhoneNumber = ? WHERE PhoneID = ? AND UserID = ?`;
-    db.run(comUpdate, [strNationCode, strAreaCode, strPhoneNumber, strPhoneID, strUserID], function (err) {
+    let comUpdate = `UPDATE tblPhone SET PhoneNumber = ? WHERE PhoneID = ? AND UserID = ?`;
+    db.run(comUpdate, [strPhoneNumber, strPhoneID, strUserID], function (err) {
         if (err) {
             console.log(err);
             return res.status(400).json({ status: "error", message: err.message });

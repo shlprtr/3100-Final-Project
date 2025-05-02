@@ -213,4 +213,55 @@ export class ApiService {
             } 
         }
     }
+
+    static async addphone(strPhoneNumber) {
+        const objBody = {
+            phoneNumber: strPhoneNumber
+        }
+
+        try {
+            const objResponse = await this.post('/phone', objBody)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            }
+        }
+    }
+
+    static async updatephone(strPhoneID, strPhoneNumber) {
+        const objBody = {
+            phoneID: strPhoneID,
+            phoneNumber: strPhoneNumber
+        }
+
+        try {
+            const objResponse = await this.put('/phone', objBody)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            }
+        }
+    }
+
+    static async viewphone() {
+        try {
+            const objResponse = await this.get('/phone')
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
 }
