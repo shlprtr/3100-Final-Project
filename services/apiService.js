@@ -1,5 +1,5 @@
 export class ApiService {
-    static strBaseURL = 'http://localhost:8000'
+    static strBaseURL = 'http://127.0.0.1:8000'
     static objDefaultHeaders = {
         'Content-Type': 'application/json',
     }

@@ -11,10 +11,7 @@ const dbSource = 'reviewly.db'
 const db = new sqlite3.Database(dbSource)
 
 var app = express()
-app.use(cors({
-    origin: 'http://localhost:5500', // frontend, localhost development
-    credentials: true
-}))
+app.use(cors({ credentials: true }))
 app.use(express.json())
 app.use(cookieParser())
 
@@ -126,8 +123,8 @@ app.post('/sessions', (req, res, next) => {
                         } else {
                             res.cookie('sessionID', strSessionID, {
                                 httpOnly: true,  // only accessible by the web server
-                                secure: false,  // only work across https, false for localhost development
-                                sameSite: 'Lax',  // only send from same domain, lax for localhost development
+                                secure: true,  // only work across https, false for localhost development
+                                sameSite: 'Strict',  // only send from same domain
                                 maxAge: 12 * 60 * 60 * 1000  // 12 hours
                             })
                             res.status(201).json({ status: "success" })
