@@ -179,4 +179,38 @@ export class ApiService {
             } 
         }
     }
+
+    static async updateuser(strFirstName, strLastName, strEmail) {
+        const objBody = {
+            firstName: strFirstName,
+            lastName: strLastName,
+            email: strEmail
+        }
+
+        try {
+            const objResponse = await this.put('/user', objBody)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            }
+        }
+    }
+
+    static async viewuser() {
+        try {
+            const objResponse = await this.get('/user')
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
 }

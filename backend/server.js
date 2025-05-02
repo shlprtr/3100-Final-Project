@@ -78,6 +78,34 @@ app.post('/user', (req, res, next) => {
     })
 })
 
+app.put('/user', authenticateUser, (req, res, next) => {
+    let strFirstName = req.body.firstName
+    let strLastName = req.body.lastName
+    let strEmail = req.body.email
+    let strUserID = req.userID
+
+    if (strFirstName.length < 1) {
+        return res.status(400).json({ error: "You must provide a first name" })
+    }
+    if (strLastName.length < 1) {
+        return res.status(400).json({ error: "You must provide a last name" })
+    }
+    if (strEmail.length < 1) {
+        return res.status(400).json({ error: "You must provide a email" })
+    }
+    let comUpdate = `UPDATE tblUsers SET FirstName = ?, LastName = ?, Email = ? WHERE UserID = ?`;
+    db.run(comUpdate, [strFirstName, strLastName, strEmail, strUserID], function (err) {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({ status: "error", message: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: "TaskID not found" });
+        }
+    })
+    res.status(200).json({ status: "success", message: "Task updated successfully" });
+});
+
 // check for active session
 app.get('/sessions', verifySession, (req, res, next) => {
     res.status(200).json({ status: "success" })
