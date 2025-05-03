@@ -1,3 +1,4 @@
+-- database: reviewly.db
 -- Users Table
 CREATE TABLE tblUsers (
     UserID TEXT PRIMARY KEY,

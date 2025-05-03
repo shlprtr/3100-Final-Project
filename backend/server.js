@@ -11,10 +11,7 @@ const dbSource = 'reviewly.db'
 const db = new sqlite3.Database(dbSource)
 
 var app = express()
-app.use(cors({
-    origin: 'http://localhost:5500', // frontend, localhost development
-    credentials: true
-}))
+app.use(cors({ credentials: true}))
 app.use(express.json())
 app.use(cookieParser())
 
@@ -81,6 +78,34 @@ app.post('/user', (req, res, next) => {
     })
 })
 
+app.put('/user', authenticateUser, (req, res, next) => {
+    let strFirstName = req.body.firstName
+    let strLastName = req.body.lastName
+    let strEmail = req.body.email
+    let strUserID = req.userID
+
+    if (strFirstName.length < 1) {
+        return res.status(400).json({ error: "You must provide a first name" })
+    }
+    if (strLastName.length < 1) {
+        return res.status(400).json({ error: "You must provide a last name" })
+    }
+    if (strEmail.length < 1) {
+        return res.status(400).json({ error: "You must provide a email" })
+    }
+    let comUpdate = `UPDATE tblUsers SET FirstName = ?, LastName = ?, Email = ? WHERE UserID = ?`;
+    db.run(comUpdate, [strFirstName, strLastName, strEmail, strUserID], function (err) {
+        if (err) {
+            console.log(err);
+            return res.status(400).json({ status: "error", message: err.message });
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: "TaskID not found" });
+        }
+    })
+    res.status(200).json({ status: "success", message: "Task updated successfully" });
+});
+
 // check for active session
 app.get('/sessions', verifySession, (req, res, next) => {
     res.status(200).json({ status: "success" })
@@ -126,8 +151,8 @@ app.post('/sessions', (req, res, next) => {
                         } else {
                             res.cookie('sessionID', strSessionID, {
                                 httpOnly: true,  // only accessible by the web server
-                                secure: false,  // only work across https, false for localhost development
-                                sameSite: 'Lax',  // only send from same domain, lax for localhost development
+                                secure: true,  // only work across https, false for localhost development
+                                sameSite: 'Strict',  // only send from same domain
                                 maxAge: 12 * 60 * 60 * 1000  // 12 hours
                             })
                             res.status(201).json({ status: "success" })
@@ -449,23 +474,15 @@ app.get('/socials', authenticateUser, (req,res,next) => {
 // create a phone number
 app.post('/phone', authenticateUser, (req, res, next) => {
     let strPhoneID = uuidv4()
-    let strNationCode = req.body.nationCode
-    let strAreaCode = req.body.areaCode
     let strPhoneNumber = req.body.phoneNumber
     let strUserID = req.userID
 
-    if (strNationCode.length < 1) {
-        return res.status(400).json({ error: "You must provide a nation code" })
-    }
-    if (strAreaCode.length < 1) {
-        return res.status(400).json({ error: "You must provide an area code" })
-    }
     if (strPhoneNumber.length < 1) {
         return res.status(400).json({ error: "You must provide a phone number" })
     }
 
-    let strCommand = `INSERT INTO tblPhone VALUES (?, ?, ?, ?, ?)`;
-    db.run(strCommand, [strPhoneID, strNationCode, strAreaCode, strPhoneNumber, strUserID], function (err) {
+    let strCommand = `INSERT INTO tblPhone VALUES (?, ?, ?)`;
+    db.run(strCommand, [strPhoneID, strPhoneNumber, strUserID], function (err) {
         if(err){
             console.log(err)
             res.status(400).json({status:"error", message:err.message})
@@ -499,26 +516,18 @@ app.delete('/phone', authenticateUser, (req, res, next) => {
 // update a phone number
 app.put('/phone', authenticateUser, (req, res, next) => {
     let strPhoneID = req.body.phoneID
-    let strNationCode = req.body.nationCode
-    let strAreaCode = req.body.areaCode
     let strPhoneNumber = req.body.phoneNumber
     let strUserID = req.userID
 
     if (strPhoneID.length < 1) {
         return res.status(400).json({ error: "You must provide a phoneID" })
     }
-    if (strNationCode.length < 1) {
-        return res.status(400).json({ error: "You must provide a nation code" })
-    }
-    if (strAreaCode.length < 1) {
-        return res.status(400).json({ error: "You must provide an area code" })
-    }
     if (strPhoneNumber.length < 1) {
         return res.status(400).json({ error: "You must provide a phone number" })
     }
 
-    let comUpdate = `UPDATE tblPhone SET NationCode = ?, AreaCode = ?, PhoneNumber = ? WHERE PhoneID = ? AND UserID = ?`;
-    db.run(comUpdate, [strNationCode, strAreaCode, strPhoneNumber, strPhoneID, strUserID], function (err) {
+    let comUpdate = `UPDATE tblPhone SET PhoneNumber = ? WHERE PhoneID = ? AND UserID = ?`;
+    db.run(comUpdate, [strPhoneNumber, strPhoneID, strUserID], function (err) {
         if (err) {
             console.log(err);
             return res.status(400).json({ status: "error", message: err.message });
