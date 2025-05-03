@@ -11,7 +11,10 @@ const dbSource = 'reviewly.db'
 const db = new sqlite3.Database(dbSource)
 
 var app = express()
-app.use(cors({ credentials: true}))
+app.use(cors({ 
+    origin: "http://localhost:5500",
+    credentials: true
+}))
 app.use(express.json())
 app.use(cookieParser())
 
