@@ -227,3 +227,43 @@ select:-webkit-autofill:focus {
     background-color: #BF3475;
     color: white;
 }
+
+/* Hamburger menu button */
+.ham-menu {
+    font-size: 1.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+/* Dropdown menu container */
+.menu-items {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: #343a40;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.menu-items.d-none {
+    display: none;
+}
+
+.menu-items button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    color: white;
+    background-color: #BF3475;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.menu-items button:hover {
+    background-color: #50366F;
+}

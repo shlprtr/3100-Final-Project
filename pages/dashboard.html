@@ -1,10 +1,25 @@
-<nav class="navbar">
-    <div class="container-fluid justify-content-between">
-        <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
-        <button class="btn btn-primary unselected me-2 ms-auto" type="button" id="btnInstructor">Instructor View</button>
-        <button class="btn btn-primary me-2" type="button" id="btnStudent">Student View</button>
+<nav class="navbar bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
+    <button
+      class="ham-menu btn btn-dark text-white"
+      type="button"
+      onclick="toggleMenu()"
+    >
+      ☰
+    </button>
+    <div class="menu-items d-none" id="menuItems">
+      <button
+        class="btn btn-primary w-100 mb-2"
+        type="button"
+        id="btnInstructor"
+      >
+        Instructor View
+      </button>
+      <button class="btn btn-primary w-100" type="button" id="btnStudent">
+        Student View
+      </button>
     </div>
+  </div>
 </nav>
-<div id="divView">
-    
-</div>
+<div id="divView"></div>

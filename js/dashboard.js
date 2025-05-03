@@ -1,43 +1,38 @@
-// default to student view
-fetch("pages/student.html")
-.then(response => response.text())
-.then(html => {
-    const objScript = document.createElement('script')
-    objScript.src = 'js/student.js'
-    objScript.type = 'text/javascript'
-    document.head.appendChild(objScript)
-    document.querySelector('#divView').innerHTML = html
-})
-.catch(error => console.erro("Error fetching student view:", error))
+// Toggle menu visibility
+function toggleMenu() {
+    const menu = document.getElementById('menuItems');
+    menu.classList.toggle('d-none'); // Toggle the visibility of the menu
+}
 
-// show instructor view
-document.querySelector('#btnInstructor').addEventListener('click', (event) => {
-    document.querySelector('#btnInstructor').classList.remove('unselected')
-    document.querySelector('#btnStudent').classList.add('unselected')
-    fetch("pages/instructor.html")
-    .then(response => response.text())
-    .then(html => {
-        const objScript = document.createElement('script')
-        objScript.src = 'js/instructor.js'
-        objScript.type = 'text/javascript'
-        document.head.appendChild(objScript)
-        document.querySelector('#divView').innerHTML = html
-    })
-    .catch(error => console.erro("Error fetching instructor view:", error))
-})
+// Switch to Instructor View
+function switchToInstructorView() {
+    console.log('Switching to Instructor View');
+    fetch('pages/instructor.html')
+        .then(response => response.text())
+        .then(html => {
+            document.querySelector('#divView').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading instructor view:', error));
+}
 
-// show student view
-document.querySelector('#btnStudent').addEventListener('click', (event) => {
-    document.querySelector('#btnStudent').classList.remove('unselected')
-    document.querySelector('#btnInstructor').classList.add('unselected')
-    fetch("pages/student.html")
-    .then(response => response.text())
-    .then(html => {
-        const objScript = document.createElement('script')
-        objScript.src = 'js/student.js'
-        objScript.type = 'text/javascript'
-        document.head.appendChild(objScript)
-        document.querySelector('#divView').innerHTML = html
-    })
-    .catch(error => console.erro("Error fetching student view:", error))
-})
+// Switch to Student View
+function switchToStudentView() {
+    console.log('Switching to Student View');
+    fetch('pages/student.html')
+        .then(response => response.text())
+        .then(html => {
+            document.querySelector('#divView').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading student view:', error));
+}
+
+// Add event listeners for the buttons
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelector('#btnInstructor').addEventListener('click', () => {
+        switchToInstructorView();
+    });
+
+    document.querySelector('#btnStudent').addEventListener('click', () => {
+        switchToStudentView();
+    });
+});
