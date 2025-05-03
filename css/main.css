@@ -214,3 +214,7 @@ select:-webkit-autofill:focus {
 .bgpurple {
     background-color: var(--dark-purple) !important;
 }
+
+.placeholder-color::placeholder {
+    color: lightgray !important;
+}

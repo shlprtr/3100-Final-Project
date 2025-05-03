@@ -8,6 +8,43 @@ import { ApiService } from '../services/apiService.js'
 var objResponse
 var objResponseUser
 var objResponsePhone
+var discordID = ''
+var gitHubID = ''
+var teamsID = ''
+var phoneID = ''
+
+objResponseUser = await ApiService.viewuser()
+
+objResponse = await ApiService.viewsocials()
+
+objResponsePhone = await ApiService.viewphone()
+
+for (let i = 0; i < objResponse.data.result.length; i++) {
+    let strSocialID = objResponse.data.result[i].Username
+    let strSocialType = objResponse.data.result[i].SocialType
+
+    if(strSocialType === 'Discord') {
+        discordID = strSocialID
+    }
+    if(strSocialType === 'GitHub') {
+        gitHubID = strSocialID
+    }
+    if(strSocialType === 'Teams') {
+        teamsID = strSocialID
+    }
+}
+
+if (objResponsePhone.data.result.length > 0) {
+    phoneID = objResponsePhone.data.result[0].PhoneNumber
+}
+
+document.getElementById('txtCurrFirstName').value = objResponseUser.data.firstName
+document.getElementById('txtCurrLastName').value = objResponseUser.data.lastName
+document.getElementById('txtCurrPhoneNum').value = phoneID
+document.getElementById('txtCurrEmail').value = objResponseUser.data.email
+document.getElementById('txtCurrDiscord').value = discordID
+document.getElementById('txtCurrGitHub').value = gitHubID
+document.getElementById('txtCurrTeams').value = teamsID
 
 document.querySelector('#btnLogOut').addEventListener('click', async (event) => {
     const objResponse = await ApiService.logout()
@@ -25,14 +62,13 @@ document.querySelector('#btnEdit').addEventListener('click', async () => {
 
     document.querySelector('#editAccount').classList.remove('d-none')
 
-    objResponse = await ApiService.viewsocials()
-    console.log(objResponse)
-
-    objResponseUser = await ApiService.viewuser()
-    console.log(objResponseUser)
-
-    objResponsePhone = await ApiService.viewphone()
-    console.log(objResponsePhone)
+    document.getElementById('txtFirstName').placeholder = objResponseUser.data.firstName
+    document.getElementById('txtLastName').placeholder = objResponseUser.data.lastName
+    document.getElementById('txtPhoneNum').placeholder = phoneID
+    document.getElementById('txtEmail').placeholder = objResponseUser.data.email
+    document.getElementById('txtDiscord').placeholder = discordID
+    document.getElementById('txtGitHub').placeholder = gitHubID
+    document.getElementById('txtTeams').placeholder = teamsID
 })
 
 document.querySelector('#btnSaveEdit').addEventListener('click', async () => {
@@ -52,10 +88,6 @@ document.querySelector('#btnSaveEdit').addEventListener('click', async () => {
     const userdata = objResponseUser.data
     const phonedata = objResponsePhone.data
     const phone = phonedata.result
-
-    var discordID = ''
-    var gitHubID = ''
-    var teamsID = ''
 
     let tempFirstName = userdata.firstName
     let tempLastName = userdata.lastName
