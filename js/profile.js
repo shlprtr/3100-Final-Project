@@ -48,7 +48,6 @@ document.getElementById('txtCurrTeams').value = teamsID
 
 document.querySelector('#btnLogOut').addEventListener('click', async (event) => {
     const objResponse = await ApiService.logout()
-    console.log(objResponse)
     if (objResponse.success) {
         navigate('')
     } else {
