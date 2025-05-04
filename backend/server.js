@@ -591,7 +591,6 @@ app.post('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
     let strTitle = req.body.title
     let strStartDate = req.body.startDate
     let strEndDate = req.body.endDate
-    let strUserID = req.userID
 
     if (strCourseID.length < 1) {
         return res.status(400).json({ error: "You must provide a valid course"})
@@ -622,8 +621,7 @@ app.post('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
 // delete a survey
 app.delete('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
     let strSurveyID = req.body.surveyID
-    let strUserID = req.userID
-
+]
     if (strSurveyID.length < 1) {
         return res.status(400).json({ error: "You must provide a surveyID" })
     }

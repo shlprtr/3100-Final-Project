@@ -76,13 +76,13 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                     });
                 }
                 else {
-                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1" style="color:black; font-size: 25px;">${strMultipleChoiceQuestion}</p>`
+                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1">${strMultipleChoiceQuestion}</p>`
                     let answersHTML = '<ul class="mb-4">'
                     answerInputs.forEach((input, index) => {
                         const answerText = input.value.trim()
                         if (answerText.length > 0) {
                             strAnswer += `<input type="radio" id="${answerText}" value="${answerText}" style="margin-left: 30px" name="${strMultipleChoiceQuestion}">`
-                            strAnswer += `<label for="${answerText}" style="margin-left: 15px; font-size: 20px; color: black">${answerText}</label><br>`
+                            strAnswer += `<label for="${answerText}" style="margin-left: 15px;">${answerText}</label><br>`
                         }
                     })
                     document.querySelector('#divSurveys').innerHTML += `<div class="mb-4">${strAnswer}</div>`
@@ -127,15 +127,15 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                 }
                 else {
                     let strAnswer = ''
-                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1" style="color:black; font-size: 25px;">${strLikertQuestion}</p>`
+                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1">${strLikertQuestion}</p>`
                     strAnswer += '<div class="d-flex" style="display: inline-block; justify-content: space-between">'
-                    strAnswer += `<p class="mb-1" style="color:black; font-size: 20px;">${strLikertQuestion1}</p>`
+                    strAnswer += `<p class="mb-1">${strLikertQuestion1}</p>`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 1" value="${strLikertQuestion} 1" name="${strLikertQuestion}">`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 2" value="${strLikertQuestion} 2" name="${strLikertQuestion}">`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 3" value="${strLikertQuestion} 3" name="${strLikertQuestion}">`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 4" value="${strLikertQuestion} 4" name="${strLikertQuestion}">`
                     strAnswer += `<input type="radio" id="${strLikertQuestion} 5" value="${strLikertQuestion} 5" name="${strLikertQuestion}">`
-                    strAnswer += `<p class="mb-1" style="color:black; font-size: 20px;">${strLikertQuestion2}</p>`
+                    strAnswer += `<p class="mb-1">${strLikertQuestion2}</p>`
                     strAnswer += '</div>'
                     document.querySelector('#divSurveys').innerHTML += `<div class="mb-4">${strAnswer}</div>`
                 }
@@ -164,8 +164,8 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                     });
                 }
                 else {
-                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1" style="color:black; font-size: 25px;">${strShortAnswerQuestion}</p>`
-                    document.querySelector('#divSurveys').innerHTML += '<textarea id="txtResponseShortAnswer" rows="5" mb-4" cols="40" wrap="soft" style="font-size: 20px;"  placeholder="Enter your response here" aria-label="Input for Short Answer"></textarea>'
+                    document.querySelector('#divSurveys').innerHTML += `<p class="mb-1">${strShortAnswerQuestion}</p>`
+                    document.querySelector('#divSurveys').innerHTML += '<textarea id="txtResponseShortAnswer" rows="3" mb-4" cols="40" wrap="soft" class="text-white" placeholder="Enter your response here" aria-label="Input for Short Answer"></textarea>'
                     
                 }
             });
@@ -174,29 +174,60 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
 });
 
 document.querySelector('#btnCreateSurvey').addEventListener('click', (event) => {
-    fetch("components/instructorhome.html")
-    .then(response => response.text())
-    .then(html => {
-        const objScript = document.createElement('script');
-        objScript.src = 'js/instructorhome.js'; 
-        objScript.type = 'text/javascript';
-        document.head.appendChild(objScript);
-        document.querySelector('#divTopLanding').innerHTML = '';
-        document.querySelector('#divTopLanding').innerHTML = html;       
-    })
-    .catch(error => console.error("Error fetching chart:", error));
+    // Get the survey preview content
+    const surveyPreview = document.querySelector('#divSurveys').innerHTML;
+
+    // Check if the survey has content
+    if (!surveyPreview.trim()) {
+        // Show SweetAlert2 error message
+        Swal.fire({
+            title: "Error",
+            text: "You must add at least one question to create a survey.",
+            icon: "error",
+            confirmButtonText: "OK",
+        });
+        return;
+    }
+
+    // Show SweetAlert2 success message
+    Swal.fire({
+        title: "Survey Created!",
+        text: "Your survey has been successfully created.",
+        icon: "success",
+        confirmButtonText: "View Surveys",
+        showCancelButton: true,
+        cancelButtonText: "Stay Here",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Save the survey preview to localStorage (or send it to the server)
+            localStorage.setItem('surveyPreview', surveyPreview);
+
+            // // Redirect to createdsurveys.html     ----Database info for current and old surveys to be shown
+            // window.location.href = "createdsurveys.html";
+        }
+    });
+});
+
+// Display the survey preview on the createdsurveys.html page
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname.includes('createdsurveys.html')) {
+        const surveyPreview = localStorage.getItem('surveyPreview');
+        if (surveyPreview) {
+            document.querySelector('#divCreatedSurveys').innerHTML = surveyPreview;
+        }
+    }
 });
 
 document.querySelector('#btnReturnToClass').addEventListener('click', (event) => {
-    fetch("components/instructorhome.html")
+    fetch("pages/instructor.html")
     .then(response => response.text())
     .then(html => {
         const objScript = document.createElement('script');
-        objScript.src = 'js/instructorhome.js'; 
+        objScript.src = 'js/instructor.js'; 
         objScript.type = 'text/javascript';
         document.head.appendChild(objScript);
-        document.querySelector('#divTopLanding').innerHTML = '';
-        document.querySelector('#divTopLanding').innerHTML = html;       
+        document.querySelector('#divHome').innerHTML = '';
+        document.querySelector('#divHome').innerHTML = html;       
     })
     .catch(error => console.error("Error fetching chart:", error));
 });
