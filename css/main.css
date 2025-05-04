@@ -214,3 +214,11 @@ select:-webkit-autofill:focus {
 .bgpurple {
     background-color: var(--dark-purple) !important;
 }
+
+.name-select {
+    border-color: transparent;
+    background: transparent;
+    color:white;
+
+}
+

@@ -117,5 +117,5 @@ document.querySelector('#btnNewSurvey').addEventListener('click', function() {
         document.head.appendChild(objScript)
         document.querySelector('#divView').innerHTML = html
     })
-    .catch(error => console.erro("Error fetching new survey form:", error))
+    .catch(error => console.error("Error fetching new survey form:", error))
 })

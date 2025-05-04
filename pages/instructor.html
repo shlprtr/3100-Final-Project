@@ -1,7 +1,5 @@
 <!-- Instructor view: Displays all groups created by the instructor -->
 
-  <!-- Group cards container -->
-
 <!-- Example group card -->
 <div class="d-flex flex-wrap margin-30" id="groupContainer" style="margin-left: 80px">
     <div class="container-fluid d-flex justify-content-end mt-3 me-2" id="viewGroupsProf">
@@ -34,53 +32,71 @@
 <div class="container-fluid d-none" id="viewGroupDetails" style="padding-left: 100px; padding-right: 100px; padding-top:30px">
     <form class="card corner-round" id="frmSurvey" style="padding:75px; margin-top:70px;">
         <!-- name of the group selected -->
-        <h1 id="txtGroupName" style="size:300px">CSC 2100-002</h1>
-        <div class="col-4" style="padding-top:20px" id="surveyNav">
-            <h3>Surveys</h3>
-            <button class="btn btn-outline-primary" id="btnNewSurvey">+ New Survey</button>
+        <div class="row row-cols-2 justify-content-start" style="width:50%" >
+            <h1 id="txtGroupName" class="col">CSC 2100-002</h1>
+            <h3 id="txtGroupCode" class="col border-left">Code: 012345</h3>
         </div>
-        <!--list of surveys avaliable to be viewed -->
-        <div class="row">
-            <div class="col-6 container overflow-auto p-4" id="divSurveyContainer">
-                <div class="card bg-dark selection-card position-relative me-2 w-75 p-4  ">
-                    <h5 class="card-title">Mid-Year Peer Review</h5>
-                    <p>Ends Oct 25th, 2025</p>
-                    <a class="stretched-link" data-group-id="Group1"></a>
+        <!--list of surveys avaliable to be viewed-->
+        <div class="row justify-content-evenly pt-5">
+            <div class=" row col-4" style="max-height: 500px;" >
+                <div class="row row-cols-2 justify-content-start" style="margin-bottom:35px" id="surveyNav">
+                    <h3 class="col">Surveys</h3>
+                    <button class="col btn btn-outline-primary" id="btnNewSurvey">+ New Survey</button>
                 </div>
-                <div class="card group-card selection-card position-relative me-2 w-75 p-4 ">
-                    <h5>Pre-Exam 1 Confidence Survey</h5>
-                    <p>Ended Sept 13th, 2025</p>
-                    <a class="stretched-link" data-group-id="Group2"></a>
-                </div>
-                <div class="card group-card selection-card position-relative me-2 w-75 p-4">
-                    <h5>Pre-Exam 1 Confidence Survey</h5>
-                    <p>Ended Sept 13th, 2025</p>
-                    <a class="stretched-link" data-group-id="Group3"></a>
+                <div class="container overflow-y" style="max-height: 500px;" id="divSurveyContainer">
+                    <div class="card btn-primary selected selection-card p-3 mb-2">
+                        <h5 class="card-title">Mid-Year Peer Review</h5>
+                        <p>Ends Oct 25th, 2025</p>
+                        <a class="stretched-link" data-group-id="Group1"></a>
+                    </div>
+                    <div class="card btn-primary unselected selection-card p-3 mb-2">
+                        <h5>Pre-Exam 1 Confidence Survey</h5>
+                        <p>Ended Sept 13th, 2025</p>
+                        <a class="stretched-link" data-group-id="Group2"></a>
+                    </div>
+                    <div class="card btn-primary unselected selection-card p-3 mb-2">
+                        <h5>Pre-Exam 1 Confidence Survey</h5>
+                        <p>Ended Sept 13th, 2025</p>
+                        <a class="stretched-link" data-group-id="Group3"></a>
+                    </div>
+                    <div class="card btn-primary unselected selection-card p-3 mb-2">
+                        <h5>Pre-Exam 1 Confidence Survey</h5>
+                        <p>Ended Sept 13th, 2025</p>
+                        <a class="stretched-link" data-group-id="Group4"></a>
+                    </div>
                 </div>
             </div>
-            <div class="row border-left col-6">
+            <div class="row col-6 border-left justify-content-start">
                 <!-- in depth view of chosen survey-->
                 <div class="col" id="divSurveyDetails">
-                    <h2 class="text-center mt-4">Mid-Year Peer Review</h2>
-                    <div class="row row-cols-2 d-flex justify-content-center">
-                        <button type="button" class="btn btn-link" id="btnViewSurvey" style="color:white">Groups</button>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="btnViewSurvey" style="color:white">
+                                All Students
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="#">Group 1</a></li>
+                            <li><a class="dropdown-item" href="#">Group 2</a></li>
+                            <li><a class="dropdown-item" href="#">Group 3</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="col btn btn-link d-flex justify-content-end me-4" id="btnViewSurvey" style="color:white">Delete</button>
                     </div>
                     <!-- View status table -->
                     <div style="padding:20px">
                         <label for="selStudentsNotCompleted" class="form-label" style="color:#EC5252" >2 Students Not Completed:</label>
-                        <select id="selStudentsNotCompleted" class="bg-dark text-white form-select" multiple>
+                        <select id="selStudentsNotCompleted" class="name-select form-select" size="7" multiple>
                             <option value="Harry">Harry Potter</option>
                             <option value="Ron">Ron Weasley</option>
                         </select>
                     </div>
+                    <div style="padding:20px">
+                        <label for="selStudentsCompleted" class="form-label text-green">95 Students Completed:</label>
+                        <select id="selStudentsCompleted" class="name-select form-select" size="7" multiple>
+                            <option value="Hermione">Hermione Granger</option>
+                        </select>
+                    </div>
                 </div>
-                <div style="padding:20px">
-                    <label for="selStudentsCompleted" class="form-label text-green">95 Students Completed:</label>
-                    <select id="selStudentsCompleted" class="bg-dark text-white form-select" multiple>
-                        <option value="Hermione">Hermione Granger</option>
-                    </select>
-                </div>
-                <button type="button" class="btn btn-link d-flex justify-content-end" id="btnViewSurvey" style="color:white">Delete</button>
             </div>
         </div>
     </form>
