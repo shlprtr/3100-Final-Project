@@ -71,6 +71,7 @@ CREATE TABLE tblSurveyResponse (
     UserID TEXT,
     QuestionID TEXT,
     Response TEXT,
+    Status TEXT,
     TargetUserID TEXT,
     FOREIGN KEY (SurveyID) REFERENCES tblSurvey(SurveyID),
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID),
