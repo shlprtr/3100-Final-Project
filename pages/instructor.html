@@ -24,25 +24,7 @@
 
     <!-- Group cards container -->
     <div class="d-flex flex-wrap margin-30" id="groupContainer">
-        <!-- Example group card -->
-        <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3 style="margin-bottom:20px">CSC 2100-002</h3>
-            <p style="margin-bottom:0px">Start: 08/12/25</p>
-            <p>End: 12/11/25</p>
-            <a class="stretched-link" data-group-id="Group1"></a>
-        </div>
-        <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3 style="margin-bottom:20px">COURSE NAME</h3>
-            <p style="margin-bottom:0px">Start: </p>
-            <p>End: </p>
-            <a class="stretched-link" data-group-id="Group2"></a>
-        </div>
-        <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3 style="margin-bottom:20px">COURSE NAME</h3>
-            <p style="margin-bottom:0px">Start: </p>
-            <p>End: </p>
-            <a class="stretched-link" data-group-id="Group3"></a>
-        </div>
+        
     </div>
 
     <!-- in-depth group view (surveys,students, etc) -->
@@ -245,7 +227,7 @@
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <label class="ms-2 mt-2" for="txtCourse">Course Name:</label>
+                <label class="ms-2 mt-2" for="txtCourseName">Course Name:</label>
                 <input class="form-control input-outline mt-1" type="text" id="txtCourseName"
                     aria-label="Input for course name" placeholder="Software Engineering I">
                 <label class="ms-2 mt-2" for="txtCourseNumber">Course Number:</label>
@@ -258,10 +240,10 @@
                 <input class="form-control input-outline mt-1" type="text" id="txtSemester"
                     aria-label="Input for semester" placeholder="Spring 2025">
                 <label class="ms-2 mt-2" for="txtStartDate">Start Date (MM/DD/YY):</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtStartDate"
+                <input class="form-control input-outline mt-1" type="date" id="txtStartDate"
                     aria-label="Input for course start date">
                 <label class="ms-2 mt-2" for="txtEndDate">End Date (MM/DD/YY):</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtEndDate"
+                <input class="form-control input-outline mt-1" type="date" id="txtEndDate"
                     aria-label="Input for course end date">
             </div>
             <div class="modal-footer">

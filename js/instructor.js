@@ -3,18 +3,21 @@ import { ApiService } from '../services/apiService.js'
 loadCourses()
 
 // new class
-document.querySelector('#btnCreateCourse').addEventListener('click', function() {
-    let strName = document.querySelector('#txtCourse').value
+document.querySelector('#btnCreateCourse').addEventListener('click', async function() {
+    let strName = document.querySelector('#txtCourseName').value.trim()
+    let strNumber = document.querySelector('#txtCourseNumber').value.trim()
+    let strSection = document.querySelector('#txtSectionNumber').value.trim()
+    let strSemester = document.querySelector('#txtSemester').value.trim()
     let strStartDate = document.querySelector('#txtStartDate').value
     let strEndDate = document.querySelector('#txtEndDate').value
-    const htmlAddClass = `<div class="card shadow p-4 group-card selection-card position-relative me-2">
-                            <h3 style="margin-bottom:20px">${strName}</h3>
-                            <p style="margin-bottom:0px">Start: ${strStartDate}</p>
-                            <p>End: ${strEndDate}</p>
-                            <a class="stretched-link" data-group-id="${strName}"></a>
-                          </div>` //CHANGE data-group-id name probs
-    document.querySelector('#groupContainer').innerHTML += htmlAddClass
-    let strCode = generateClassCode()
+    
+    const objResponse = await ApiService.addcourse(strName, strNumber, strSection, strSemester, strStartDate, strEndDate)
+    if (objResponse.success) {
+        loadCourses()
+        let strCode = generateClassCode()
+        console.log(strCode)
+    }
+
 })
 
 // modal to create course
@@ -46,48 +49,6 @@ document.querySelector('#btnAddMC').addEventListener('click', (event) => {
     document.querySelector('#multipleChoice').innerHTMML += htmlMCOption
 })
 
-//adding a new answer on multiple choice -- doesnt work
-document.querySelector('#btnQuestionType').addEventListener('click', (event) => {
-    //fetch group details
-    const htmlMCOption = `<div class="form-check ms-2 mb-2">
-                <input class="form-check-input" type="radio" name="q1" id="q1-a1">
-                <label class="form-check-label" for="q1-a1">Option 1</label>
-            </div>`
-    document.querySelector('#multipleChoice').innerHTMML += htmlMCOption
-})
-
-//adding a changing question type -- doesnt work
-document.querySelector('#btnAddMC').addEventListener('click', (event) => {
-    selectQuestionType('AddMC')
-})
-
-document.querySelector('#btnAddMS').addEventListener('click', (event) => {
-    selectQuestionType('AddMS')
-})
-
-document.querySelector('#btnAddLikert').addEventListener('click', (event) => {
-    selectQuestionType('AddLikert')
-})
-
-document.querySelector('#btnAddShortAnswer').addEventListener('click', (event) => {
-    selectQuestionType('AddShortAnswer')
-})
-
-function selectQuestionType(selected) {
-    document.querySelector('#viewMC').classList.add('d-none')
-    document.querySelector('#viewMS').classList.add('d-none')
-    document.querySelector('#viewLikert').classList.add('d-none')
-    document.querySelector('#viewShortAnswer').classList.add('d-none')
-
-    document.querySelector('#btnAddMC').classList.add('unselected')
-    document.querySelector('#btnAddMS').classList.add('unselected')
-    document.querySelector('#btnAddLikert').classList.add('unselected')
-    document.querySelector('#btnAddShortAnswer').classList.add('d-none')
-
-    document.querySelector(`#btn${selected}`).classList.remove('unselected')
-    document.querySelector(`#view${selected}`).classList.remove('d-none')
-}
-
 // modal to create group
 document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
     const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
@@ -103,6 +64,7 @@ function generateClassCode(info){
         code += Math.floor(Math.random() * 10);
         x++
     }
+    return code
 }
 
 // function verifyCode(code){
@@ -120,7 +82,7 @@ document.querySelector('#btnNewSurvey').addEventListener('click', function() {
     .then(html => {
         const objScript = document.createElement('script')
         objScript.src = 'js/createnewsurvey.js'
-        objScript.type = 'text/javascript'
+        objScript.type = 'module'
         document.head.appendChild(objScript)
         document.querySelector('#divView').innerHTML = html
     })
@@ -128,24 +90,22 @@ document.querySelector('#btnNewSurvey').addEventListener('click', function() {
 })
 
 async function loadCourses() {
-    const arrCourses = await getCourses()
-    arrCourses.forEach(course => {
-        const strCourseHTML = `
-            <div class="card shadow p-4 group-card selection-card position-relative me-2">
-                <h3 style="margin-bottom:20px">${course.CourseName}</h3>
-                <p style="margin-bottom:0px">Start: ${course.StartDate}</p>
-                <p>End: ${course.EndDate}</p>
-                <a class="stretched-link" data-course-id="${course.CourseID}"></a>
-            </div>
-        `
-        document.querySelector('#groupContainer').innerHTML += strCourseHTML
-    })
-}
-
-async function getCourses() {
     const objResponse = await ApiService.viewcourses()
     if (objResponse.success) {
-        return objResponse.data.result
+        const arrCourses = objResponse.data.result
+        arrCourses.forEach(course => {
+            const strCourseHTML = `
+                <div class="card shadow p-4 group-card selection-card position-relative me-2">
+                    <h3>${course.CourseNumber}-${course.SectionNumber}</h3>
+                    <p style="margin-bottom:0px">${course.SemesterTerm}</p>
+                    <p>${course.CourseName}</p>
+                    <p style="margin-bottom:0px">Start: ${course.StartDate}</p>
+                    <p style="margin-bottom:0px">End: ${course.EndDate}</p>
+                    <a class="stretched-link" data-course-id="${course.CourseID}"></a>
+                </div>
+            `
+            document.querySelector('#groupContainer').innerHTML += strCourseHTML
+        })
     } else {
         console.error('Error fetching courses:', objResponse.error)
     }
