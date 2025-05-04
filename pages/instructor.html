@@ -28,13 +28,13 @@
     </div>
 
     <!-- in-depth group view (surveys,students, etc) -->
-    <div class="container-fluid d-none margin-30" id="viewGroupDetails" style="padding-right: 100px; padding-top:30px">
+    <div class="container-fluid d-none margin-30" id="viewGroupDetails" style="padding-right: 100px">
         <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:70px;">
             <div class="row row-cols-2">
                 <div class="col-4" id="surveyNav">
                     <!-- name of the group selected -->
                     <div style="padding:7px">
-                        <h1 id="txtGroupName">CSC 2100-002</h1>
+                        <h1 id="txtCourseNumber">CSC 2100-002</h1>
                     </div>
                     <div class="row row-cols-2 container-fluid" style="padding:30px">
                         <h3>Surveys</h3>
@@ -42,54 +42,40 @@
                     </div>
                     <!--list of surveys avaliable to be viewed -->
                     <div class="row">
-                        <div class="col container overflow-auto " id="divSurveyContainer">
-                            <div class="card bg-dark p-4 group-card selection-card position-relative me-2">
-                                <h5>Mid-Year Peer Review</h5>
-                                <p>Ends Oct 25th, 2025</p>
-                                <a class="stretched-link" data-group-id="Group3"></a>
-                            </div>
-                            <div class="card p-4 group-card selection-card position-relative me-2">
-                                <h5>Pre-Exam 1 Confidence Survey</h5>
-                                <p>Ended Sept 13th, 2025</p>
-                                <a class="stretched-link" data-group-id="Group3"></a>
-                            </div>
-                            <div class="card p-4 group-card selection-card position-relative me-2">
-                                <h5>Pre-Exam 1 Confidence Survey</h5>
-                                <p>Ended Sept 13th, 2025</p>
-                                <a class="stretched-link" data-group-id="Group3"></a>
-                            </div>
+                        <div class="col container overflow-auto" id="divSurveyContainer">
+                            
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Survey details -->
-            <div class="border-left col-4">
-                <div class="row">
-                    <div class="col" id="divSurveyDetails">
-                        <h2 class="text-center mt-4">Mid-Year Peer Review</h2>
-                        <div class="row row-cols-2 d-flex justify-content-center">
-                            <button type="button" class="btn btn-link" id="btnViewSurvey" style="color: white">
-                                View Status
-                            </button>
-                            <button type="button" class="btn btn-link" id="btnViewResponses" style="color: white">
-                                View Responses
-                            </button>
-                        </div>
-                        <!-- Status table -->
-                        <div style="padding: 20px">
-                            <label for="selStudentsNotCompleted" class="form-label text-danger">2 Students Not
-                                Completed:</label>
-                            <select id="selStudentsNotCompleted" class="bg-dark text-white form-select" multiple>
-                                <option value="Harry">Harry Potter</option>
-                                <option value="Ron">Ron Weasley</option>
-                            </select>
-                        </div>
-                        <div style="padding: 20px">
-                            <label for="selStudentsCompleted" class="form-label text-green">95 Students
-                                Completed:</label>
-                            <select id="selStudentsCompleted" class="bg-dark text-white form-select" multiple>
-                                <option value="Hermione">Hermione Granger</option>
-                            </select>
+                <!-- Survey details -->
+                <div class="border-left col-8">
+                    <div class="row">
+                        <div class="col" id="divSurveyDetails">
+                            <h2 class="text-center mt-4">Mid-Year Peer Review</h2>
+                            <div class="row row-cols-2 d-flex justify-content-center">
+                                <button type="button" class="btn btn-link" id="btnViewSurvey" style="color: white">
+                                    View Status
+                                </button>
+                                <button type="button" class="btn btn-link" id="btnViewResponses" style="color: white">
+                                    View Responses
+                                </button>
+                            </div>
+                            <!-- Status table -->
+                            <div style="padding: 20px">
+                                <label for="selStudentsNotCompleted" class="form-label text-danger">2 Students Not
+                                    Completed:</label>
+                                <select id="selStudentsNotCompleted" class="bg-dark text-white form-select" multiple>
+                                    <option value="Harry">Harry Potter</option>
+                                    <option value="Ron">Ron Weasley</option>
+                                </select>
+                            </div>
+                            <div style="padding: 20px">
+                                <label for="selStudentsCompleted" class="form-label text-green">95 Students
+                                    Completed:</label>
+                                <select id="selStudentsCompleted" class="bg-dark text-white form-select" multiple>
+                                    <option value="Hermione">Hermione Granger</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -252,4 +238,8 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="divCreateNewSurvey">
+    
 </div>

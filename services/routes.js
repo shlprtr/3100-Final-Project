@@ -28,5 +28,10 @@ export const ROUTES = {
         filePath: 'pages/profile.html',
         scriptPath: 'js/profile.js',
         authRequired: true
+    },
+    '#/create-survey': {
+        filePath: 'pages/createnewsurvey.html',
+        scriptPath: 'js/createnewsurvey.js',
+        authRequired: true
     }
 }

@@ -1,3 +1,6 @@
+import { ApiService } from '../services/apiService.js'
+import { navigate } from '../services/pageRouter.js'
+
 document.querySelector('#btnAddTitle').addEventListener('click', (event) => {
     let strSurveyTitle = document.querySelector("#txtSurveyTitle").value
 
@@ -219,15 +222,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.querySelector('#btnReturnToClass').addEventListener('click', (event) => {
-    fetch("pages/instructor.html")
-    .then(response => response.text())
-    .then(html => {
-        const objScript = document.createElement('script');
-        objScript.src = 'js/instructor.js'; 
-        objScript.type = 'text/javascript';
-        document.head.appendChild(objScript);
-        document.querySelector('#divHome').innerHTML = '';
-        document.querySelector('#divHome').innerHTML = html;       
-    })
-    .catch(error => console.error("Error fetching chart:", error));
+    navigate('#/instructor')
 });

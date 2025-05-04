@@ -914,8 +914,8 @@ function authenticateUser(req, res, next) {
 // verify user is instructor for a course
 function verifyInstructor(req, res, next) {
     const strUserID = req.userID
-    const strSurveyID = req.body.surveyID || req.params.surveyID
-    let strCourseID = req.body.courseID || req.params.courseID
+    const strSurveyID = req.body?.surveyID ?? req.params?.surveyid ?? null
+    let strCourseID = req.body?.courseID ?? req.params?.courseid ?? null
 
     if (!strSurveyID && !strCourseID) {
         return res.status(400).json({ error: "You must provide a surveyID or courseID" })
@@ -959,8 +959,8 @@ function checkInstructor(strUserID, strCourseID, res, next) {
 // verify user is a member of a group
 function verifyMember(req, res, next) {
     const strUserID = req.userID
-    const strSurveyID = req.body.surveyID || req.params.surveyID
-    let strCourseID = req.body.courseID || req.params.courseID
+    const strSurveyID = req.body?.surveyID ?? req.params?.surveyid ?? null
+    let strCourseID = req.body?.courseID ?? req.params?.courseid ?? null
 
     if (!strSurveyID && !strCourseID) {
         return res.status(400).json({ error: "You must provide a surveyID or courseID" })
@@ -1008,8 +1008,8 @@ function checkMember(strUserID, strCourseID, res, next) {
 // verify user is either instructor or member
 function verifyInstructorOrMember(req, res, next) {
     const strUserID = req.userID
-    const strSurveyID = req.body.surveyID || req.params.surveyID
-    let strCourseID = req.body.courseID || req.params.courseID
+    const strSurveyID = req.body?.surveyID ?? req.params?.surveyid ?? null
+    let strCourseID = req.body?.courseID ?? req.params?.courseid ?? null
 
     if (!strSurveyID && !strCourseID) {
         return res.status(400).json({ error: "You must provide a surveyID or courseID" })
