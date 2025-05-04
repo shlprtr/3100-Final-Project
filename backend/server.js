@@ -227,8 +227,8 @@ app.post('/courses', authenticateUser, (req, res, next) => {
     const strStartDate = req.body.startDate
     const strEndDate = req.body.endDate
 
-    if (!strInstructorID || !strCourseName || !strCourseNumber || !strSectionNumber || !strSemesterTerm || !strStartDate || !strEndDate) {
-        return res.status(400).json({ error: "You must provide an instructor, course title, course number, section number, semester term, start date, and end date" })
+    if (!strCourseName || !strCourseNumber || !strSectionNumber || !strSemesterTerm || !strStartDate || !strEndDate) {
+        return res.status(400).json({ error: "You must provide course name, course number, section number, semester term, start date, and end date" })
     }
 
     let strCommand = "INSERT INTO tblCourses (CourseID, CourseName, CourseNumber, SectionNumber, SemesterTerm, StartDate, EndDate, InstructorID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
@@ -421,9 +421,6 @@ app.post('/socials', authenticateUser, (req, res, next) => {
     }
     if (strUsername.length < 1) {
         return res.status(400).json({ error: "You must provide a username" })
-    }
-    if (strUserID.length < 1) {
-        return res.status(400).json({ error: "You must provide a user to add a social" })
     }
 
     let strCommand = `INSERT INTO tblSocials VALUES (?, ?, ?, ?)`;
@@ -621,7 +618,7 @@ app.post('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
 // delete a survey
 app.delete('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
     let strSurveyID = req.body.surveyID
-]
+
     if (strSurveyID.length < 1) {
         return res.status(400).json({ error: "You must provide a surveyID" })
     }
