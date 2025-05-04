@@ -13,8 +13,6 @@ CREATE TABLE tblUsers (
 -- Phone Table
 CREATE TABLE tblPhone (
     PhoneID INTEGER PRIMARY KEY AUTOINCREMENT,
-    NationCode TEXT,
-    AreaCode TEXT,
     PhoneNumber TEXT,
     UserID TEXT,
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID)
