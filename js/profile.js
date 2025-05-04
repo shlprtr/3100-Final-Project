@@ -13,11 +13,11 @@ var gitHubID = ''
 var teamsID = ''
 var phoneID = ''
 
-objResponseUser = await ApiService.viewuser()
+objResponseUser = await ApiService.viewUser()
 
-objResponse = await ApiService.viewsocials()
+objResponse = await ApiService.viewSocials()
 
-objResponsePhone = await ApiService.viewphone()
+objResponsePhone = await ApiService.viewPhone()
 
 for (let i = 0; i < objResponse.data.result.length; i++) {
     let strSocialID = objResponse.data.result[i].Username

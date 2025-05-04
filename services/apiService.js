@@ -73,7 +73,7 @@ export class ApiService {
         }
 
         try {
-            const objResponse = await this.post('/users', objBody)
+            const objResponse = await this.post('/user', objBody)
             return objResponse
         } catch (error) {
             console.error('Error:', error)
