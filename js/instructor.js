@@ -1,3 +1,7 @@
+import { ApiService } from '../services/apiService.js'
+
+loadCourses()
+
 // new class
 document.querySelector('#btnCreateGroup').addEventListener('click', function() {
     let strName = document.querySelector('#txtCourse').value
@@ -119,3 +123,27 @@ document.querySelector('#btnNewSurvey').addEventListener('click', function() {
     })
     .catch(error => console.erro("Error fetching new survey form:", error))
 })
+
+async function loadCourses() {
+    const arrCourses = await getCourses()
+    arrCourses.forEach(course => {
+        const strCourseHTML = `
+            <div class="card shadow p-4 group-card selection-card position-relative me-2">
+                <h3 style="margin-bottom:20px">${course.CourseName}</h3>
+                <p style="margin-bottom:0px">Start: ${course.StartDate}</p>
+                <p>End: ${course.EndDate}</p>
+                <a class="stretched-link" data-course-id="${course.CourseID}"></a>
+            </div>
+        `
+        document.querySelector('#groupContainer').innerHTML += strCourseHTML
+    })
+}
+
+async function getCourses() {
+    const objResponse = await ApiService.viewcourses()
+    if (objResponse.success) {
+        return objResponse.data.result
+    } else {
+        console.error('Error fetching courses:', objResponse.error)
+    }
+}
