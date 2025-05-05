@@ -1,9 +1,18 @@
 <nav class="navbar">
     <div class="container-fluid justify-content-between">
         <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
-        <button class="btn btn-primary me-2 ms-auto" type="button" id="btnInstructor" onClick="location.hash='#/instructor'">Instructor View</button>
-        <button class="btn btn-primary unselected me-2" type="button" id="btnStudent" onClick="location.hash='#/student'">Student View</button>
-        <button class="btn btn-primary unselected me-2" type="button" id="btnProfile" onclick="location.hash='#/profile'"> Profile</button>
+        <button class="btn btn-primary me-2 ms-auto" type="button" id="btnInstructor"
+            onClick="location.hash='#/instructor'">
+            Instructor View
+        </button>
+        <button class="btn btn-primary unselected me-2" type="button" id="btnStudent"
+            onClick="location.hash='#/student'">
+            Student View
+        </button>
+        <button class="btn btn-primary unselected me-2" type="button" id="btnProfile"
+            onclick="location.hash='#/profile'">
+            Profile
+        </button>
     </div>
 </nav>
 
@@ -17,50 +26,43 @@
     </div>
 
     <!-- Group cards container -->
-    <div class="d-flex flex-wrap margin-30" id="groupContainer">
-        
-    </div>
+    <div class="d-flex flex-wrap margin-30" id="groupContainer"></div>
 
     <!-- in-depth group view (surveys,students, etc) -->
-    <div class="container-fluid d-none margin-30" id="viewGroupDetails" style="padding-right: 100px">
-        <form class="card corner-round" id="frmSurvey" style="padding:15px; margin-top:70px;">
-            <div class="row row-cols-2">
-                <div class="col-4" id="surveyNav">
-                    <!-- name of the group selected -->
-                    <div style="padding:7px">
-                        <h1 id="txtCourseTitle">CSC 2100-002</h1>
+    <div class="container-fluid d-none margin-30" id="viewGroupDetails">
+        <form class="card corner-round" id="frmSurvey" style="padding: 15px; margin-top: 70px">
+            <div class="row">
+                <!-- Survey Navigation -->
+                <div class="col-lg-4 col-md-5 col-12" id="surveyNav">
+                    <!-- Group Title -->
+                    <div class="mb-3">
+                        <h1 id="txtCourseTitle" class="text-center mt-4 mb-3">
+                            CSC 2100-002
+                        </h1>
                     </div>
-                    <div class="row row-cols-2 container-fluid" style="padding:30px">
-                        <h3>Groups</h3>
-                        <button class="btn btn-outline-primary" id="btnCreateGroupModal">
-                            + New Group
+                    <!-- Surveys Title and Button -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="text-white text-center">Surveys</h3>
+                        <button class="btn btn-outline-primary" id="btnNewSurvey" type="button">
+                            + New Survey
                         </button>
                     </div>
-                    <!--list of surveys avaliable to be viewed -->
-                    <div class="row">
-                        <div class="col container overflow-auto" id="divGroupContainer">
-                            
-                        </div>
-                    </div>
-                    <div class="row row-cols-2 container-fluid" style="padding:30px">
-                        <h3>Surveys</h3>
-                        <button class="btn btn-outline-primary" id="btnNewSurvey" type="button">+ New Survey</button>
-                    </div>
-                    <!--list of surveys avaliable to be viewed -->
-                    <div class="row">
-                        <div class="col container overflow-auto" id="divSurveyContainer">
-                            
-                        </div>
+                    <!-- Scrollable Survey List -->
+                    <div class="overflow-auto" id="divSurveyContainer" style="max-height: 400px">
+                        <!-- Surveys will be dynamically added here -->
                     </div>
                 </div>
-                <!-- Survey details -->
-                <div class="border-left col-8">
+
+                <!-- Survey Details -->
+                <div class="col-lg-8 col-md-7 col-12 border-left">
                     <div class="row">
                         <div class="col" id="divSurveyDetails">
-                            <h2 class="text-center mt-4">Mid-Year Peer Review</h2>
-                            <!-- Status table -->
-                            <div style="padding: 20px">
-                                <label for="selStudents" class="form-label text-white">Students</label>
+                            <h2 class="text-center mt-4 mb-3">Mid-Year Peer Review</h2>
+                            <!-- Status Table -->
+                            <div class="p-3">
+                                <label for="selStudents" class="form-label text-white">
+                                    Students
+                                </label>
                                 <select id="selStudents" class="bg-dark text-white form-select" multiple>
                                     <option value="Harry">Harry Potter</option>
                                     <option value="Ron">Ron Weasley</option>
@@ -92,7 +94,9 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" id="btnCreateGroup" class="btn btn-primary">Create</button>
+                <button type="button" id="btnCreateGroup" class="btn btn-primary">
+                    Create
+                </button>
             </div>
         </div>
     </div>
@@ -105,37 +109,38 @@
         <div class="modal-content bg-dark text-white">
             <div class="modal-header">
                 <h5 class="modal-title" id="createCourseModalLabel">Create A Group</h5>
-                <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <label class="ms-2 mt-2" for="txtCourseName">Course Name:</label>
                 <input class="form-control input-outline mt-1" type="text" id="txtCourseName"
-                    aria-label="Input for course name" placeholder="Software Engineering I">
+                    aria-label="Input for course name" placeholder="Software Engineering I" />
                 <label class="ms-2 mt-2" for="txtCourseNumber">Course Number:</label>
                 <input class="form-control input-outline mt-1" type="text" id="txtCourseNumber"
-                    aria-label="Input for course number" placeholder="CSC-4610">
+                    aria-label="Input for course number" placeholder="CSC-4610" />
                 <label class="ms-2 mt-2" for="txtSectionNumber">Section Number:</label>
                 <input class="form-control input-outline mt-1" type="text" id="txtSectionNumber"
-                    aria-label="Input for section number" placeholder="001">
+                    aria-label="Input for section number" placeholder="001" />
                 <label class="ms-2 mt-2" for="txtSemester">Semester:</label>
                 <input class="form-control input-outline mt-1" type="text" id="txtSemester"
-                    aria-label="Input for semester" placeholder="Spring 2025">
+                    aria-label="Input for semester" placeholder="Spring 2025" />
                 <label class="ms-2 mt-2" for="txtStartDate">Start Date (MM/DD/YY):</label>
                 <input class="form-control input-outline mt-1" type="date" id="txtStartDate"
-                    aria-label="Input for course start date">
+                    aria-label="Input for course start date" />
                 <label class="ms-2 mt-2" for="txtEndDate">End Date (MM/DD/YY):</label>
                 <input class="form-control input-outline mt-1" type="date" id="txtEndDate"
-                    aria-label="Input for course end date">
+                    aria-label="Input for course end date" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="btnCreateCourse" class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btnCreateCourse" class="btn btn-primary">
+                    Create
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-<div id="divCreateNewSurvey">
-    
-</div>
+<div id="divCreateNewSurvey"></div>
