@@ -119,6 +119,20 @@ export class ApiService {
         }
     }
 
+    static async viewUserInfo(strUserID) {
+        try {
+            const objResponse = await this.get(`/userinfo/${strUserID}`)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
+
     static async checkSession() {
         try {
             const objResponse = await this.get('/sessions')
@@ -236,6 +250,20 @@ export class ApiService {
         }
     }
 
+    static async viewUserSocials(strUserID) {
+        try {
+            const objResponse = await this.get(`/usersocials/${strUserID}`)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
+
     static async addPhone(strPhoneNumber) {
         const objBody = {
             phoneNumber: strPhoneNumber
@@ -276,6 +304,20 @@ export class ApiService {
     static async viewPhone() {
         try {
             const objResponse = await this.get('/phone')
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
+
+    static async viewUserPhoneInfo(strUserID) {
+        try {
+            const objResponse = await this.get(`/userphone/${strUserID}`)
             return objResponse
         } catch (error) {
             console.error('Error:', error)

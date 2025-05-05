@@ -102,15 +102,15 @@ document.querySelector('#btnSaveEdit').addEventListener('click', async () => {
         tempEmail = strEmail
     }
 
-    objResponse = await ApiService.updateuser(tempFirstName, tempLastName, tempEmail)
+    objResponse = await ApiService.updateUser(tempFirstName, tempLastName, tempEmail)
 
     if (strPhoneNumber.length > 0) {
         if (phone.length === 0) {
-            objResponse = await ApiService.addphone(strPhoneNumber)
+            objResponse = await ApiService.addPhone(strPhoneNumber)
         }
         else {
             let strPhoneID = phone[0].PhoneID
-            objResponse = await ApiService.updatephone(strPhoneID, strPhoneNumber)
+            objResponse = await ApiService.updatePhone(strPhoneID, strPhoneNumber)
         }
     }
 
@@ -131,33 +131,28 @@ document.querySelector('#btnSaveEdit').addEventListener('click', async () => {
     
     if(strDiscord) {
         if(discordID.length != '') {
-            objResponse = await ApiService.updatesocial(discordID, strDiscord)
+            objResponse = await ApiService.updateSocial(discordID, strDiscord)
         }
         else {
-            objResponse = await ApiService.addsocial('Discord', strDiscord)
+            objResponse = await ApiService.addSocial('Discord', strDiscord)
         }
     }
     if(strGitHub) {
         if(gitHubID.length != '') {
-            objResponse = await ApiService.updatesocial(gitHubID, strGitHub)
+            objResponse = await ApiService.updateSocial(gitHubID, strGitHub)
         }
         else {
-            objResponse = await ApiService.addsocial('GitHub', strGitHub)
+            objResponse = await ApiService.addSocial('GitHub', strGitHub)
         }
     }
     if(strTeams) {
         if(teamsID.length != '') {
-            objResponse = await ApiService.updatesocial(teamsID, strTeams)
+            objResponse = await ApiService.updateSocial(teamsID, strTeams)
         }
         else {
-            objResponse = await ApiService.addsocial('Teams', strTeams)
+            objResponse = await ApiService.addSocial('Teams', strTeams)
         }
     }
-
-
-
-    //Github, Discord, Teams
-
 })
 
 function getCurrentInfo(selected) {

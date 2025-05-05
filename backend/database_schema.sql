@@ -12,7 +12,7 @@ CREATE TABLE tblUsers (
 
 -- Phone Table
 CREATE TABLE tblPhone (
-    PhoneID INTEGER PRIMARY KEY AUTOINCREMENT,
+    PhoneID TEXT PRIMARY KEY,
     PhoneNumber TEXT,
     UserID TEXT,
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID)
