@@ -449,9 +449,23 @@ export class ApiService {
         }
     }
 
+    static async viewCourseUsers(strCourseID) {
+        try {
+            const objResponse = await this.get(`/courses/groups/users/course/${strCourseID}`)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
+
     static async viewGroupUsers(strGroupID) {
         try {
-            const objResponse = await this.get(`/courses/groups/users/${strGroupID}`)
+            const objResponse = await this.get(`/courses/groups/users/group/${strGroupID}`)
             return objResponse
         } catch (error) {
             console.error('Error:', error)

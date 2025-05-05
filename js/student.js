@@ -206,12 +206,6 @@ async function loadSurveys() {
     }
 }
 
-Options: '["Option 1", "Option 2", "Option3"]';
-Question: "How satisfied are you with this person?";
-QuestionID: "12345678-51b9-4901-8e77-171f8a170ef8";
-QuestionType: "Multiple Choice";
-SurveyID: "bbaa77b7-51b9-4901-8e77-171f8a170ef8";
-
 async function loadSelectedSurvey() {
     const objResponse = await ApiService.viewSurveyQuestion(strCurrSurveyID)
     if (objResponse.success) {
