@@ -1,19 +1,32 @@
+let strSurveyStatus = "Private"
+
 // Handle form submission
-document
-  .querySelector("#studentSurveyForm")
-  .addEventListener("submit", (event) => {
+document.querySelector("#studentSurveyForm").addEventListener("submit", (event) => {
     event.preventDefault(); // Prevent default form submission
     alert("Thank you for submitting the survey!");
     // You can add logic here to send the survey data to a server or process it further
-  });
+});
 
 // SweetAlert2 validation for empty inputs
+document.querySelector('#btnSubmitForm').addEventListener('click', () => {
+    validateForm(strSurveyStatus);
+});
+
 document.querySelector('#btnPrivate').addEventListener('click', () => {
-    validateForm('Private');
+    strSurveyStatus = "Private"    
+    document.querySelector('#btnPrivate').classList.add('btn-primary')
+    document.querySelector('#btnPrivate').classList.remove('btn-secondary')
+    document.querySelector('#btnPublic').classList.add('btn-secondary')
+    document.querySelector('#btnPublic').classList.remove('btn-primary')
+
 });
 
 document.querySelector('#btnPublic').addEventListener('click', () => {
-    validateForm('Public');
+    strSurveyStatus = "Public"
+    document.querySelector('#btnPublic').classList.add('btn-primary')
+    document.querySelector('#btnPublic').classList.remove('btn-secondary')
+    document.querySelector('#btnPrivate').classList.add('btn-secondary')
+    document.querySelector('#btnPrivate').classList.remove('btn-primary')
 });
 
 function validateForm(submissionType) {
@@ -62,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (submissionsButton) {
         submissionsButton.addEventListener('click', () => {
             // Navigate to the studentsurvey.html page
-            window.location.href = '/components/studentsurvey.html';
+            window.location.href = '/pages/studentsurvey.html';
         });
     } else {
         console.error('Submissions button (#btnSubmissions) not found in the DOM.');
