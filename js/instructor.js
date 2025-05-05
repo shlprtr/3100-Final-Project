@@ -143,6 +143,7 @@ async function loadUsers() {
     if (objResponse.success) {
         //array of users in course
         const arrUsers = objResponse.data.result
+        console.log(arrUsers)
 
         let strUsersHTML = ""
         arrUsers.forEach(users => {
@@ -150,6 +151,7 @@ async function loadUsers() {
                <option value="${users.UserID}">${users.FirstName} ${users.LastName} </option>
             `
         })
-        document.querySelector('#selStudents').innerHTML = strGroupHTML
+        document.querySelector('#selStudents').innerHTML = strUsersHTML
     }
 }
+
