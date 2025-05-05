@@ -50,7 +50,7 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
         const strSection = cardLink.getAttribute('data-section')
         const strSemester = cardLink.getAttribute('data-semester')
 
-        document.querySelector('#txtCourseNumber').innerHTML = `${strCourseNumber}-${strSection}`
+        document.querySelector('#txtCourseTitle').innerHTML = `${strCourseNumber}-${strSection}`
 
         loadGroups(strCourseID)
 
