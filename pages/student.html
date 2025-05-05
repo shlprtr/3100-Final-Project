@@ -54,8 +54,38 @@
 </div>
 
 <!-- Section for displaying a sample survey -->
-<div class="d-flex justify-content-center align-items-center d-none" id="frmSurvey">
+<div class="container-fluid d-none" id="frmSurvey">
+    <div class="d-flex justify-content-center align-items-center margin-30">
+        <div class="card col-11 col-lg-9 mt-5">
+            <div class="card-body p-4">
+                <h1 class="card-title text-center mb-3" style="color: white" id="surveyName">Student Survey</h1>
+                <p class="text-center mb-4" style="color: white">
+                    Please fill out the survey below as provided by your instructor.
+                </p>
+                <hr class="m-4"/>
+                <!-- Survey title -->
+                <form id="studentSurveyForm">
     
+                </form>
+                <!-- private or public -->
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary me-2" id="btnPrivate">
+                        Private
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btnPublic">
+                        Public
+                    </button>
+                </div>
+                <!-- Submit button -->
+                <hr class="m-4"/>
+                <div class="text-end mt-3">
+                    <button class="btn btn-primary mt-3" type="button" id="btnSubmitForm">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Section for viewing all group members -->
