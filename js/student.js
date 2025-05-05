@@ -1,6 +1,9 @@
 import { ApiService } from '../services/apiService.js'
 import { navigate } from '../services/pageRouter.js'
 
+let strCurrCourseID = null
+let strCurrGroupID = null
+
 loadGroups()
 
 // listener for clicking a group card
@@ -9,11 +12,14 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
     if (cardLink) {
         document.querySelector('#selectedGroup').classList.remove('d-none')
         document.querySelector('#viewGroups').classList.add('d-none')
-
-        document.querySelector('#groupName').innerHTML = strGroupId
         document.querySelector('#viewSurveys').classList.remove('d-none')
 
-        const strGroupID = cardLink.getAttribute('data-group-id')
+        strCurrCourseID = cardLink.getAttribute('data-group-course-id')
+        strCurrGroupID = cardLink.getAttribute('data-group-id')
+
+        document.querySelector('#groupName').innerHTML = cardLink.getAttribute('data-group-name')
+
+        loadSurveys()
     }
 })
 
@@ -41,13 +47,13 @@ document.querySelector('#surveyContainer').addEventListener('click', (event) => 
 // display all surveys
 document.querySelector('#btnSurveys').addEventListener('click', (event) => {
     selectView('Surveys')
+    loadSurveys()
 })
 
 // display all members
 document.querySelector('#btnMembers').addEventListener('click', async () => {
     let studentName
-    // get the groupID and input it into the api call
-    let objResponse = await ApiService.viewGroupUsers()
+    let objResponse = await ApiService.viewGroupUsers(strCurrGroupID)
     selectView('Members')
     document.querySelector('#groupMemberContainer').innerHTML = ''
     for (let i = 0; i < objResponse.data.result.length; i++) {
@@ -79,18 +85,19 @@ document.querySelector('#btnMembers').addEventListener('click', async () => {
             }
         }
         
-        document.querySelector('#groupMemberContainer').innerHTML += `<div class="card selection-card shadow-sm mb-2 position-relative">
-                                                                    <div class="card-body">
-                                                                        <p class="mb-0">${name}</p>
-                                                                        <hr />
-                                                                        <p class="mt-0">Email: ${email}</p>
-                                                                        <p class="mt-0">Phone: ${phone}</p>
-                                                                        <p class="mt-0">Discord: ${discord}</p>
-                                                                        <p class="mt-0">GitHub: ${github}</p>
-                                                                        <p class="mt-0">Teams: ${teams}</p>
-                                                                        <a class="stretched-link" data-survey-id="Survey1"></a>
-                                                                    </div>
-                                                                </div>`
+        document.querySelector('#groupMemberContainer').innerHTML += `
+            <div class="card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p class="mb-0">${name}</p>
+                    <hr />
+                    <p class="mt-0">Email: ${email}</p>
+                    <p class="mt-0">Phone: ${phone}</p>
+                    <p class="mt-0">Discord: ${discord}</p>
+                    <p class="mt-0">GitHub: ${github}</p>
+                    <p class="mt-0">Teams: ${teams}</p>
+                </div>
+            </div>
+        `
     }
 
 })
@@ -162,4 +169,34 @@ async function loadGroups() {
         })
         document.querySelector('#groupContainer').innerHTML = strGroupHTML
     }
+}
+
+async function loadSurveys() {
+    const objResponse = await ApiService.viewSurveys(strCurrCourseID)    
+    if (objResponse.success) {
+        const arrSurveys = objResponse.data.result
+        let strSurveyHTML = ""
+        for (const survey of arrSurveys) {
+            const objResponseCourseInfo = await ApiService.viewCourseInfo(strCurrCourseID);
+            if (objResponseCourseInfo.success) {
+                const objCourseInfo = objResponseCourseInfo.data.result[0]
+                strSurveyHTML += `
+                    <div class="card selection-card shadow-sm mb-2 position-relative">
+                        <div class="card-body">
+                            <h4 class="mt-2">${survey.Title}</h4>
+                            <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
+                            <a class="stretched-link"
+                                data-survey-id="${survey.SurveyID}">
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        document.querySelector('#surveyContainer').innerHTML = strSurveyHTML
+    }
+}
+
+async function loadSelectedSurvey() {
+
 }

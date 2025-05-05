@@ -384,6 +384,24 @@ export class ApiService {
         }
     }
 
+    static async viewCourseInfo(strCourseID) {
+        const objBody = {
+            courseID: strCourseID,
+        }
+
+        try {
+            const objResponse = await this.get(`/courses/${strCourseID}`)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
+
     static async addCourseGroup(strCourseID, strGroupName) {
         const objBody = {
             courseID: strCourseID,

@@ -238,6 +238,27 @@ app.get('/courses', authenticateUser, (req, res, next) => {
     })
 })
 
+// get course info from courseid
+app.get('/courses/:courseid', authenticateUser, verifyInstructorOrMember, (req, res, next) => {
+    const strCourseID = req.params.courseid
+
+    let strCommand = "SELECT CourseNumber, SectionNumber FROM tblCourses WHERE CourseID = ?"
+    db.all(strCommand, [strCourseID], (err, result) => {
+        if (err) {
+            console.log(err)
+            res.status(500).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(200).json({
+                status: "success",
+                result: result
+            })
+        }
+    })
+})
+
 // create a course
 app.post('/courses', authenticateUser, (req, res, next) => {
     const strCourseID = uuidv4()
@@ -723,8 +744,8 @@ app.put('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
 });
 
 // get all surveys for a class
-app.get('/survey/:courseID', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
-    let strCourseID = req.params.courseID
+app.get('/survey/:courseid', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
+    let strCourseID = req.params.courseid
     let strUserID = req.userID
 
     let comSelect = "SELECT * FROM tblSurvey WHERE CourseID = ?"
@@ -791,8 +812,8 @@ app.delete('/surveyquestion', authenticateUser, verifyInstructor, (req, res, nex
 })
 
 // get all survey questions for a survey
-app.get('/surveyquestion/:surveyID', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
-    let strSurveyID = req.params.surveyID
+app.get('/surveyquestion/:surveyid', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
+    let strSurveyID = req.params.surveyid
 
     let comSelect = "SELECT * FROM tblSurveyQuestion WHERE SurveyID = ?"
     db.all(comSelect, [strSurveyID], function(err,result){
@@ -885,8 +906,8 @@ app.put('/surveyresponse', verifySession, verifyInstructorOrMember, (req, res, n
 });
 
 // get all survey responses for a survey
-app.get('/surveyresponse/instructor/:surveyID', authenticateUser, verifyInstructor, (req,res,next) => {
-    let strSurveyID = req.params.surveyID
+app.get('/surveyresponse/instructor/:surveyid', authenticateUser, verifyInstructor, (req,res,next) => {
+    let strSurveyID = req.params.surveyid
 
     let comSelect = "SELECT * FROM tblSurveyResponse WHERE SurveyID = ?"
     db.all(comSelect, [strSurveyID], function(err,result){

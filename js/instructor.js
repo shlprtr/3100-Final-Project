@@ -1,6 +1,9 @@
 import { ApiService } from '../services/apiService.js'
 import { navigate } from '../services/pageRouter.js'
 
+let strCurrCourseID = null
+let strCurrGroupID = null
+
 loadCourses()
 
 // modal to create course
@@ -42,19 +45,16 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
         document.querySelector('#groupContainer').classList.add('d-none')
         document.querySelector('#divCreateCourseModal').classList.add('d-none')
         document.querySelector('#divCreateGroupModal').classList.remove('d-none')
-
+        
         // get and fill in data for in-depth course view
-        const strCourseID = cardLink.getAttribute('data-course-id')
-        const strCourseName = cardLink.getAttribute('data-course-name')
         const strCourseNumber = cardLink.getAttribute('data-course-number')
         const strSection = cardLink.getAttribute('data-section')
-        const strSemester = cardLink.getAttribute('data-semester')
+
+        strCurrCourseID = cardLink.getAttribute('data-course-id')
 
         document.querySelector('#txtCourseTitle').innerHTML = `${strCourseNumber}-${strSection}`
 
-        loadGroups(strCourseID)
-
-        document.querySelector('#btnCreateGroup').dataset.courseID = strCourseID
+        loadGroups(strCurrCourseID)
     }
 })
 
@@ -67,11 +67,10 @@ document.querySelector('#btnCreateGroupModal').addEventListener('click', functio
 // new group
 document.querySelector('#btnCreateGroup').addEventListener('click', async function() {
     const strName = document.querySelector('#txtGroupName').value.trim()
-    const strGroupID = this.dataset.courseID
     
-    const objResponse = await ApiService.addCourseGroup(strCourseID, strName)
+    const objResponse = await ApiService.addCourseGroup(strCurrCourseID, strName)
     if (objResponse.success) {
-        loadGroups(strCourseID)
+        loadGroups(strCurrCourseID)
         bootstrap.Modal.getInstance(document.querySelector('#createGroupModal')).hide()
     } else {
         Swal.fire({
