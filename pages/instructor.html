@@ -34,7 +34,7 @@
                 <div class="col-4" id="surveyNav">
                     <!-- name of the group selected -->
                     <div style="padding:7px">
-                        <h1 id="txtCourseNumber">CSC 2100-002</h1>
+                        <h1 id="txtCourseTitle">CSC 2100-002</h1>
                     </div>
                     <div class="row row-cols-2 container-fluid" style="padding:30px">
                         <h3>Surveys</h3>
@@ -96,100 +96,6 @@
                 </button>
                 <button type="button" id="btnCreateGroup" class="btn btn-primary">Create</button>
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- Create survey view -->
-<div class="d-flex justify-content-center align-items-center d-none" id="viewCreateSurvey">
-    <div class="card col-sm-11 col-md-10 col-lg-10 mt-3">
-        <div class="card-body p-4">
-            <form class="m-5" id="frmCreateSurvey">
-                <div class="d-flex row justify-content-end mt-3 me-2">
-                    <button class="btn col-1 me-3 btn-outline-primary" id="btnStopEditing">
-                        Save
-                    </button>
-                    <button class="btn col-1 btn-outline-primary" id="btnStopEditing">
-                        Deploy
-                    </button>
-                </div>
-                <p class="fw-bold">Title:</p>
-                <div class="form-outline ms-2 me- mb-4">
-                    <textarea class="form-control" rows="1" id="txtTitle"></textarea>
-                </div>
-                <div class="row" id="queston1">
-                    <p class="col-2 me-2 mt-2 fw-bold">Question 1:</p>
-                    <div class="col-1 me-2 mb-4" id="btnQuestionType">
-                        <button type="button" class="dropdown-toggle btn-secondary" style="color: white"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Type
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <button class="dropdown-item" id="btnAddMC" type="button">
-                                    Multiple Choice
-                                </button>
-                            </li>
-                            <li>
-                                <button class="dropdown-item" id="btnAddMS" type="button">
-                                    Multiple Select
-                                </button>
-                            </li>
-                            <li>
-                                <button class="dropdown-item" id="btnAddLikert" type="button">
-                                    Likert Scale
-                                </button>
-                            </li>
-                            <li>
-                                <button class="dropdown-item" id="btnAddShortAnswer" type="button">
-                                    Short Answer
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="form-outline ms-2 me-2 mb-4" id="Q1AnswerSection">
-                    <div class="" id="viewMC">
-                        <div class="form-check ms-2 mb-2">
-                            <input class="form-check-input" type="radio" name="q1" id="q1-a1" />
-                            <label class="form-check-label" for="q1-a1">Option 1</label>
-                        </div>
-                        <div class="form-check ms-2 mb-2">
-                            <input class="form-check-input" type="radio" name="q1" id="q1-a2" />
-                            <label class="form-check-label" for="q1-a2">Option 2</label>
-                        </div>
-                        <div class="form-check ms-2 mb-2">
-                            <input class="form-check-input" type="radio" name="q1" id="q1-a2" />
-                            <label class="form-check-label" for="q1-a2">Option 3</label>
-                        </div>
-                        <button type="button" class="btn-secondary" id="btnAddMC" style="color: white"
-                            aria-expanded="false">
-                            + option
-                        </button>
-                    </div>
-                    <textarea class="form-control d-none" id="viewShortAnswer" rows="4" id="q2-a1"></textarea>
-                    <div class="text-center mb-3 d-none" id="viewLikert">
-                        <div class="d-inline mx-3">Bad</div>
-                        <!-- Likert scale options -->
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="q3" id="inlineRadio1" value="option1"
-                                aria-label="Radio input option for 1" />
-                            <label class="form-check-label" for="inlineRadio1">1</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="q3" id="inlineRadio2" value="option2"
-                                aria-label="Radio input option for 2" />
-                            <label class="form-check-label" for="inlineRadio2">2</label>
-                        </div>
-                        <!-- Add more Likert scale options as needed -->
-                        <div class="d-inline me-4">Excellent</div>
-                    </div>
-                    <button type="button" class="dropdown-toggle btn-secondary mt-5" style="color: white"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        + Question
-                    </button>
-                </div>
-            </form>
         </div>
     </div>
 </div>

@@ -7,31 +7,31 @@ loadCourses()
 document.querySelector('#btnCreateCourseModal').addEventListener('click', function() {
     const createCourseModal = new bootstrap.Modal(document.querySelector('#createCourseModal'))
     createCourseModal.show()
+})
 
-    // new course
-    document.querySelector('#btnCreateCourse').addEventListener('click', async function() {
-        let strName = document.querySelector('#txtCourseName').value.trim()
-        let strNumber = document.querySelector('#txtCourseNumber').value.trim()
-        let strSection = document.querySelector('#txtSectionNumber').value.trim()
-        let strSemester = document.querySelector('#txtSemester').value.trim()
-        let strStartDate = document.querySelector('#txtStartDate').value
-        let strEndDate = document.querySelector('#txtEndDate').value
-        
-        const objResponse = await ApiService.addCourse(strName, strNumber, strSection, strSemester, strStartDate, strEndDate)
-        if (objResponse.success) {
-            loadCourses()
-            createCourseModal.hide()
-        } else {
-            Swal.fire({
-                title: 'Oh no, an error occurred!',
-                text: objResponse.data.error,
-                icon: 'error',
-                confirmButtonColor: 'var(--dark-purple)',
-                background: 'var(--dark-blue)',
-                color: 'white'
-            })
-        }
-    })
+// new course
+document.querySelector('#btnCreateCourse').addEventListener('click', async function() {
+    let strName = document.querySelector('#txtCourseName').value.trim()
+    let strNumber = document.querySelector('#txtCourseNumber').value.trim()
+    let strSection = document.querySelector('#txtSectionNumber').value.trim()
+    let strSemester = document.querySelector('#txtSemester').value.trim()
+    let strStartDate = document.querySelector('#txtStartDate').value
+    let strEndDate = document.querySelector('#txtEndDate').value
+    
+    const objResponse = await ApiService.addCourse(strName, strNumber, strSection, strSemester, strStartDate, strEndDate)
+    if (objResponse.success) {
+        loadCourses()
+        bootstrap.Modal.getInstance(document.querySelector('#createCourseModal')).hide()
+    } else {
+        Swal.fire({
+            title: 'Oh no, an error occurred!',
+            text: objResponse.data.error,
+            icon: 'error',
+            confirmButtonColor: 'var(--dark-purple)',
+            background: 'var(--dark-blue)',
+            color: 'white'
+        })
+    }
 })
 
 // listener for clicking a group card
@@ -50,57 +50,40 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
         const strSection = cardLink.getAttribute('data-section')
         const strSemester = cardLink.getAttribute('data-semester')
 
-        document.querySelector('#txtCourseNumber').innerHTML = `${strCourseNumber}-${strSection}`
+        document.querySelector('#txtCourseTitle').innerHTML = `${strCourseNumber}-${strSection}`
 
         loadGroups(strCourseID)
 
-        // modal to create group
-        document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
-            const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
-            createGroupModal.show()
-
-            // new group
-            document.querySelector('#btnCreateGroup').addEventListener('click', async function() {
-                let strName = document.querySelector('#txtGroupName').value.trim()
-                
-                const objResponse = await ApiService.addCourseGroup(strCourseID, strName)
-                if (objResponse.success) {
-                    loadGroups(strCourseID)
-                    createGroupModal.hide()
-                } else {
-                    Swal.fire({
-                        title: 'Oh no, an error occurred!',
-                        text: objResponse.data.error,
-                        icon: 'error',
-                        confirmButtonColor: 'var(--dark-purple)',
-                        background: 'var(--dark-blue)',
-                        color: 'white'
-                    })
-                }
-            })
-        })
+        document.querySelector('#btnCreateGroup').dataset.courseID = strCourseID
     }
 })
 
-function generateClassCode(info){
-    let x = 0;
-    let code =''
+// modal to create group
+document.querySelector('#btnCreateGroupModal').addEventListener('click', function() {
+    const createGroupModal = new bootstrap.Modal(document.querySelector('#createGroupModal'))
+    createGroupModal.show()
+})
 
-    // Creates a random number of length 6
-    while ( x < 6) {
-        code += Math.floor(Math.random() * 10);
-        x++
+// new group
+document.querySelector('#btnCreateGroup').addEventListener('click', async function() {
+    const strName = document.querySelector('#txtGroupName').value.trim()
+    const strGroupID = this.dataset.courseID
+    
+    const objResponse = await ApiService.addCourseGroup(strCourseID, strName)
+    if (objResponse.success) {
+        loadGroups(strCourseID)
+        bootstrap.Modal.getInstance(document.querySelector('#createGroupModal')).hide()
+    } else {
+        Swal.fire({
+            title: 'Oh no, an error occurred!',
+            text: objResponse.data.error,
+            icon: 'error',
+            confirmButtonColor: 'var(--dark-purple)',
+            background: 'var(--dark-blue)',
+            color: 'white'
+        })
     }
-    return code
-}
-
-// function verifyCode(code){
-//     if(strClassCode.length < 6 || strClassCode.length > 6 || isNaN(strClassCode)){
-//         blnError = true
-//         strMessage += '<p class="mb-0 mt-0">You must enter a valid code</p>'
-//     }
-//     //now 
-// }
+})
 
 // create survey button functionality
 document.querySelector('#btnNewSurvey').addEventListener('click', function() {
