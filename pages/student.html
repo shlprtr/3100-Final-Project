@@ -18,23 +18,7 @@
 
     <!-- Group cards container -->
     <div class="d-flex flex-wrap margin-30" id="groupContainer">
-        <!-- Example group card -->
-        <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3>GROUP NAME</h3>
-            <p>COURSE NAME</p>
-            <a class="stretched-link" data-group-id="Group1"></a>
-        </div>
-        <!-- Repeatable group card -->
-        <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3>GROUP NAME</h3>
-            <p>COURSE NAME</p>
-            <a class="stretched-link" data-group-id="Group2"></a>
-        </div>
-        <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3>GROUP NAME</h3>
-            <p>COURSE NAME</p>
-            <a class="stretched-link" data-group-id="Group3"></a>
-        </div>
+        
     </div>
 </div>
 
@@ -133,8 +117,8 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <label class="ms-2 mt-2" for="txtJoinGroupModal">Enter Group Code:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtJoinGroupModal"
+                <label class="ms-2 mt-2" for="txtJoinCode">Enter Group Code:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtJoinCode"
                     aria-label="Input for group code" />
             </div>
             <!-- Modal footer -->
@@ -142,7 +126,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" class="btn btn-primary">Join</button>
+                <button type="button" class="btn btn-primary" id="btnJoinGroup">Join</button>
             </div>
         </div>
     </div>

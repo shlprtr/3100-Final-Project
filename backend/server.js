@@ -284,7 +284,7 @@ app.get('/courses/groups/user', authenticateUser, (req, res, next) => {
             console.log(err)
             return res.status(500).json({ status: "error", message: err.message })
         }
-        res.status(200).json({ status: "success", groups: result })
+        res.status(200).json({ status: "success", result: result })
     })
 })
 
@@ -331,7 +331,7 @@ app.post('/courses/groups', authenticateUser, verifyInstructor, (req, res, next)
                 message: err.message
             })
         } else {
-            res.status(201).json({ status: "success" })
+            res.status(201).json({ status: "success", joinCode: strJoinCode })
         }
     })
 })
@@ -358,20 +358,18 @@ app.get('/courses/groups/users/:groupID', verifySession, (req, res, next) => {
     })
 })
 
-// TODO: join by code
 // add current user to a group
 app.post('/courses/groups/users', authenticateUser, (req, res, next) => {
     const strGroupMemberID = uuidv4()
-    const strGroupID = req.body.groupID
+    const strJoinCode = req.body.joinCode?.trim().toUpperCase()
     const strUserID = req.userID
 
-    if (!strGroupID || !strUserID) {
-        return res.status(400).json({ error: "You must provide a group id and user id" })
+    if (!strJoinCode) {
+        return res.status(400).json({ error: "You must provide a join code" })
     }
 
-    // check if user already in group
-    let strCheckCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ? AND UserID = ?"
-    db.all(strCheckCommand, [strGroupID, strUserID], (err, result) => {
+    const strFindGroupCommand = "SELECT GroupID FROM tblCourseGroups WHERE JoinCode = ?"
+    db.all(strFindGroupCommand, [strJoinCode], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).json({
@@ -380,25 +378,43 @@ app.post('/courses/groups/users', authenticateUser, (req, res, next) => {
             })
         }
 
-        if (result.length > 0) {
-            return res.status(400).json({
-                status: "error",
-                message: "User is already a member of this group"
-            })
+        if (result.length === 0) {
+            return res.status(404).json({ error: "Invalid join code" })
         }
 
-        let strCommand = "INSERT INTO tblGroupMembers VALUES (?, ?, ?)"
-        let arrParameters = [strGroupMemberID, strGroupID, strUserID]
-        db.run(strCommand, arrParameters, (err) => {
+        const strGroupID = result[0].GroupID
+
+        // check if user already in group
+        let strCheckCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ? AND UserID = ?"
+        db.all(strCheckCommand, [strGroupID, strUserID], (err, result) => {
             if (err) {
                 console.log(err)
-                res.status(500).json({
+                return res.status(500).json({
                     status: "error",
                     message: err.message
                 })
-            } else {
-                res.status(201).json({ status: "success" })
             }
+    
+            if (result.length > 0) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "User is already a member of this group"
+                })
+            }
+    
+            let strCommand = "INSERT INTO tblGroupMembers VALUES (?, ?, ?)"
+            let arrParameters = [strGroupMemberID, strGroupID, strUserID]
+            db.run(strCommand, arrParameters, (err) => {
+                if (err) {
+                    console.log(err)
+                    res.status(500).json({
+                        status: "error",
+                        message: err.message
+                    })
+                } else {
+                    res.status(201).json({ status: "success" })
+                }
+            })
         })
     })
 })

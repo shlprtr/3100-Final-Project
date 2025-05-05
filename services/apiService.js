@@ -445,9 +445,9 @@ export class ApiService {
         }
     }
 
-    static async addUserToGroup(strGroupID) {
+    static async addUserToGroup(strJoinCode) {
         const objBody = {
-            groupID: strGroupID
+            joinCode: strJoinCode
         }
 
         try {

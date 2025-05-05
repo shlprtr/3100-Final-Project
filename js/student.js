@@ -7,14 +7,13 @@ loadGroups()
 document.querySelector('#groupContainer').addEventListener('click', (event) => {
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
-        const strGroupId = cardLink.getAttribute('data-group-id')
-        // fetch group details
-
         document.querySelector('#selectedGroup').classList.remove('d-none')
         document.querySelector('#viewGroups').classList.add('d-none')
 
         document.querySelector('#groupName').innerHTML = strGroupId
         document.querySelector('#viewSurveys').classList.remove('d-none')
+
+        const strGroupID = cardLink.getAttribute('data-group-id')
     }
 })
 
@@ -38,7 +37,6 @@ document.querySelector('#surveyContainer').addEventListener('click', (event) => 
         })
     }
 })
-
 
 // display all surveys
 document.querySelector('#btnSurveys').addEventListener('click', (event) => {
@@ -124,6 +122,18 @@ document.querySelector('#btnJoinGroupModal').addEventListener('click', function(
     joinGroupModal.show()
 })
 
+// join group
+document.querySelector('#btnJoinGroup').addEventListener('click', async function() {
+    const strJoinCode = document.querySelector('#txtJoinCode').value.trim().toUpperCase()
+    const strCourseID = this.dataset.courseID
+
+    const objResponse = await ApiService.addUserToGroup(strJoinCode)
+    if (objResponse.success) {
+        loadGroups()
+        bootstrap.Modal.getInstance(document.querySelector('#joinGroupModal')).hide()
+    }
+})
+
 // button to go back to groups
 document.getElementById('btnBackToGroups').addEventListener('click', function () {
     // Hide the surveys section
@@ -133,9 +143,9 @@ document.getElementById('btnBackToGroups').addEventListener('click', function ()
     document.getElementById('viewGroups').classList.remove('d-none');
 });
 
-async function loadGroups(strCourseID) {
+async function loadGroups() {
     const objResponse = await ApiService.viewUsersGroups()
-    if (objResponse.success && objResponse.data.result > 0) {
+    if (objResponse.success) {
         const arrGroups = objResponse.data.result
         let strGroupHTML = ""
         arrGroups.forEach(group => {
