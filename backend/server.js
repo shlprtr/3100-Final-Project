@@ -707,7 +707,7 @@ app.put('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
 });
 
 // get all surveys for a class
-app.get('/survey/:courseID', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
+app.get('/survey/:courseID', authenticateUser, (req,res,next) => {
     let strCourseID = req.params.courseID
     let strUserID = req.userID
 

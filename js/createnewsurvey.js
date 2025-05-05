@@ -1,6 +1,13 @@
 import { ApiService } from '../services/apiService.js'
 import { navigate } from '../services/pageRouter.js'
 
+var survey = {
+    questions: []
+}
+var newQuestion
+ 
+survey.questions.push(newQuestion);
+
 document.querySelector('#btnAddTitle').addEventListener('click', (event) => {
     let strSurveyTitle = document.querySelector("#txtSurveyTitle").value
 
@@ -59,6 +66,12 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                 const answerInputs = document.querySelectorAll('#divMultipleChoiceAnswers input')
                 let strAnswer = ''
 
+                newQuestion = {
+                    question: strMultipleChoiceQuestion,
+                    questionType: 'Multiple Choice',
+                    options: []
+                };
+
                 let blnError = false
                 let strMessage = ""
 
@@ -86,9 +99,11 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                         if (answerText.length > 0) {
                             strAnswer += `<input type="radio" id="${answerText}" value="${answerText}" style="margin-left: 30px" name="${strMultipleChoiceQuestion}">`
                             strAnswer += `<label for="${answerText}" style="margin-left: 15px;">${answerText}</label><br>`
+                            newQuestion.options.push(answerText);
                         }
                     })
                     document.querySelector('#divSurveys').innerHTML += `<div class="mb-4">${strAnswer}</div>`
+                    survey.questions.push(newQuestion);
                 }
             });
         }
@@ -104,6 +119,11 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                 let strLikertQuestion = document.querySelector("#txtLikertQuestion").value
                 let strLikertQuestion1 = document.querySelector("#txtLikertQuestion1").value
                 let strLikertQuestion2 = document.querySelector("#txtLikertQuestion2").value
+                newQuestion = {
+                    question: strLikertQuestion,
+                    questionType: 'Likert Scale',
+                    options: [strLikertQuestion1, strLikertQuestion2]
+                };
 
                 let blnError = false
                 let strMessage = ""
@@ -141,6 +161,7 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                     strAnswer += `<p class="mb-1">${strLikertQuestion2}</p>`
                     strAnswer += '</div>'
                     document.querySelector('#divSurveys').innerHTML += `<div class="mb-4">${strAnswer}</div>`
+                    survey.questions.push(newQuestion);
                 }
             });
         }
@@ -150,6 +171,11 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
             document.querySelector('#divCreateQuestion').innerHTML += '<button id="btnCreateShortAnswerQuestion" class="btn btn-secondary col-12 mt-2 mb-4" type="button">Add Question To Survey</button>'
             document.querySelector('#btnCreateShortAnswerQuestion').addEventListener('click', (event) => {
                 let strShortAnswerQuestion = document.querySelector("#txtShortAnswer").value
+                newQuestion = {
+                    question: strShortAnswerQuestion,
+                    questionType: 'Short Answer',
+                    options: []
+                };
 
                 let blnError = false
                 let strMessage = ""
@@ -176,21 +202,53 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
     }
 });
 
-document.querySelector('#btnCreateSurvey').addEventListener('click', (event) => {
+document.querySelector('#btnCreateSurvey').addEventListener('click', async (event) => {
+    event.preventDefault()
     // Get the survey preview content
     const surveyPreview = document.querySelector('#divSurveys').innerHTML;
+    let blnError = false
+    let strMessage = ""
+    let strSurveyTitle = document.querySelector("#surveyTitle").textContent.trim()
+    let strSurveyStart = document.querySelector("#txtStartDate").value
+    let strSurveyEnd = document.querySelector("#txtEndDate").value
+    
+    if (strSurveyTitle === '' || strSurveyTitle === 'Survey Title') {
+        blnError = true
+        strMessage += '<p class="mb-0 mt-0">You must enter a survey title</p>'
+    }
+    if (!surveyPreview.trim()) {
+        blnError = true
+        strMessage += '<p class="mb-0 mt-0">You must add at least one question to create a survey.</p>'
+    }
+    if (strSurveyStart.length < 1) {
+        blnError = true
+        strMessage += '<p class="mb-0 mt-0">You must enter a survey start date</p>'
+    }
+    if (strSurveyEnd.length < 1) {
+        blnError = true
+        strMessage += '<p class="mb-0 mt-0">You must enter a survey end date</p>'
+    }
+
+    let objResponse = await ApiService.addSurvey("f42cba98-c747-43b5-8f10-7e23b2bf7285", strSurveyTitle, strSurveyStart, strSurveyEnd)
+    console.log(objResponse);
+    let objSurveyResponse = await ApiService.viewSurveys('f42cba98-c747-43b5-8f10-7e23b2bf7285')
+    for (let i = 0; i < objSurveyResponse.data.result.length; i++) {
+        if (objSurveyResponse.data.result[i].Title == strSurveyTitle) {
+            let strSurveyID = objSurveyResponse.data.result[i].SurveyID
+            console.log(survey.questions);
+        }
+    }
 
     // Check if the survey has content
-    if (!surveyPreview.trim()) {
+    if (blnError) {
         // Show SweetAlert2 error message
         Swal.fire({
             title: "Error",
-            text: "You must add at least one question to create a survey.",
+            html: strMessage,
             icon: "error",
             confirmButtonText: "OK",
         });
-        return;
-    }
+    } 
 
     // Show SweetAlert2 success message
     Swal.fire({
