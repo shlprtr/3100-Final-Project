@@ -82,6 +82,7 @@ CREATE TABLE tblCourseGroups (
     GroupID TEXT PRIMARY KEY,
     GroupName TEXT,
     CourseID TEXT,
+    JoinCode TEXT,
     FOREIGN KEY (CourseID) REFERENCES tblCourses(CourseID)
 );
 

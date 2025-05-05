@@ -247,6 +247,25 @@ app.post('/courses', authenticateUser, (req, res, next) => {
 })
 
 
+// get all groups for a user
+app.get('/courses/groups/user', authenticateUser, (req, res, next) => {
+    const strUserID = req.userID
+
+    const strCommand = `
+        SELECT cg.GroupID, cg.GroupName, cg.CourseID
+        FROM tblGroupMembers gm
+        JOIN tblCourseGroups cg ON gm.GroupID = cg.GroupID
+        WHERE gm.UserID = ?
+    `;
+    db.all(strCommand, [strUserID], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({ status: "error", message: err.message })
+        }
+        res.status(200).json({ status: "success", groups: result })
+    })
+})
+
 // get all groups for a course
 app.get('/courses/groups/:courseid', authenticateUser, verifyInstructor, (req, res, next) => {
     const strUserID = req.userID
@@ -269,43 +288,19 @@ app.get('/courses/groups/:courseid', authenticateUser, verifyInstructor, (req, r
     })
 })
 
-// get all groups for a user
-app.get('/courses/groups/user', authenticateUser, (req, res, next) => {
-    const strUserID = req.userID
-
-    const strCommand = `
-        SELECT cg.GroupID, cg.GroupName, cg.CourseID
-        FROM tblGroupMembers gm
-        JOIN tblCourseGroups cg ON gm.GroupID = cg.GroupID
-        WHERE gm.UserID = ?
-    `;
-    db.all(strCommand, [strUserID], (err, result) => {
-        if (err) {
-            console.log(err)
-            return res.status(500).json({ status: "error", message: err.message })
-        }
-
-        if (result.length === 0) {
-            return res.status(404).json({ status: "success", message: "No groups found for this user" })
-        }
-
-        res.status(200).json({ status: "success", groups: result })
-    })
-})
-
 // create group for a course
 app.post('/courses/groups', authenticateUser, verifyInstructor, (req, res, next) => {
     const strGroupID = uuidv4()
     const strCourseID = req.body.courseID
     const strGroupName = req.body.groupName
-    const strUserID = req.userID
+    const strJoinCode = Math.random().toString(36).substring(2, 8).toUpperCase()
 
     if (!strCourseID || !strGroupName) {
         return res.status(400).json({ error: "You must provide a course id and group name" })
     }
 
-    let strCommand = "INSERT INTO tblCourseGroups VALUES (?, ?, ?)"
-    let arrParameters = [strGroupID, strGroupName, strCourseID]
+    let strCommand = "INSERT INTO tblCourseGroups VALUES (?, ?, ?, ?)"
+    let arrParameters = [strGroupID, strGroupName, strCourseID, strJoinCode]
     db.run(strCommand, arrParameters, (err) => {
         if (err) {
             console.log(err)
@@ -341,6 +336,7 @@ app.get('/courses/groups/users/:groupID', verifySession, (req, res, next) => {
     })
 })
 
+// TODO: join by code
 // add current user to a group
 app.post('/courses/groups/users', authenticateUser, (req, res, next) => {
     const strGroupMemberID = uuidv4()
