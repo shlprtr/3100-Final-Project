@@ -46,7 +46,6 @@ CREATE TABLE tblSurvey (
     SurveyID TEXT PRIMARY KEY,
     CourseID TEXT,
     Title TEXT,
-    Status TEXT,
     DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     EndDate TIMESTAMP,
     FOREIGN KEY (CourseID) REFERENCES tblCourses(CourseID)
