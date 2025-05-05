@@ -137,3 +137,21 @@ async function loadGroups(strCourseID) {
         document.querySelector('#divSurveyContainer').innerHTML = strGroupHTML
     }
 }
+
+async function loadUsers() {
+    const objResponse = await ApiService.viewCourseUsers(strCurrCourseID)
+    if (objResponse.success) {
+        //array of users in course
+        const arrUsers = objResponse.data.result
+        console.log(arrUsers)
+
+        let strUsersHTML = ""
+        arrUsers.forEach(users => {
+            strUsersHTML += `
+               <option value="${users.UserID}">${users.FirstName} ${users.LastName} </option>
+            `
+        })
+        document.querySelector('#selStudents').innerHTML = strUsersHTML
+    }
+}
+
