@@ -153,11 +153,6 @@ document.querySelector('#btnSaveEdit').addEventListener('click', async () => {
             objResponse = await ApiService.addSocial('Teams', strTeams)
         }
     }
-
-
-
-    //Github, Discord, Teams
-
 })
 
 function getCurrentInfo(selected) {

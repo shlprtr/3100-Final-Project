@@ -42,6 +42,28 @@ app.get('/user', authenticateUser, (req, res, next) => {
     })
 })
 
+app.get('/userinfo/:userID', authenticateUser, (req, res, next) => {
+    const strUserID = req.params.userID
+
+    let strCommand = "SELECT FirstName, LastName, Email FROM tblUsers WHERE UserID = ?"
+    db.all(strCommand, [strUserID], (err, result) => {
+        if (err) {
+            console.log(err)
+            res.status(500).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(200).json({
+                status: "success",
+                firstName: result[0].FirstName,
+                lastName: result[0].LastName,
+                email: result[0].Email
+            })
+        }
+    })
+})
+
 // create a new user (register)
 app.post('/user', (req, res, next) => {
     const strUserID = uuidv4()
@@ -492,6 +514,20 @@ app.get('/socials', authenticateUser, (req,res,next) => {
     })
 })
 
+app.get('/usersocials/:userID', authenticateUser, (req,res,next) => {
+    let strUserID = req.params.userID
+
+    let comSelect = "SELECT * FROM tblSocials WHERE UserID = ?"
+    db.all(comSelect, [strUserID], function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(200).json({status:"success",result:result})
+        }
+    })
+})
+
 
 // create a phone number
 app.post('/phone', authenticateUser, (req, res, next) => {
@@ -560,6 +596,21 @@ app.put('/phone', authenticateUser, (req, res, next) => {
         res.status(200).json({ status: "success", message: "Task updated successfully" });
     })
 });
+
+// get phone number for a user
+app.get('/userphone/:userID', authenticateUser, (req,res,next) => {
+    let strUserID = req.params.userID
+
+    let comSelect = "SELECT * FROM tblPhone WHERE UserID = ?"
+    db.all(comSelect, [strUserID], function(err,result){
+        if(err){
+            console.log(err)
+            res.status(400).json({status:"error",message:err.message})
+        } else {
+            res.status(200).json({status:"success",result:result})
+        }
+    })
+})
 
 // get phone number for a user
 app.get('/phone', authenticateUser, (req,res,next) => {

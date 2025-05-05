@@ -46,8 +46,54 @@ document.querySelector('#btnSurveys').addEventListener('click', (event) => {
 })
 
 // display all members
-document.querySelector('#btnMembers').addEventListener('click', (event) => {
+document.querySelector('#btnMembers').addEventListener('click', async () => {
+    let studentName
+    // get the groupID and input it into the api call
+    let objResponse = await ApiService.viewGroupUsers()
     selectView('Members')
+    document.querySelector('#groupMemberContainer').innerHTML = ''
+    for (let i = 0; i < objResponse.data.result.length; i++) {
+        let objUserInfoResponse = await ApiService.viewUserInfo(objResponse.data.result[i].UserID)
+        let objUserPhoneResponse = await ApiService.viewUserPhoneInfo(objResponse.data.result[i].UserID)
+        let objUserSocialsResponse = await ApiService.viewUserSocials(objResponse.data.result[i].UserID)
+        let name = objUserInfoResponse.data.firstName + ' ' + objUserInfoResponse.data.lastName
+        let email = objUserInfoResponse.data.email
+        let phone = '--'
+        let discord = '--'
+        let github = '--'
+        let teams = '--'
+
+        for (let i = 0; i < objUserPhoneResponse.data.result.length; i++) {
+            phone = objUserPhoneResponse.data.result[i].PhoneNumber
+        }
+
+        for (let i = 0; i < objUserSocialsResponse.data.result.length; i++) {
+            let strSocialType = objUserSocialsResponse.data.result[i].SocialType
+        
+            if(strSocialType === 'Discord') {
+                discord = objUserSocialsResponse.data.result[i].Username
+            }
+            if(strSocialType === 'GitHub') {
+                github = objUserSocialsResponse.data.result[i].Username
+            }
+            if(strSocialType === 'Teams') {
+                teams = objUserSocialsResponse.data.result[i].Username
+            }
+        }
+        
+        document.querySelector('#groupMemberContainer').innerHTML += `<div class="card selection-card shadow-sm mb-2 position-relative">
+                                                                    <div class="card-body">
+                                                                        <p class="mb-0">${name}</p>
+                                                                        <hr />
+                                                                        <p class="mt-0">Email: ${email}</p>
+                                                                        <p class="mt-0">Phone: ${phone}</p>
+                                                                        <p class="mt-0">Discord: ${discord}</p>
+                                                                        <p class="mt-0">GitHub: ${github}</p>
+                                                                        <p class="mt-0">Teams: ${teams}</p>
+                                                                        <a class="stretched-link" data-survey-id="Survey1"></a>
+                                                                    </div>
+                                                                </div>`
+    }
 
 })
 
