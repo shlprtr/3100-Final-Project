@@ -18,23 +18,7 @@
 
     <!-- Group cards container -->
     <div class="d-flex flex-wrap margin-30" id="groupContainer">
-        <!-- Example group card -->
-        <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3>GROUP NAME</h3>
-            <p>COURSE NAME</p>
-            <a class="stretched-link" data-group-id="Group1"></a>
-        </div>
-        <!-- Repeatable group card -->
-        <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3>GROUP NAME</h3>
-            <p>COURSE NAME</p>
-            <a class="stretched-link" data-group-id="Group2"></a>
-        </div>
-        <div class="card shadow p-4 group-card selection-card position-relative me-2">
-            <h3>GROUP NAME</h3>
-            <p>COURSE NAME</p>
-            <a class="stretched-link" data-group-id="Group3"></a>
-        </div>
+        
     </div>
 </div>
 
@@ -62,31 +46,46 @@
 <div class="container-fluid d-none" id="viewSurveys">
     <div class="margin-30">
         <div class="row mt-5" id="surveyContainer">
-            <!-- Example survey card -->
-            <div class="card selection-card shadow-sm mb-2 position-relative">
-                <div class="card-body">
-                    <p>Mid-Year Peer Review</p>
-                    <p>CSC 4610-002</p>
-                    <a class="stretched-link" data-survey-id="Survey1"></a>
+            
+        </div>
+        <button class="btn btn-secondary position-fixed mt-3" id="btnBackToGroups">Back</button>
+    </div>
+    <!-- Back button -->
+</div>
+
+<!-- Section for displaying a sample survey -->
+<div class="container-fluid d-none" id="frmSurvey">
+    <div class="d-flex justify-content-center align-items-center margin-30">
+        <div class="card col-11 col-lg-9 mt-5">
+            <div class="card-body p-4">
+                <h1 class="card-title text-center mb-3" style="color: white" id="surveyName">Student Survey</h1>
+                <p class="text-center mb-4" style="color: white">
+                    Please fill out the survey below as provided by your instructor.
+                </p>
+                <hr class="m-4"/>
+                <!-- Survey title -->
+                <form id="studentSurveyForm">
+    
+                </form>
+                <!-- private or public -->
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary me-2" id="btnPrivate">
+                        Private
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btnPublic">
+                        Public
+                    </button>
                 </div>
-            </div>
-            <!-- Repeatable survey card -->
-            <div class="card selection-card shadow-sm mb-2 position-relative">
-                <div class="card-body">
-                    <p>End-Year Peer Review</p>
-                    <p>CSC 4610-002</p>
-                    <a class="stretched-link" data-survey-id="Survey2"></a>
+                <!-- Submit button -->
+                <hr class="m-4"/>
+                <div class="text-end mt-3">
+                    <button class="btn btn-primary mt-3" type="button" id="btnSubmitForm">
+                        Submit
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Back button -->
-    <button class="btn btn-secondary position-fixed" id="btnBackToGroups">Back</button>
-</div>
-
-<!-- Section for displaying a sample survey -->
-<div class="d-flex justify-content-center align-items-center d-none" id="frmSurvey">
-    
 </div>
 
 <!-- Section for viewing all group members -->
@@ -133,8 +132,8 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <label class="ms-2 mt-2" for="txtJoinGroupModal">Enter Group Code:</label>
-                <input class="form-control input-outline mt-1" type="text" id="txtJoinGroupModal"
+                <label class="ms-2 mt-2" for="txtJoinCode">Enter Group Code:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtJoinCode"
                     aria-label="Input for group code" />
             </div>
             <!-- Modal footer -->
@@ -142,7 +141,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" class="btn btn-primary">Join</button>
+                <button type="button" class="btn btn-primary" id="btnJoinGroup">Join</button>
             </div>
         </div>
     </div>

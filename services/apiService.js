@@ -384,6 +384,24 @@ export class ApiService {
         }
     }
 
+    static async viewCourseInfo(strCourseID) {
+        const objBody = {
+            courseID: strCourseID,
+        }
+
+        try {
+            const objResponse = await this.get(`/courses/${strCourseID}`)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
+
     static async addCourseGroup(strCourseID, strGroupName) {
         const objBody = {
             courseID: strCourseID,
@@ -431,9 +449,9 @@ export class ApiService {
         }
     }
 
-    static async viewGroupUsers(strGroupID) {
+    static async viewCourseUsers(strCourseID) {
         try {
-            const objResponse = await this.get(`/courses/groups/users/${strGroupID}`)
+            const objResponse = await this.get(`/courses/groups/users/course/${strCourseID}`)
             return objResponse
         } catch (error) {
             console.error('Error:', error)
@@ -445,9 +463,23 @@ export class ApiService {
         }
     }
 
-    static async addUserToGroup(strGroupID) {
+    static async viewGroupUsers(strGroupID) {
+        try {
+            const objResponse = await this.get(`/courses/groups/users/group/${strGroupID}`)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
+
+    static async addUserToGroup(strJoinCode) {
         const objBody = {
-            groupID: strGroupID
+            joinCode: strJoinCode
         }
 
         try {

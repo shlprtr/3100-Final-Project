@@ -1,20 +1,27 @@
 import { ApiService } from '../services/apiService.js'
 import { navigate } from '../services/pageRouter.js'
 
+let strCurrCourseID = null
+let strCurrGroupID = null
+let strCurrSurveyID = null
+let strSurveyStatus = "Private"
+
 loadGroups()
 
 // listener for clicking a group card
 document.querySelector('#groupContainer').addEventListener('click', (event) => {
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
-        const strGroupId = cardLink.getAttribute('data-group-id')
-        // fetch group details
-
         document.querySelector('#selectedGroup').classList.remove('d-none')
         document.querySelector('#viewGroups').classList.add('d-none')
-
-        document.querySelector('#groupName').innerHTML = strGroupId
         document.querySelector('#viewSurveys').classList.remove('d-none')
+
+        strCurrCourseID = cardLink.getAttribute('data-group-course-id')
+        strCurrGroupID = cardLink.getAttribute('data-group-id')
+
+        document.querySelector('#groupName').innerHTML = cardLink.getAttribute('data-group-name')
+
+        loadSurveys()
     }
 })
 
@@ -24,32 +31,22 @@ document.querySelector('#surveyContainer').addEventListener('click', (event) => 
     document.querySelector('#frmSurvey').classList.remove('d-none')
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
-        const strSurveyId = cardLink.getAttribute('data-survey-id')
-        // fetch group details
+        strCurrSurveyID = cardLink.getAttribute('data-survey-id')
 
-        fetch("pages/studentsurvey.html")
-        .then(response => response.text())
-        .then(html => {
-            const objScript = document.createElement('script')
-            objScript.src = 'js/studentsurvey.js'
-            objScript.type = 'module'
-            document.head.appendChild(objScript)
-            document.querySelector('#frmSurvey').innerHTML = html
-        })
+        loadSelectedSurvey()
     }
 })
-
 
 // display all surveys
 document.querySelector('#btnSurveys').addEventListener('click', (event) => {
     selectView('Surveys')
+    loadSurveys()
 })
 
 // display all members
 document.querySelector('#btnMembers').addEventListener('click', async () => {
     let studentName
-    // get the groupID and input it into the api call
-    let objResponse = await ApiService.viewGroupUsers()
+    let objResponse = await ApiService.viewGroupUsers(strCurrGroupID)
     selectView('Members')
     document.querySelector('#groupMemberContainer').innerHTML = ''
     for (let i = 0; i < objResponse.data.result.length; i++) {
@@ -81,18 +78,19 @@ document.querySelector('#btnMembers').addEventListener('click', async () => {
             }
         }
         
-        document.querySelector('#groupMemberContainer').innerHTML += `<div class="card selection-card shadow-sm mb-2 position-relative">
-                                                                    <div class="card-body">
-                                                                        <p class="mb-0">${name}</p>
-                                                                        <hr />
-                                                                        <p class="mt-0">Email: ${email}</p>
-                                                                        <p class="mt-0">Phone: ${phone}</p>
-                                                                        <p class="mt-0">Discord: ${discord}</p>
-                                                                        <p class="mt-0">GitHub: ${github}</p>
-                                                                        <p class="mt-0">Teams: ${teams}</p>
-                                                                        <a class="stretched-link" data-survey-id="Survey1"></a>
-                                                                    </div>
-                                                                </div>`
+        document.querySelector('#groupMemberContainer').innerHTML += `
+            <div class="card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p class="mb-0">${name}</p>
+                    <hr />
+                    <p class="mt-0">Email: ${email}</p>
+                    <p class="mt-0">Phone: ${phone}</p>
+                    <p class="mt-0">Discord: ${discord}</p>
+                    <p class="mt-0">GitHub: ${github}</p>
+                    <p class="mt-0">Teams: ${teams}</p>
+                </div>
+            </div>
+        `
     }
 
 })
@@ -124,6 +122,17 @@ document.querySelector('#btnJoinGroupModal').addEventListener('click', function(
     joinGroupModal.show()
 })
 
+// join group
+document.querySelector('#btnJoinGroup').addEventListener('click', async function() {
+    const strJoinCode = document.querySelector('#txtJoinCode').value.trim().toUpperCase()
+
+    const objResponse = await ApiService.addUserToGroup(strJoinCode)
+    if (objResponse.success) {
+        loadGroups()
+        bootstrap.Modal.getInstance(document.querySelector('#joinGroupModal')).hide()
+    }
+})
+
 // button to go back to groups
 document.getElementById('btnBackToGroups').addEventListener('click', function () {
     // Hide the surveys section
@@ -133,15 +142,35 @@ document.getElementById('btnBackToGroups').addEventListener('click', function ()
     document.getElementById('viewGroups').classList.remove('d-none');
 });
 
-async function loadGroups(strCourseID) {
+document.querySelector('#btnPrivate').addEventListener('click', () => {
+    strSurveyStatus = "Private"    
+    document.querySelector('#btnPrivate').classList.add('btn-primary')
+    document.querySelector('#btnPrivate').classList.remove('btn-secondary')
+    document.querySelector('#btnPublic').classList.add('btn-secondary')
+    document.querySelector('#btnPublic').classList.remove('btn-primary')
+
+});
+
+document.querySelector('#btnPublic').addEventListener('click', () => {
+    strSurveyStatus = "Public"
+    document.querySelector('#btnPublic').classList.add('btn-primary')
+    document.querySelector('#btnPublic').classList.remove('btn-secondary')
+    document.querySelector('#btnPrivate').classList.add('btn-secondary')
+    document.querySelector('#btnPrivate').classList.remove('btn-primary')
+});
+
+
+async function loadGroups() {
     const objResponse = await ApiService.viewUsersGroups()
-    if (objResponse.success && objResponse.data.result > 0) {
+    if (objResponse.success) {
         const arrGroups = objResponse.data.result
         let strGroupHTML = ""
-        arrGroups.forEach(group => {
+        for (const group of arrGroups) {
+            const objCourseInfo = await getCourseInfo(group.CourseID)
             strGroupHTML += `
                 <div class="card shadow p-4 group-card selection-card position-relative me-2">
                     <h3>${group.GroupName}</h3>
+                    <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
                     <a class="stretched-link"
                         data-group-id="${group.GroupID}"
                         data-group-name="${group.GroupName}"
@@ -149,7 +178,138 @@ async function loadGroups(strCourseID) {
                     </a>
                 </div>
             `
-        })
+        }
         document.querySelector('#groupContainer').innerHTML = strGroupHTML
     }
+}
+
+async function loadSurveys() {
+    const objResponse = await ApiService.viewSurveys(strCurrCourseID)    
+    if (objResponse.success) {
+        const arrSurveys = objResponse.data.result
+        let strSurveyHTML = ""
+        for (const survey of arrSurveys) {
+            const objCourseInfo = await getCourseInfo(strCurrCourseID)
+            strSurveyHTML += `
+                <div class="card selection-card shadow-sm mb-2 position-relative">
+                    <div class="card-body">
+                        <h4 class="mt-2">${survey.Title}</h4>
+                        <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
+                        <a class="stretched-link"
+                            data-survey-id="${survey.SurveyID}">
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+        document.querySelector('#surveyContainer').innerHTML = strSurveyHTML
+    }
+}
+
+async function loadSelectedSurvey() {
+    const objResponse = await ApiService.viewSurveyQuestion(strCurrSurveyID)
+    if (objResponse.success) {
+        const arrQuestions = objResponse.data.result
+        let arrOptions
+        let strQuestionsHTML = ""
+        for (let q = 0; q < arrQuestions.length; q++) {
+            const question = arrQuestions[q]
+            switch (question.QuestionType) {
+                case "Multiple Choice":
+                    strQuestionsHTML += `<p class="fw-bold">${question.Question}</p>`
+                    arrOptions = JSON.parse(question.Options)
+                    for (let a = 0; a < arrOptions.length; a++) {
+                        strQuestionsHTML += `
+                            <div class="form-check ms-2 mb-2">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-a${a}" />
+                                <label class="form-check-label" for="q${q}-a${a}">${arrOptions[a]}</label>
+                            </div>
+                        `
+                    }
+                    strQuestionsHTML += "<hr class='m-4'/>"
+                    break
+                case "Likert":
+                    arrOptions = JSON.parse(question.Options)
+                    strQuestionsHTML += `
+                        <p class="fw-bold">${question.Question}</p>
+                        <div class="text-center mb-3">
+                            <div class="d-inline mx-3">${arrOptions[0]}</div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio1" value="1"
+                                    aria-label="Radio input option for 1" />
+                                <label class="form-check-label" for="q${q}-radio1">1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio2" value="2"
+                                    aria-label="Radio input option for 2" />
+                                <label class="form-check-label" for="q${q}-radio2">2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio3" value="3"
+                                    aria-label="Radio input option for 3" />
+                                <label class="form-check-label" for="q${q}-radio3">3</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio4" value="4"
+                                    aria-label="Radio input option for 4" />
+                                <label class="form-check-label" for="q${q}-radio4">4</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio5" value="5"
+                                    aria-label="Radio input option for 5" />
+                                <label class="form-check-label" for="q${q}-radio5">5</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio6" value="6"
+                                    aria-label="Radio input option for 6" />
+                                <label class="form-check-label" for="q${q}-radio6">6</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio7" value="7"
+                                    aria-label="Radio input option for 7" />
+                                <label class="form-check-label" for="q${q}-radio7">7</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio8" value="8"
+                                    aria-label="Radio input option for 8" />
+                                <label class="form-check-label" for="q${q}-radio8">8</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio9" value="9"
+                                    aria-label="Radio input option for 9" />
+                                <label class="form-check-label" for="q${q}-radio9">9</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio10" value="10"
+                                    aria-label="Radio input option for 10" />
+                                <label class="form-check-label" for="q${q}-radio10">10</label>
+                            </div>
+                            <div class="d-inline me-4">${arrOptions[1]}</div>
+                        </div>
+                        <hr class="m-4"/>
+                    `
+                    break
+                case "Short Answer":
+                    strQuestionsHTML += `
+                        <p class="fw-bold">${question.Question}</p>
+                        <div class="form-outline ms-2 me-2 mb-4">
+                            <textarea class="form-control" rows="4" id="q${q}"></textarea>
+                        </div>
+                        <hr class="m-4"/>
+                    `
+                    break
+                default:
+                    break
+            }
+        }
+        document.querySelector('#studentSurveyForm').innerHTML = strQuestionsHTML
+    }
+}
+
+async function getCourseInfo(strCourseID) {
+    const objResponse = await ApiService.viewCourseInfo(strCourseID)
+    if (objResponse.success) {
+        return objResponse.data.result[0]
+    }
+    return {}
 }

@@ -238,6 +238,27 @@ app.get('/courses', authenticateUser, (req, res, next) => {
     })
 })
 
+// get course info from courseid
+app.get('/courses/:courseid', authenticateUser, verifyInstructorOrMember, (req, res, next) => {
+    const strCourseID = req.params.courseid
+
+    let strCommand = "SELECT CourseNumber, SectionNumber FROM tblCourses WHERE CourseID = ?"
+    db.all(strCommand, [strCourseID], (err, result) => {
+        if (err) {
+            console.log(err)
+            res.status(500).json({
+                status: "error",
+                message: err.message
+            })
+        } else {
+            res.status(200).json({
+                status: "success",
+                result: result
+            })
+        }
+    })
+})
+
 // create a course
 app.post('/courses', authenticateUser, (req, res, next) => {
     const strCourseID = uuidv4()
@@ -284,7 +305,7 @@ app.get('/courses/groups/user', authenticateUser, (req, res, next) => {
             console.log(err)
             return res.status(500).json({ status: "error", message: err.message })
         }
-        res.status(200).json({ status: "success", groups: result })
+        res.status(200).json({ status: "success", result: result })
     })
 })
 
@@ -331,15 +352,15 @@ app.post('/courses/groups', authenticateUser, verifyInstructor, (req, res, next)
                 message: err.message
             })
         } else {
-            res.status(201).json({ status: "success" })
+            res.status(201).json({ status: "success", joinCode: strJoinCode })
         }
     })
 })
 
 
 // get all users in a group
-app.get('/courses/groups/users/:groupID', verifySession, (req, res, next) => {
-    const strGroupID = req.params.groupID
+app.get('/courses/groups/users/group/:groupid', verifySession, (req, res, next) => {
+    const strGroupID = req.params.groupid
 
     let strCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ?"
     db.all(strCommand, [strGroupID], (err, result) => {
@@ -358,20 +379,47 @@ app.get('/courses/groups/users/:groupID', verifySession, (req, res, next) => {
     })
 })
 
-// TODO: join by code
+// get all users in a course
+app.get('/courses/groups/users/course/:courseid', verifySession, (req, res, next) => {
+    const strCourseID = req.params.courseid;
+
+    const strCommand = `
+        SELECT DISTINCT u.UserID, u.FirstName, u.LastName, u.Email
+        FROM tblGroupMembers gm
+        JOIN tblCourseGroups cg ON gm.GroupID = cg.GroupID
+        JOIN tblUsers u ON gm.UserID = u.UserID
+        WHERE cg.CourseID = ?
+    `;
+
+    db.all(strCommand, [strCourseID], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                status: "error",
+                message: err.message
+            });
+        }
+
+        return res.status(200).json({
+            status: "success",
+            result: result
+        });
+    });
+});
+
+
 // add current user to a group
 app.post('/courses/groups/users', authenticateUser, (req, res, next) => {
     const strGroupMemberID = uuidv4()
-    const strGroupID = req.body.groupID
+    const strJoinCode = req.body.joinCode?.trim().toUpperCase()
     const strUserID = req.userID
 
-    if (!strGroupID || !strUserID) {
-        return res.status(400).json({ error: "You must provide a group id and user id" })
+    if (!strJoinCode) {
+        return res.status(400).json({ error: "You must provide a join code" })
     }
 
-    // check if user already in group
-    let strCheckCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ? AND UserID = ?"
-    db.all(strCheckCommand, [strGroupID, strUserID], (err, result) => {
+    const strFindGroupCommand = "SELECT GroupID FROM tblCourseGroups WHERE JoinCode = ?"
+    db.all(strFindGroupCommand, [strJoinCode], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).json({
@@ -380,25 +428,43 @@ app.post('/courses/groups/users', authenticateUser, (req, res, next) => {
             })
         }
 
-        if (result.length > 0) {
-            return res.status(400).json({
-                status: "error",
-                message: "User is already a member of this group"
-            })
+        if (result.length === 0) {
+            return res.status(404).json({ error: "Invalid join code" })
         }
 
-        let strCommand = "INSERT INTO tblGroupMembers VALUES (?, ?, ?)"
-        let arrParameters = [strGroupMemberID, strGroupID, strUserID]
-        db.run(strCommand, arrParameters, (err) => {
+        const strGroupID = result[0].GroupID
+
+        // check if user already in group
+        let strCheckCommand = "SELECT * FROM tblGroupMembers WHERE GroupID = ? AND UserID = ?"
+        db.all(strCheckCommand, [strGroupID, strUserID], (err, result) => {
             if (err) {
                 console.log(err)
-                res.status(500).json({
+                return res.status(500).json({
                     status: "error",
                     message: err.message
                 })
-            } else {
-                res.status(201).json({ status: "success" })
             }
+    
+            if (result.length > 0) {
+                return res.status(400).json({
+                    status: "error",
+                    message: "User is already a member of this group"
+                })
+            }
+    
+            let strCommand = "INSERT INTO tblGroupMembers VALUES (?, ?, ?)"
+            let arrParameters = [strGroupMemberID, strGroupID, strUserID]
+            db.run(strCommand, arrParameters, (err) => {
+                if (err) {
+                    console.log(err)
+                    res.status(500).json({
+                        status: "error",
+                        message: err.message
+                    })
+                } else {
+                    res.status(201).json({ status: "success" })
+                }
+            })
         })
     })
 })
@@ -707,8 +773,8 @@ app.put('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
 });
 
 // get all surveys for a class
-app.get('/survey/:courseID', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
-    let strCourseID = req.params.courseID
+app.get('/survey/:courseid', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
+    let strCourseID = req.params.courseid
     let strUserID = req.userID
 
     let comSelect = "SELECT * FROM tblSurvey WHERE CourseID = ?"
@@ -775,8 +841,8 @@ app.delete('/surveyquestion', authenticateUser, verifyInstructor, (req, res, nex
 })
 
 // get all survey questions for a survey
-app.get('/surveyquestion/:surveyID', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
-    let strSurveyID = req.params.surveyID
+app.get('/surveyquestion/:surveyid', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
+    let strSurveyID = req.params.surveyid
 
     let comSelect = "SELECT * FROM tblSurveyQuestion WHERE SurveyID = ?"
     db.all(comSelect, [strSurveyID], function(err,result){
@@ -869,8 +935,8 @@ app.put('/surveyresponse', verifySession, verifyInstructorOrMember, (req, res, n
 });
 
 // get all survey responses for a survey
-app.get('/surveyresponse/instructor/:surveyID', authenticateUser, verifyInstructor, (req,res,next) => {
-    let strSurveyID = req.params.surveyID
+app.get('/surveyresponse/instructor/:surveyid', authenticateUser, verifyInstructor, (req,res,next) => {
+    let strSurveyID = req.params.surveyid
 
     let comSelect = "SELECT * FROM tblSurveyResponse WHERE SurveyID = ?"
     db.all(comSelect, [strSurveyID], function(err,result){
