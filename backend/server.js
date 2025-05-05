@@ -735,9 +735,6 @@ app.post('/surveyquestion', authenticateUser, verifyInstructor, (req, res, next)
     if (strQuestion.length < 1) {
         return res.status(400).json({ error: "You must provide a survey question"})
     }
-    if (arrOptions.length < 1) {
-        return res.status(400).json({ error: "You must provide survey options"})
-    }
     if (strQuestionType.length < 1) {
         return res.status(400).json({ error: "You must provide a question type"})
     }

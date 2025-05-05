@@ -5,8 +5,6 @@ var survey = {
     questions: []
 }
 var newQuestion
- 
-survey.questions.push(newQuestion);
 
 document.querySelector('#btnAddTitle').addEventListener('click', (event) => {
     let strSurveyTitle = document.querySelector("#txtSurveyTitle").value
@@ -195,7 +193,7 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                 else {
                     document.querySelector('#divSurveys').innerHTML += `<p class="mb-1">${strShortAnswerQuestion}</p>`
                     document.querySelector('#divSurveys').innerHTML += '<textarea id="txtResponseShortAnswer" rows="3" mb-4" cols="40" wrap="soft" class="text-white" placeholder="Enter your response here" aria-label="Input for Short Answer"></textarea>'
-                    
+                    survey.questions.push(newQuestion);
                 }
             });
         }
@@ -230,12 +228,13 @@ document.querySelector('#btnCreateSurvey').addEventListener('click', async (even
     }
 
     let objResponse = await ApiService.addSurvey("f42cba98-c747-43b5-8f10-7e23b2bf7285", strSurveyTitle, strSurveyStart, strSurveyEnd)
-    console.log(objResponse);
     let objSurveyResponse = await ApiService.viewSurveys('f42cba98-c747-43b5-8f10-7e23b2bf7285')
     for (let i = 0; i < objSurveyResponse.data.result.length; i++) {
         if (objSurveyResponse.data.result[i].Title == strSurveyTitle) {
             let strSurveyID = objSurveyResponse.data.result[i].SurveyID
-            console.log(survey.questions);
+            for (let i = 0; i < survey.questions.length; i++) {
+                let objSurveyQuestionResponse = await ApiService.addSurveyQuestion(strSurveyID, survey.questions[i].question, JSON.stringify(survey.questions[i].options), survey.questions[i].questionType)
+            }
         }
     }
 
