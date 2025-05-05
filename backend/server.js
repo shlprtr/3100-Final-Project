@@ -773,8 +773,8 @@ app.put('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
 });
 
 // get all surveys for a class
-app.get('/survey/:courseid', authenticateUser, verifyInstructorOrMember, (req,res,next) => {
-    let strCourseID = req.params.courseid
+app.get('/survey/:courseID', authenticateUser, (req,res,next) => {
+    let strCourseID = req.params.courseID
     let strUserID = req.userID
 
     let comSelect = "SELECT * FROM tblSurvey WHERE CourseID = ?"
@@ -800,9 +800,6 @@ app.post('/surveyquestion', authenticateUser, verifyInstructor, (req, res, next)
 
     if (strQuestion.length < 1) {
         return res.status(400).json({ error: "You must provide a survey question"})
-    }
-    if (arrOptions.length < 1) {
-        return res.status(400).json({ error: "You must provide survey options"})
     }
     if (strQuestionType.length < 1) {
         return res.status(400).json({ error: "You must provide a question type"})
