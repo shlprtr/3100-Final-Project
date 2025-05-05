@@ -15,12 +15,6 @@
             Create Course
         </button>
     </div>
-    <!-- Button to open the "Create Group" modal -->
-    <div class="d-flex justify-content-end mt-3 me-2 d-none" id="divCreateGroupModal">
-        <button class="btn btn-outline-primary" id="btnCreateGroupModal">
-            Create Group
-        </button>
-    </div>
 
     <!-- Group cards container -->
     <div class="d-flex flex-wrap margin-30" id="groupContainer">
@@ -35,6 +29,18 @@
                     <!-- name of the group selected -->
                     <div style="padding:7px">
                         <h1 id="txtCourseTitle">CSC 2100-002</h1>
+                    </div>
+                    <div class="row row-cols-2 container-fluid" style="padding:30px">
+                        <h3>Groups</h3>
+                        <button class="btn btn-outline-primary" id="btnCreateGroupModal">
+                            Create Group
+                        </button>
+                    </div>
+                    <!--list of surveys avaliable to be viewed -->
+                    <div class="row">
+                        <div class="col container overflow-auto" id="divGroupContainer">
+                            
+                        </div>
                     </div>
                     <div class="row row-cols-2 container-fluid" style="padding:30px">
                         <h3>Surveys</h3>
