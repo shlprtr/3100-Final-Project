@@ -1,5 +1,19 @@
+import { ApiService } from '../services/apiService.js'
+import { navigate } from '../services/pageRouter.js'
+
 // register
-document.querySelector('#btnRegister').addEventListener('click', (event) => {
+document.querySelector('#btnRegister').addEventListener('click', () => {
+    register()
+})
+
+// register with enter key
+document.getElementById("txtConfirmPassword").addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+        register()
+    }
+})
+
+async function register() {
     const regEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 
     let strEmail = document.querySelector('#txtEmail').value.trim().toLowerCase()
@@ -16,7 +30,7 @@ document.querySelector('#btnRegister').addEventListener('click', (event) => {
         strError += "<p class='mb-0 mt-0'>Must enter a valid email</p>"
     }
 
-    if (strPassword.length < 1) {
+    if (strPassword.length < 1) {   
         blnError = true
         strError += "<p class='mb-0 mt-0'>Password cannot be blank</p>"
     }
@@ -46,27 +60,26 @@ document.querySelector('#btnRegister').addEventListener('click', (event) => {
             color: 'white'
         })
     } else {
-        Swal.fire({
-            title: 'Success!',
-            text: 'You have successfully registered',
-            icon: 'success',
-            confirmButtonColor: 'var(--dark-purple)',
-            background: 'var(--dark-blue)',
-            color: 'white'
-        })
+        const objResponse = await ApiService.register(strFirstName, strLastName, strEmail, strPassword)
+        if (objResponse.success) {
+            Swal.fire({
+                title: 'Success!',
+                text: 'You have registered an account',
+                icon: 'success',
+                confirmButtonColor: 'var(--dark-purple)',
+                background: 'var(--dark-blue)',
+                color: 'white'
+            })
+            navigate('#/login')
+        } else {
+            Swal.fire({
+                title: 'Oh no, an error occurred!',
+                text: objResponse.data.error,
+                icon: 'error',
+                confirmButtonColor: 'var(--dark-purple)',
+                background: 'var(--dark-blue)',
+                color: 'white'
+            })
+        }
     }
-})
-
-// swap to login component
-document.querySelector('#btnSwapRegister').addEventListener('click', (event) => {
-    fetch("pages/login.html")
-    .then(response => response.text())
-    .then(html => {
-        const objScript = document.createElement('script')
-        objScript.src = 'js/login.js'
-        objScript.type = 'text/javascript'
-        document.head.appendChild(objScript)
-        document.querySelector('#divContent').innerHTML = html
-    })
-    .catch(error => console.erro("Error fetching login:", error))
-})
+}

@@ -1,3 +1,4 @@
+-- database: reviewly.db
 -- Users Table
 CREATE TABLE tblUsers (
     UserID TEXT PRIMARY KEY,
@@ -12,8 +13,6 @@ CREATE TABLE tblUsers (
 -- Phone Table
 CREATE TABLE tblPhone (
     PhoneID INTEGER PRIMARY KEY AUTOINCREMENT,
-    NationCode TEXT,
-    AreaCode TEXT,
     PhoneNumber TEXT,
     UserID TEXT,
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID)
@@ -24,7 +23,7 @@ CREATE TABLE tblSocials (
     SocialID TEXT PRIMARY KEY,
     SocialType TEXT,
     Username TEXT,
-    UserID INTEGER,
+    UserID TEXT,
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID)
 );
 
@@ -70,6 +69,7 @@ CREATE TABLE tblSurveyResponse (
     UserID TEXT,
     QuestionID TEXT,
     Response TEXT,
+    Status TEXT,
     TargetUserID TEXT,
     FOREIGN KEY (SurveyID) REFERENCES tblSurvey(SurveyID),
     FOREIGN KEY (UserID) REFERENCES tblUsers(UserID),
@@ -82,6 +82,7 @@ CREATE TABLE tblCourseGroups (
     GroupID TEXT PRIMARY KEY,
     GroupName TEXT,
     CourseID TEXT,
+    JoinCode TEXT,
     FOREIGN KEY (CourseID) REFERENCES tblCourses(CourseID)
 );
 

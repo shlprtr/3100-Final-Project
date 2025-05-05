@@ -1,3 +1,8 @@
+import { ApiService } from '../services/apiService.js'
+import { navigate } from '../services/pageRouter.js'
+
+loadGroups()
+
 // listener for clicking a group card
 document.querySelector('#groupContainer').addEventListener('click', (event) => {
     const cardLink = event.target.closest('.stretched-link')
@@ -22,18 +27,18 @@ document.querySelector('#surveyContainer').addEventListener('click', (event) => 
         // fetch group details
 
         fetch("pages/studentsurvey.html")
-    .then(response => response.text())
-    .then(html => {
-        const objScript = document.createElement('script')
-        objScript.src = 'js/studentsurvey.js'
-        objScript.type = 'text/javascript'
-        document.head.appendChild(objScript)
-        document.querySelector('#divView').innerHTML = html
-    })
+        .then(response => response.text())
+        .then(html => {
+            const objScript = document.createElement('script')
+            objScript.src = 'js/studentsurvey.js'
+            objScript.type = 'text/javascript'
+            document.head.appendChild(objScript)
+            document.querySelector('#divView').innerHTML = html
+        })
     }
 })
 
-   
+
 // display all surveys
 document.querySelector('#btnSurveys').addEventListener('click', (event) => {
     selectView('Surveys')
@@ -74,6 +79,28 @@ document.querySelector('#btnJoinGroupModal').addEventListener('click', function(
 document.getElementById('btnBackToGroups').addEventListener('click', function () {
     // Hide the surveys section
     document.getElementById('viewSurveys').classList.add('d-none');
+    document.getElementById('selectedGroup').classList.add('d-none');
     // Show the groups section
     document.getElementById('viewGroups').classList.remove('d-none');
 });
+
+async function loadGroups(strCourseID) {
+    const objResponse = await ApiService.viewUsersGroups()
+    if (objResponse.success && objResponse.data.result > 0) {
+        const arrGroups = objResponse.data.result
+        let strGroupHTML = ""
+        arrGroups.forEach(group => {
+            strGroupHTML += `
+                <div class="card shadow p-4 group-card selection-card position-relative me-2">
+                    <h3>${group.GroupName}</h3>
+                    <a class="stretched-link"
+                        data-group-id="${group.GroupID}"
+                        data-group-name="${group.GroupName}"
+                        data-group-course-id="${group.CourseID}">
+                    </a>
+                </div>
+            `
+        })
+        document.querySelector('#groupContainer').innerHTML = strGroupHTML
+    }
+}
