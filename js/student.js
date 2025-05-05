@@ -21,6 +21,7 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
 // listener for clicking a survey
 document.querySelector('#surveyContainer').addEventListener('click', (event) => {
     document.querySelector('#viewSurveys').classList.add('d-none')
+    document.querySelector('#frmSurvey').classList.remove('d-none')
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
         const strSurveyId = cardLink.getAttribute('data-survey-id')
@@ -31,9 +32,9 @@ document.querySelector('#surveyContainer').addEventListener('click', (event) => 
         .then(html => {
             const objScript = document.createElement('script')
             objScript.src = 'js/studentsurvey.js'
-            objScript.type = 'text/javascript'
+            objScript.type = 'module'
             document.head.appendChild(objScript)
-            document.querySelector('#divView').innerHTML = html
+            document.querySelector('#frmSurvey').innerHTML = html
         })
     }
 })
@@ -106,6 +107,8 @@ function selectView(selected) {
     document.querySelector('#viewSurveys').classList.add('d-none')
     document.querySelector('#viewMembers').classList.add('d-none')
     document.querySelector('#viewFeedback').classList.add('d-none')
+    document.querySelector('#frmSurvey').classList.add('d-none')
+
 
     document.querySelector('#btnSurveys').classList.add('unselected')
     document.querySelector('#btnMembers').classList.add('unselected')

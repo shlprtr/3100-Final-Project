@@ -1,79 +1,66 @@
-<div class="container mt-3">
-  <!-- All Submissions Button -->
-  <div class="d-flex justify-content-end">
-    <button
-      class="btn btn-outline-secondary"
-      onclick="location.href='allSubmissions.html'"
-    >
-      All Submissions
-    </button>
-  </div>
+<div class="card col-sm-11 col-md-8 col-lg-6 mt-3">
+    <div class="card-body p-4">
+        <h1 class="card-title text-center mb-4" style="color: white" id="surveyName">Student Survey</h1>
+        <p class="text-center" style="color: white">
+            Please fill out the survey below as provided by your instructor.
+        </p>
+        <!-- Survey title -->
+        <form id="studentSurveyForm">
+            <!-- Question 1: Satisfaction -->
+            <p class="fw-bold">How satisfied are you with this person?</p>
+            <div class="form-check ms-2 mb-2">
+                <input class="form-check-input" type="radio" name="q1" id="q1-a1" />
+                <label class="form-check-label" for="q1-a1">Option 1</label>
+            </div>
+            <div class="form-check ms-2 mb-2">
+                <input class="form-check-input" type="radio" name="q1" id="q1-a2" />
+                <label class="form-check-label" for="q1-a2">Option 2</label>
+            </div>
+            <div class="form-check ms-2 mb-2">
+                <input class="form-check-input" type="radio" name="q1" id="q1-a3" />
+                <label class="form-check-label" for="q1-a3">Option 3</label>
+            </div>
+
+            <!-- Question 2: Improvement suggestions -->
+            <p class="fw-bold mt-4">What could be improved?</p>
+            <div class="form-outline ms-2 me-2 mb-4">
+                <textarea class="form-control" rows="4" id="q2-a1"></textarea>
+            </div>
+
+            <!-- Question 3: Performance rating -->
+            <p class="fw-bold mt-4">Rate this person's performance</p>
+            <div class="text-center mb-3">
+                <div class="d-inline mx-3">Bad</div>
+                <!-- Radio buttons for rating -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="q3" id="inlineRadio1" value="option1"
+                        aria-label="Radio input option for 1" />
+                    <label class="form-check-label" for="inlineRadio1">1</label>
+                </div>
+                <!-- Repeatable rating options -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="q3" id="inlineRadio2" value="option2"
+                        aria-label="Radio input option for 2" />
+                    <label class="form-check-label" for="inlineRadio2">2</label>
+                </div>
+                <!-- Add more options as needed -->
+                <div class="d-inline me-4">Excellent</div>
+            </div>
+        </form>
+        <!-- private or public -->
+        <div class="text-center">
+            <button type="button" class="btn btn-primary btn-lg me-2" id="btnPrivate">
+                Private
+            </button>
+            <button type="button" class="btn btn-secondary btn-lg" id="btnPublic">
+                Public
+            </button>
+        </div>
+        <!-- Submit button -->
+        <div class="card-footer text-end mt-3">
+            <button class="btn btn-primary" type="button" id="btnSubmitForm">
+                Submit
+            </button>
+        </div>
+    </div>
 </div>
-
-<div class="d-flex justify-content-center align-items-center vh-100">
-  <div class="card p-4 w-75 bgpurple">
-    <h1 class="text-center mb-4" style="color: white">Student Survey</h1>
-    <p class="text-center" style="color: white">
-      Please fill out the survey below as provided by your instructor.
-    </p>
-    <form id="studentSurveyForm">
-      <!-- Question 1 -->
-      <div class="mb-3">
-        <label for="question1" class="form-label" style="color: white">
-          1. How would you rate the class content?
-        </label>
-        <select id="question1" class="form-select" required>
-          <option value="" disabled selected>Select an option</option>
-          <option value="Excellent">Excellent</option>
-          <option value="Good">Good</option>
-          <option value="Average">Average</option>
-          <option value="Poor">Poor</option>
-        </select>
-      </div>
-
-      <!-- Question 2 -->
-      <div class="mb-3">
-        <label for="question2" class="form-label" style="color: white">
-          2. What did you like most about the class?
-        </label>
-        <textarea
-          id="question2"
-          class="form-control"
-          rows="3"
-          placeholder="Write your answer here..."
-          required
-        ></textarea>
-      </div>
-
-      <!-- Question 3 -->
-      <div class="mb-3">
-        <label for="question3" class="form-label" style="color: white">
-          3. Any suggestions for improvement?
-        </label>
-        <textarea
-          id="question3"
-          class="form-control"
-          rows="3"
-          placeholder="Write your answer here..."
-          required
-        ></textarea>
-      </div>
-
-      <!-- Submit Buttons -->
-      <div class="text-center">
-        <button
-          type="button"
-          class="btn btn-primary btn-lg me-2"
-          id="btnPrivate"
-        >
-          Private
-        </button>
-        <button type="button" class="btn btn-secondary btn-lg" id="btnPublic">
-          Public
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<script src="../js/StudentPage.js"></script>

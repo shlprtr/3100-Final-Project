@@ -45,7 +45,9 @@
     <!-- Buttons to navigate between surveys, members, and feedback -->
     <div class="margin-30" id="viewOptions">
         <div class="d-flex justify-content-start row row-cols-6 mt-4">
-            <button class="btn btn-primary me-2" id="btnSurveys">Surveys</button>
+            <button class="btn btn-primary me-2" id="btnSurveys">
+                Surveys
+            </button>
             <button class="btn btn-primary unselected me-2" id="btnMembers">
                 Group Members
             </button>
@@ -56,7 +58,6 @@
     </div>
 </div>
 
-<!-- Section for viewing all surveys -->
 <!-- Section for viewing all surveys -->
 <div class="container-fluid d-none" id="viewSurveys">
     <div class="margin-30">
@@ -85,65 +86,9 @@
 
 <!-- Section for displaying a sample survey -->
 <div class="d-flex justify-content-center align-items-center d-none" id="frmSurvey">
-
-    <!-- Survey form container -->
-    <div class="card col-sm-11 col-md-8 col-lg-6 mt-3">
-        <div class="card-body p-4">
-            <!-- Survey title -->
-            <h1 class="card-title mb-4" id="surveyName"></h1>
-            <form>
-                <!-- Question 1: Satisfaction -->
-                <p class="fw-bold">How satisfied are you with this person?</p>
-                <div class="form-check ms-2 mb-2">
-                    <input class="form-check-input" type="radio" name="q1" id="q1-a1" />
-                    <label class="form-check-label" for="q1-a1">Option 1</label>
-                </div>
-                <div class="form-check ms-2 mb-2">
-                    <input class="form-check-input" type="radio" name="q1" id="q1-a2" />
-                    <label class="form-check-label" for="q1-a2">Option 2</label>
-                </div>
-                <div class="form-check ms-2 mb-2">
-                    <input class="form-check-input" type="radio" name="q1" id="q1-a3" />
-                    <label class="form-check-label" for="q1-a3">Option 3</label>
-                </div>
-
-                <!-- Question 2: Improvement suggestions -->
-                <p class="fw-bold mt-4">What could be improved?</p>
-                <div class="form-outline ms-2 me-2 mb-4">
-                    <textarea class="form-control" rows="4" id="q2-a1"></textarea>
-                </div>
-
-                <!-- Question 3: Performance rating -->
-                <p class="fw-bold mt-4">Rate this person's performance</p>
-                <div class="text-center mb-3">
-                    <div class="d-inline mx-3">Bad</div>
-                    <!-- Radio buttons for rating -->
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio1" value="option1"
-                            aria-label="Radio input option for 1" />
-                        <label class="form-check-label" for="inlineRadio1">1</label>
-                    </div>
-                    <!-- Repeatable rating options -->
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="q3" id="inlineRadio2" value="option2"
-                            aria-label="Radio input option for 2" />
-                        <label class="form-check-label" for="inlineRadio2">2</label>
-                    </div>
-                    <!-- Add more options as needed -->
-                    <div class="d-inline me-4">Excellent</div>
-                </div>
-            </form>
-            <!-- Submit button -->
-            <div class="card-footer text-end mt-3">
-                <button class="btn btn-primary" type="button" id="btnSubmitForm">
-                    Submit
-                </button>
-            </div>
-        </div>
-    </div>
+    
 </div>
 
-<!-- Section for viewing all group members -->
 <!-- Section for viewing all group members -->
 <div class="container-fluid d-none" id="viewMembers">
     <div class="margin-30">
@@ -152,7 +97,6 @@
     </div>
 </div>
 
-<!-- Section for viewing all feedback -->
 <!-- Section for viewing all feedback -->
 <div class="container-fluid d-none" id="viewFeedback">
     <div class="margin-30">
