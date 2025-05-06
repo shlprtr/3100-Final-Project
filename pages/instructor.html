@@ -17,7 +17,7 @@
 </nav>
 
 <!-- Instructor view: Displays all groups created by the instructor -->
-<div class="container-fluid" id="viewGroupsProf">
+<div class="container-fluid" id="viewGroupsProf" style="padding-right: 75px;">
     <!-- Button to open the "Create Course" modal -->
     <div class="d-flex justify-content-end mt-3 me-2" id="divCreateCourseModal">
         <button class="btn btn-outline-primary" id="btnCreateCourseModal">
@@ -50,6 +50,17 @@
                     <!-- Scrollable Survey List -->
                     <div class="overflow-auto" id="divSurveyContainer" style="max-height: 400px">
                         <!-- Surveys will be dynamically added here -->
+                    </div>
+                    <!-- group Title and Button -->
+                    <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                        <h3 class="text-white text-center">Groups</h3>
+                        <button class="btn btn-outline-primary" id="btnCreateGroupModal" type="button">
+                            + New Group
+                        </button>
+                    </div>
+                    <!-- Scrollable group List -->
+                    <div class="overflow-auto" id="divGroupContainer" style="max-height: 400px">
+                        <!-- groups will be dynamically added here -->
                     </div>
                 </div>
 

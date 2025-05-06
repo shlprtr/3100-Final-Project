@@ -44,7 +44,6 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
         document.querySelector('#viewGroupDetails').classList.remove('d-none')
         document.querySelector('#groupContainer').classList.add('d-none')
         document.querySelector('#divCreateCourseModal').classList.add('d-none')
-        document.querySelector('#divCreateGroupModal').classList.remove('d-none')
         
         // get and fill in data for in-depth course view
         const strCourseNumber = cardLink.getAttribute('data-course-number')
@@ -54,6 +53,7 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
 
         document.querySelector('#txtCourseTitle').innerHTML = `${strCourseNumber}-${strSection}`
 
+        loadSurveys()
         loadGroups(strCurrCourseID)
     }
 })
@@ -134,7 +134,30 @@ async function loadGroups(strCourseID) {
                 </div>
             `
         })
-        document.querySelector('#divSurveyContainer').innerHTML = strGroupHTML
+        document.querySelector('#divGroupContainer').innerHTML = strGroupHTML
+    }
+}
+
+async function loadSurveys() {
+    const objResponse = await ApiService.viewSurveys(strCurrCourseID)
+    if (objResponse.success) {
+        const arrSurveys = objResponse.data.result
+        let strSurveyHTML = ""
+        for (const survey of arrSurveys) {
+            const objCourseInfo = await getCourseInfo(strCurrCourseID)
+            strSurveyHTML += `
+                <div class="card bg-dark selection-card group-card position-relative">
+                    <div class="card-body">
+                        <h4 class="mt-2">${survey.Title}</h4>
+                        <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
+                        <a class="stretched-link"
+                            data-survey-id="${survey.SurveyID}">
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+        document.querySelector('#divSurveyContainer').innerHTML = strSurveyHTML
     }
 }
 
@@ -148,10 +171,17 @@ async function loadUsers() {
         let strUsersHTML = ""
         arrUsers.forEach(users => {
             strUsersHTML += `
-               <option value="${users.UserID}">${users.FirstName} ${users.LastName} </option>
+                <option value="${users.UserID}">${users.FirstName} ${users.LastName} </option>
             `
         })
         document.querySelector('#selStudents').innerHTML = strUsersHTML
     }
 }
 
+async function getCourseInfo(strCourseID) {
+    const objResponse = await ApiService.viewCourseInfo(strCourseID)
+    if (objResponse.success) {
+        return objResponse.data.result[0]
+    }
+    return {}
+}
