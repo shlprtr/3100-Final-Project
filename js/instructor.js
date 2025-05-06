@@ -44,7 +44,6 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
         document.querySelector('#viewGroupDetails').classList.remove('d-none')
         document.querySelector('#groupContainer').classList.add('d-none')
         document.querySelector('#divCreateCourseModal').classList.add('d-none')
-        document.querySelector('#divCreateGroupModal').classList.remove('d-none')
         
         // get and fill in data for in-depth course view
         const strCourseNumber = cardLink.getAttribute('data-course-number')
@@ -55,6 +54,7 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
         document.querySelector('#txtCourseTitle').innerHTML = `${strCourseNumber}-${strSection}`
 
         loadGroups(strCurrCourseID)
+        loadStudents(strCurrCourseID)
     }
 })
 
@@ -134,24 +134,26 @@ async function loadGroups(strCourseID) {
                 </div>
             `
         })
-        document.querySelector('#divSurveyContainer').innerHTML = strGroupHTML
+        document.querySelector('#divGroupContainer').innerHTML = strGroupHTML
     }
 }
 
-async function loadUsers() {
+// function for group student list
+async function loadStudents(strCurrCourseID) {
     const objResponse = await ApiService.viewCourseUsers(strCurrCourseID)
     if (objResponse.success) {
-        //array of users in course
-        const arrUsers = objResponse.data.result
-        console.log(arrUsers)
-
-        let strUsersHTML = ""
-        arrUsers.forEach(users => {
-            strUsersHTML += `
-               <option value="${users.UserID}">${users.FirstName} ${users.LastName} </option>
+        const arrGroups = objResponse.data.result
+        console.log("arrGroups: " , arrGroups)
+        let strStudentList = ""
+        arrGroups.forEach(student => {
+            strStudentList += `
+                <option value=${student.FirstName}>${student.FirstName} ${student.LastName}</option>
             `
         })
-        document.querySelector('#selStudents').innerHTML = strUsersHTML
+        document.querySelector('#selStudents').innerHTML = strStudentList
+
+
+
+        //document.querySelector('#selStudents').innerHTML = `<option value=${strFirstName}>${strFirstName} ${strLastName}</option>`
     }
 }
-
