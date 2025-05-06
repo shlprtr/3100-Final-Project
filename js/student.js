@@ -27,13 +27,29 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
 
 // listener for clicking a survey
 document.querySelector('#surveyContainer').addEventListener('click', (event) => {
-    document.querySelector('#viewSurveys').classList.add('d-none')
-    document.querySelector('#frmSurvey').classList.remove('d-none')
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
-        strCurrSurveyID = cardLink.getAttribute('data-survey-id')
+        document.querySelector('#viewSurveys').classList.add('d-none')
+        document.querySelector('#frmSurvey').classList.remove('d-none')
 
-        loadSelectedSurvey()
+        strCurrSurveyID = cardLink.getAttribute('data-survey-id')
+        const strSurveyTitle = cardLink.getAttribute('data-survey-title')
+
+        loadSelectedSurvey(strSurveyTitle)
+    }
+})
+
+// listener for clicking feedback
+document.querySelector('#surveyFeedbackContainer').addEventListener('click', (event) => {
+    const cardLink = event.target.closest('.stretched-link')
+    if (cardLink) {
+        document.querySelector('#viewFeedback').classList.add('d-none')
+        document.querySelector('#frmFeedback').classList.remove('d-none')
+
+        strCurrSurveyID = cardLink.getAttribute('data-survey-id')
+        const strSurveyTitle = cardLink.getAttribute('data-survey-title')
+
+        loadFeedbackSurvey(strSurveyTitle)
     }
 })
 
@@ -107,7 +123,7 @@ function selectView(selected) {
     document.querySelector('#viewMembers').classList.add('d-none')
     document.querySelector('#viewFeedback').classList.add('d-none')
     document.querySelector('#frmSurvey').classList.add('d-none')
-
+    document.querySelector('#frmFeedback').classList.add('d-none')
 
     document.querySelector('#btnSurveys').classList.add('unselected')
     document.querySelector('#btnMembers').classList.add('unselected')
@@ -219,8 +235,6 @@ document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
             icon: "error"
         })
     }
-
-
 })
 
 async function loadGroups() {
@@ -260,7 +274,8 @@ async function loadSurveys() {
                         <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
                         <p>${objCourseInfo.StartDate} - ${objCourseInfo.EndDate}</p>
                         <a class="stretched-link"
-                            data-survey-id="${survey.SurveyID}">
+                            data-survey-id="${survey.SurveyID}"
+                            data-survey-title="${survey.Title}">
                         </a>
                     </div>
                 </div>
@@ -272,7 +287,6 @@ async function loadSurveys() {
 
 async function loadFeedback() {
     const objResponse = await ApiService.viewPublicSurveys()
-    console.log(objResponse)
     if (objResponse.success) {
         const arrFeedback = objResponse.data.result
         let strFeedbackHTML = ""
@@ -283,7 +297,8 @@ async function loadFeedback() {
                         <h3 class="card-title mt-2">${feedback.Title}</h3>
                         <p class="card-text">${feedback.CourseNumber}-${feedback.SectionNumber}</p>
                         <a class="stretched-link"
-                            data-survey-id="${feedback.SurveyID}">
+                            data-survey-id="${feedback.SurveyID}"
+                            data-survey-title="${feedback.Title}">
                         </a>
                     </div>
                 </div>
@@ -293,9 +308,10 @@ async function loadFeedback() {
     }
 }
 
-async function loadSelectedSurvey() {
+async function loadSelectedSurvey(strSurveyTitle) {
     const objResponse = await ApiService.viewSurveyQuestion(strCurrSurveyID)
     if (objResponse.success) {
+        document.querySelector('#surveyName').innerHTML = strSurveyTitle
         const arrQuestions = objResponse.data.result
         let arrOptions
         let strQuestionsHTML = ""
@@ -392,6 +408,108 @@ async function loadSelectedSurvey() {
         document.querySelector('#studentSurveyForm').innerHTML = strQuestionsHTML
     }
     loadTargetUsers()
+}
+
+// TODO: load actual responses
+async function loadFeedbackSurvey(strSurveyTitle) {
+    const objResponse = await ApiService.viewSurveyQuestion(strCurrSurveyID)
+    if (objResponse.success) {
+        document.querySelector('#feedbackName').innerHTML = strSurveyTitle
+        const arrQuestions = objResponse.data.result
+        let arrOptions
+        let strQuestionsHTML = ""
+        for (let q = 0; q < arrQuestions.length; q++) {
+            const question = arrQuestions[q]
+            switch (question.QuestionType) {
+                case "Multiple Choice":
+                    strQuestionsHTML += `<p class="fw-bold">${question.Question}</p>`
+                    arrOptions = JSON.parse(question.Options)
+                    for (let a = 0; a < arrOptions.length; a++) {
+                        strQuestionsHTML += `
+                            <div class="form-check ms-2 mb-2">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-a${a}" value="${arrOptions[a]}" />
+                                <label class="form-check-label" for="q${q}-a${a}">${arrOptions[a]}</label>
+                            </div>
+                        `
+                    }
+                    strQuestionsHTML += "<hr class='m-4'/>"
+                    break
+                case "Likert":
+                    arrOptions = JSON.parse(question.Options)
+                    strQuestionsHTML += `
+                        <p class="fw-bold">${question.Question}</p>
+                        <div class="text-center mb-3">
+                            <div class="d-inline mx-3">${arrOptions[0]}</div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio1" value="1"
+                                    aria-label="Radio input option for 1" />
+                                <label class="form-check-label" for="q${q}-radio1">1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio2" value="2"
+                                    aria-label="Radio input option for 2" />
+                                <label class="form-check-label" for="q${q}-radio2">2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio3" value="3"
+                                    aria-label="Radio input option for 3" />
+                                <label class="form-check-label" for="q${q}-radio3">3</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio4" value="4"
+                                    aria-label="Radio input option for 4" />
+                                <label class="form-check-label" for="q${q}-radio4">4</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio5" value="5"
+                                    aria-label="Radio input option for 5" />
+                                <label class="form-check-label" for="q${q}-radio5">5</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio6" value="6"
+                                    aria-label="Radio input option for 6" />
+                                <label class="form-check-label" for="q${q}-radio6">6</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio7" value="7"
+                                    aria-label="Radio input option for 7" />
+                                <label class="form-check-label" for="q${q}-radio7">7</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio8" value="8"
+                                    aria-label="Radio input option for 8" />
+                                <label class="form-check-label" for="q${q}-radio8">8</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio9" value="9"
+                                    aria-label="Radio input option for 9" />
+                                <label class="form-check-label" for="q${q}-radio9">9</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio10" value="10"
+                                    aria-label="Radio input option for 10" />
+                                <label class="form-check-label" for="q${q}-radio10">10</label>
+                            </div>
+                            <div class="d-inline me-4">${arrOptions[1]}</div>
+                        </div>
+                        <hr class="m-4"/>
+                    `
+                    break
+                case "Short Answer":
+                    strQuestionsHTML += `
+                        <p class="fw-bold">${question.Question}</p>
+                        <div class="form-outline ms-2 me-2 mb-4">
+                            <textarea class="form-control" rows="4" id="q${q}"></textarea>
+                        </div>
+                        <hr class="m-4"/>
+                    `
+                    break
+                default:
+                    break
+            }
+        }
+        document.querySelector('#studentFeedbackForm').innerHTML = strQuestionsHTML
+    }
 }
 
 async function loadTargetUsers() {
