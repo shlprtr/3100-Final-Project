@@ -92,9 +92,30 @@ document.querySelector('#btnNewSurvey').addEventListener('click', async (event) 
     document.querySelector('#divHome').style.display = 'block'
 
     let objResponse = await ApiService.viewCourseInfo(strCurrCourseID)
-    console.log(objResponse.data.result[0].CourseNumber)
     document.querySelector('#txtClassNameSectionName').innerHTML = `${objResponse.data.result[0].CourseNumber}-${objResponse.data.result[0].SectionNumber}`
 })
+
+// Highlight the active button in the navbar
+function highlightActiveNavButton() {
+    const buttons = document.querySelectorAll('.navbar-nav .btn');
+    const currentHash = location.hash;
+
+    buttons.forEach((button) => {
+        // Remove the 'active' class from all buttons
+        button.classList.remove('active');
+
+        // Add the 'active' class to the button matching the current hash
+        if (button.getAttribute('onClick')?.includes(currentHash)) {
+            button.classList.add('active');
+        }
+    });
+}
+
+// Call the function on page load
+highlightActiveNavButton();
+
+// Add a listener to update the active button when the hash changes
+window.addEventListener('hashchange', highlightActiveNavButton);
 
 async function loadCourses() {
     const objResponse = await ApiService.viewCourses()
@@ -174,7 +195,6 @@ async function loadStudents(strCurrCourseID) {
     const objResponse = await ApiService.viewCourseUsers(strCurrCourseID)
     if (objResponse.success) {
         const arrGroups = objResponse.data.result
-        console.log("arrGroups: " , arrGroups)
         let strStudentList = ""
         arrGroups.forEach(student => {
             strStudentList += `

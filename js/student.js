@@ -194,7 +194,6 @@ document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
                     const selectedOption = document.querySelector(`input[name="q${q}"]:checked`)
                     if (selectedOption) {
                         strAnswer = selectedOption.value
-                        console.log(strAnswer)
                     }
                     break
     
@@ -202,7 +201,6 @@ document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
                     const input = document.querySelector(`#q${q}`)
                     if (input) {
                         strAnswer = input.value.trim()
-                        console.log(strAnswer)
                     }
                     break
             }
@@ -235,6 +233,8 @@ document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
             icon: "error"
         })
     }
+
+
 })
 
 async function loadGroups() {
@@ -538,3 +538,25 @@ async function getCourseInfo(strCourseID) {
     }
     return {}
 }
+
+// Highlight the active button in the navbar
+function highlightActiveNavButton() {
+    const buttons = document.querySelectorAll('.navbar-nav .btn');
+    const currentHash = location.hash;
+
+    buttons.forEach((button) => {
+        // Remove the 'active' class from all buttons
+        button.classList.remove('active');
+
+        // Add the 'active' class to the button matching the current hash
+        if (button.getAttribute('onClick')?.includes(currentHash)) {
+            button.classList.add('active');
+        }
+    });
+}
+
+// Call the function on page load
+highlightActiveNavButton();
+
+// Add a listener to update the active button when the hash changes
+window.addEventListener('hashchange', highlightActiveNavButton);
