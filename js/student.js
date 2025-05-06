@@ -304,6 +304,28 @@ async function loadSelectedSurvey() {
         }
         document.querySelector('#studentSurveyForm').innerHTML = strQuestionsHTML
     }
+    loadTargetUsers()
+}
+
+async function loadTargetUsers() {
+    const objResponse = await ApiService.viewGroupUsers(strCurrGroupID)    
+    if (objResponse.success) {
+        const arrUsers = objResponse.data.result
+        console.log(objResponse)
+        let strUserHTML = "<option selected>Select Recipient</option>"
+        for (const user of arrUsers) {
+            const objResponseUsers = await ApiService.viewUserInfo(user.UserID)
+            console.log(objResponseUsers)
+            if (objResponseUsers.success) {
+                const objUser = objResponseUsers.data
+                strUserHTML += `
+                    <option value="${objUser.UserID}">${objUser.firstName} ${objUser.lastName}</option>
+
+                `;
+            }
+        }
+        document.querySelector('#cboTarget').innerHTML = strUserHTML
+    }
 }
 
 async function getCourseInfo(strCourseID) {
