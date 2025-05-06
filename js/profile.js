@@ -158,6 +158,26 @@ document.querySelector('#btnSaveEdit').addEventListener('click', async () => {
 function getCurrentInfo(selected) {
     document.querySelector(`#btn${selected}`).classList.remove('unselected')
     document.querySelector(`#view${selected}`).classList.remove('d-none')
-
-
 }
+
+// Highlight the active button in the navbar
+function highlightActiveNavButton() {
+    const buttons = document.querySelectorAll('.navbar-nav .btn');
+    const currentHash = location.hash;
+
+    buttons.forEach((button) => {
+        // Remove the 'active' class from all buttons
+        button.classList.remove('active');
+
+        // Add the 'active' class to the button matching the current hash
+        if (button.getAttribute('onClick')?.includes(currentHash)) {
+            button.classList.add('active');
+        }
+    });
+}
+
+// Call the function on page load
+highlightActiveNavButton();
+
+// Add a listener to update the active button when the hash changes
+window.addEventListener('hashchange', highlightActiveNavButton);
