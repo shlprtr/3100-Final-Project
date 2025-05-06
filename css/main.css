@@ -271,3 +271,7 @@ select:-webkit-autofill:focus {
 .menu-items button:hover {
     background-color: #50366F;
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}

@@ -1,9 +1,41 @@
-<nav class="navbar">
-    <div class="container-fluid justify-content-between">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
         <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
-        <button class="btn btn-primary unselected me-2 ms-auto" type="button" id="btnInstructor" onClick="location.hash='#/instructor'">Instructor View</button>
-        <button class="btn btn-primary me-2" type="button" id="btnStudent" onClick="location.hash='#/student'">Student View</button>
-        <button class="btn btn-primary unselected me-2" type="button" id="btnProfile" onclick="location.hash='#/profile'"> Profile</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav ms-auto d-flex flex-row gap-2">
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary" type="button" id="btnInstructor"
+                            onClick="location.hash='#/instructor'">
+                            Instructor View
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary" type="button" id="btnStudent"
+                            onClick="location.hash='#/student'">
+                            Student View
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary" type="button" id="btnProfile"
+                            onclick="location.hash='#/profile'">
+                            Profile
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </nav>
 
@@ -17,9 +49,7 @@
     </div>
 
     <!-- Group cards container -->
-    <div class="d-flex flex-wrap margin-30" id="groupContainer">
-        
-    </div>
+    <div class="d-flex flex-wrap margin-30" id="groupContainer"></div>
 </div>
 
 <!-- Section for viewing a selected group -->
@@ -28,11 +58,9 @@
     <h1 class="margin-30 text-white mt-3 mb-5" id="groupName"></h1>
     <!-- Buttons to navigate between surveys, members, and feedback -->
     <div class="margin-30" id="viewOptions">
-        <div class="d-flex justify-content-start row row-cols-6 mt-4">
-            <button class="btn btn-primary me-2" id="btnSurveys">
-                Surveys
-            </button>
-            <button class="btn btn-primary unselected me-2" id="btnMembers">
+        <div class="d-flex flex-column flex-md-row justify-content-start gap-2 mt-4">
+            <button class="btn btn-primary" id="btnSurveys">Surveys</button>
+            <button class="btn btn-primary unselected" id="btnMembers">
                 Group Members
             </button>
             <button class="btn btn-primary unselected" id="btnFeedback">
@@ -45,10 +73,10 @@
 <!-- Section for viewing all surveys -->
 <div class="container-fluid d-none" id="viewSurveys">
     <div class="margin-30">
-        <div class="row mt-5" id="surveyContainer">
-            
-        </div>
-        <button class="btn btn-secondary position-fixed mt-3" id="btnBackToGroups">Back</button>
+        <div class="row mt-5" id="surveyContainer"></div>
+        <button class="btn btn-secondary position-fixed mt-3" id="btnBackToGroups">
+            Back
+        </button>
     </div>
     <!-- Back button -->
 </div>
@@ -62,11 +90,9 @@
                 <p class="text-center mb-4" style="color: white">
                     Please fill out the survey below as provided by your instructor.
                 </p>
-                <hr class="m-4"/>
+                <hr class="m-4" />
                 <!-- Survey title -->
-                <form id="studentSurveyForm">
-    
-                </form>
+                <form id="studentSurveyForm"></form>
                 <!-- private or public -->
                 <div class="text-center">
                     <select class="form-control form-select mb-4" id="cboTarget" aria-label="Default select example">
@@ -82,7 +108,7 @@
                     </div>
                 </div>
                 <!-- Submit button -->
-                <hr class="m-4"/>
+                <hr class="m-4" />
                 <div class="text-end mt-3">
                     <button class="btn btn-primary mt-3" type="button" id="btnSubmitForm">
                         Submit
@@ -96,8 +122,7 @@
 <!-- Section for viewing all group members -->
 <div class="container-fluid d-none" id="viewMembers">
     <div class="margin-30">
-        <div class="row mt-5" id="groupMemberContainer">
-        </div>
+        <div class="row mt-5" id="groupMemberContainer"></div>
     </div>
 </div>
 
@@ -150,7 +175,9 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" class="btn btn-primary" id="btnJoinGroup">Join</button>
+                <button type="button" class="btn btn-primary" id="btnJoinGroup">
+                    Join
+                </button>
             </div>
         </div>
     </div>
