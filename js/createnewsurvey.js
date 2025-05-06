@@ -6,12 +6,7 @@ var survey = {
 }
 var newQuestion
 
-//display class name and section number
-document.querySelector('#txtClassName&Section').addEventListener('click', (event) => {
-    
-})
-
-//validation for adding title button - makes sure your title adds correctly
+//validation for adding title button -makes sure the title isnt empty when button pressed
 document.querySelector('#btnAddTitle').addEventListener('click', (event) => {
     let strSurveyTitle = document.querySelector("#txtSurveyTitle").value
 
@@ -58,14 +53,14 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
         let questionCount = 0
         if(strQuestion == "multiple choice"){
             document.querySelector('#divCreateQuestion').innerHTML = '<label for="txtMultipleChoiceQuestion" class="mt-4 mb-0">Enter Question:</label>'
-            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtMultipleChoiceQuestion" class="form-control mb-0" type="text" placeholder="Enter question here" aria-label="Input for short answer question" required>'
+            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtMultipleChoiceQuestion" class="form-control mb-0 placeholder-color" type="text" placeholder="Enter question here" aria-label="Input for short answer question" required>'
             document.querySelector('#divCreateQuestion').innerHTML += '<div id="divMultipleChoiceAnswers"> </div>'
             document.querySelector('#divCreateQuestion').innerHTML += '<button id="btnAddMultipleChoiceAnswer" class="btn btn-secondary col-12 mt-2 mb-0" type="button">Add Answer</button>'
-            document.querySelector('#divCreateQuestion').innerHTML += '<button id="btnCreateMultipleChoiceQuestion" class="btn btn-secondary col-12 mt-2 mb-4" type="button">Add Question To Survey</button>'
+            document.querySelector('#divCreateQuestion').innerHTML += '<button id="btnCreateMultipleChoiceQuestion" class="btn btn-secondary col-12 mt-2 mb-4 " type="button">Add Question To Survey</button>'
             document.querySelector('#btnAddMultipleChoiceAnswer').addEventListener('click', (event) => {
                 questionCount++
                 document.querySelector('#divMultipleChoiceAnswers').innerHTML += `<label for="txtMultipleChoiceAnswer${questionCount}" class="mt-1 mb-0">Answer ${questionCount}:</label>`
-                document.querySelector('#divMultipleChoiceAnswers').innerHTML += `<input id="txtMultipleChoiceAnswer${questionCount}" class="form-control mb-0" type="text" placeholder="Enter question here" aria-label="Input for short answer question"></input>`
+                document.querySelector('#divMultipleChoiceAnswers').innerHTML += `<input id="txtMultipleChoiceAnswer${questionCount}" class="form-control mb-0" type="text placeholder-color" placeholder="Enter question here" aria-label="Input for short answer question"></input>`
             });
             document.querySelector('#btnCreateMultipleChoiceQuestion').addEventListener('click', (event) => {
                 let strMultipleChoiceQuestion = document.querySelector("#txtMultipleChoiceQuestion").value
@@ -115,11 +110,11 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
         }
         if(strQuestion == "likert scale"){
             document.querySelector('#divCreateQuestion').innerHTML = '<label for="txtLikertQuestion" class="mt-4 mb-0">Enter Question:</label>'
-            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtLikertQuestion" class="form-control mb-0" type="text" placeholder="Enter question here" aria-label="Input for likert question" required>'
+            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtLikertQuestion" class="form-control mb-0 placeholder-color" type="text" placeholder="Enter question here" aria-label="Input for likert question" required>'
             document.querySelector('#divCreateQuestion').innerHTML += '<label for="txtLikertQuestion1" class="mb-0">Enter A Low Range:</label>'
-            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtLikertQuestion1" class="form-control mb-0" type="text" placeholder="Enter low range here" aria-label="Input for first likert range" required>'
+            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtLikertQuestion1" class="form-control mb-0 placeholder-color" type="text" placeholder="Enter low range here" aria-label="Input for first likert range" required>'
             document.querySelector('#divCreateQuestion').innerHTML += '<label for="txtLikertQuestion2" class="mb-0">Enter A High Range:</label>'
-            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtLikertQuestion2" class="form-control mb-0" type="text" placeholder="Enter high range here" aria-label="Input for second likert range" required>'
+            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtLikertQuestion2" class="form-control mb-0 placeholder-color" type="text" placeholder="Enter high range here" aria-label="Input for second likert range" required>'
             document.querySelector('#divCreateQuestion').innerHTML += '<button id="btnCreateLikertQuestion" class="btn btn-secondary col-12 mt-2 mb-4" type="button">Add Question To Survey</button>'
             document.querySelector('#btnCreateLikertQuestion').addEventListener('click', (event) => {
                 let strLikertQuestion = document.querySelector("#txtLikertQuestion").value
@@ -173,7 +168,7 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
         }
         if(strQuestion == "short answer"){
             document.querySelector('#divCreateQuestion').innerHTML = '<label for="txtShortAnswer" class="mt-4 mb-1">Enter Question:</label>'
-            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtShortAnswer" class="form-control mb-0" type="text" placeholder="Enter question here" aria-label="Input for short answer question" required>'
+            document.querySelector('#divCreateQuestion').innerHTML += '<input id="txtShortAnswer" class="form-control mb-0 placeholder-color" type="text" placeholder="Enter question here" aria-label="Input for short answer question" required>'
             document.querySelector('#divCreateQuestion').innerHTML += '<button id="btnCreateShortAnswerQuestion" class="btn btn-secondary col-12 mt-2 mb-4" type="button">Add Question To Survey</button>'
             document.querySelector('#btnCreateShortAnswerQuestion').addEventListener('click', (event) => {
                 let strShortAnswerQuestion = document.querySelector("#txtShortAnswer").value
@@ -200,7 +195,7 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
                 }
                 else {
                     document.querySelector('#divSurveys').innerHTML += `<p class="mb-1">${strShortAnswerQuestion}</p>`
-                    document.querySelector('#divSurveys').innerHTML += '<textarea id="txtResponseShortAnswer" rows="3" mb-4" cols="40" wrap="soft" class="text-white" placeholder="Enter your response here" aria-label="Input for Short Answer"></textarea>'
+                    document.querySelector('#divSurveys').innerHTML += '<textarea id="txtResponseShortAnswer" rows="3" mb-4" cols="40" wrap="soft" class="text-white placeholder-color" placeholder="Enter your response here" aria-label="Input for Short Answer"></textarea>'
                     survey.questions.push(newQuestion);
                 }
             });
