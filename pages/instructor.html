@@ -1,286 +1,180 @@
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasNavbar"
-      aria-controls="offcanvasNavbar"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div
-      class="offcanvas offcanvas-end bg-dark text-white"
-      tabindex="-1"
-      id="offcanvasNavbar"
-      aria-labelledby="offcanvasNavbarLabel"
-    >
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-        <button
-          type="button"
-          class="btn-close btn-close-white"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav ms-auto d-flex flex-row gap-2">
-          <li class="nav-item">
-            <button
-              class="btn btn-primary unselected"
-              type="button"
-              id="btnInstructor"
-              onClick="location.hash='#/instructor'"
-            >
-              Instructor View
-            </button>
-          </li>
-          <li class="nav-item">
-            <button
-              class="btn btn-primary"
-              type="button"
-              id="btnStudent"
-              onClick="location.hash='#/student'"
-            >
-              Student View
-            </button>
-          </li>
-          <li class="nav-item">
-            <button
-              class="btn btn-primary unselected"
-              type="button"
-              id="btnProfile"
-              onclick="location.hash='#/profile'"
-            >
-              Profile
-            </button>
-          </li>
-        </ul>
-      </div>
+    <div class="container-fluid">
+        <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav ms-auto d-flex flex-row gap-2">
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary" type="button" id="btnInstructor"
+                            onClick="location.hash='#/instructor'">
+                            Instructor View
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary" type="button" id="btnStudent"
+                            onClick="location.hash='#/student'">
+                            Student View
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary" type="button" id="btnProfile"
+                            onclick="location.hash='#/profile'">
+                            Profile
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </nav>
 
 <!-- Instructor view: Displays all groups created by the instructor -->
 <div class="container-fluid" id="viewGroupsProf" style="padding-right: 75px">
-  <!-- Button to open the "Create Course" modal -->
-  <div class="d-flex justify-content-end mt-3 me-2" id="divCreateCourseModal">
-    <button class="btn btn-outline-primary" id="btnCreateCourseModal">
-      Create Course
-    </button>
-  </div>
+    <!-- Button to open the "Create Course" modal -->
+    <div class="d-flex justify-content-end mt-3 me-2" id="divCreateCourseModal">
+        <button class="btn btn-outline-primary" id="btnCreateCourseModal">
+            Create Course
+        </button>
+    </div>
 
-  <!-- Group cards container -->
-  <div class="d-flex flex-wrap margin-30" id="groupContainer"></div>
+    <!-- Group cards container -->
+    <div class="d-flex flex-wrap margin-30" id="groupContainer"></div>
 
-  <!-- in-depth group view (surveys,students, etc) -->
-  <div class="container-fluid d-none margin-30" id="viewGroupDetails">
-    <form
-      class="card corner-round"
-      id="frmSurvey"
-      style="padding: 15px; margin-top: 70px"
-    >
-      <div class="row">
-        <!-- Survey Navigation -->
-        <div class="col-lg-4 col-md-5 col-12" id="surveyNav">
-          <!-- Group Title -->
-          <div class="mb-3">
-            <h1 id="txtCourseTitle" class="text-center mt-4 mb-3">
-              CSC 2100-002
-            </h1>
-          </div>
-          <!-- Surveys Title and Button -->
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="text-white text-center">Surveys</h3>
-            <button
-              class="btn btn-outline-primary"
-              id="btnNewSurvey"
-              type="button"
-            >
-              + New Survey
-            </button>
-          </div>
-          <!-- Scrollable Survey List -->
-          <div
-            class="overflow-auto"
-            id="divSurveyContainer"
-            style="max-height: 400px"
-          >
-            <!-- Surveys will be dynamically added here -->
-          </div>
-          <!-- group Title and Button -->
-          <div
-            class="d-flex justify-content-between align-items-center mt-3 mb-3"
-          >
-            <h3 class="text-white text-center">Groups</h3>
-            <button
-              class="btn btn-outline-primary"
-              id="btnCreateGroupModal"
-              type="button"
-            >
-              + New Group
-            </button>
-          </div>
-          <!-- Scrollable group List -->
-          <div
-            class="overflow-auto"
-            id="divGroupContainer"
-            style="max-height: 400px"
-          >
-            <!-- groups will be dynamically added here -->
-          </div>
-        </div>
+    <!-- in-depth group view (surveys,students, etc) -->
+    <div class="container-fluid d-none margin-30" id="viewGroupDetails">
+        <form class="card corner-round" id="frmSurvey" style="padding: 15px; margin-top: 70px">
+            <div class="row">
+                <!-- Survey Navigation -->
+                <div class="col-lg-4 col-md-5 col-12" id="surveyNav">
+                    <!-- Group Title -->
+                    <div class="mb-3">
+                        <h1 id="txtCourseTitle" class="text-center mt-4 mb-3">
+                            CSC 2100-002
+                        </h1>
+                    </div>
+                    <!-- Surveys Title and Button -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="text-white text-center">Surveys</h3>
+                        <button class="btn btn-outline-primary" id="btnNewSurvey" type="button">
+                            + New Survey
+                        </button>
+                    </div>
+                    <!-- Scrollable Survey List -->
+                    <div class="overflow-auto" id="divSurveyContainer" style="max-height: 400px">
+                        <!-- Surveys will be dynamically added here -->
+                    </div>
+                    <!-- group Title and Button -->
+                    <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+                        <h3 class="text-white text-center">Groups</h3>
+                        <button class="btn btn-outline-primary" id="btnCreateGroupModal" type="button">
+                            + New Group
+                        </button>
+                    </div>
+                    <!-- Scrollable group List -->
+                    <div class="overflow-auto" id="divGroupContainer" style="max-height: 400px">
+                        <!-- groups will be dynamically added here -->
+                    </div>
+                </div>
 
-        <!-- Survey Details -->
-        <div class="col-lg-8 col-md-7 col-12 border-left">
-          <div class="row">
-            <div class="col" id="divSurveyDetails">
-              <h2 class="text-center mt-4 mb-3">Mid-Year Peer Review</h2>
-              <!-- Status Table -->
-              <div class="p-3">
-                <label for="selStudents" class="form-label text-white">
-                  Students
-                </label>
-                <select
-                  id="selStudents"
-                  class="bg-dark text-white form-select"
-                  multiple
-                >
-                  <option value="Harry">Harry Potter</option>
-                  <option value="Ron">Ron Weasley</option>
-                </select>
-              </div>
+                <!-- Survey Details -->
+                <div class="col-lg-8 col-md-7 col-12 border-left">
+                    <div class="row">
+                        <div class="col" id="divSurveyDetails">
+                            <h2 class="text-center mt-4 mb-3">Mid-Year Peer Review</h2>
+                            <!-- Status Table -->
+                            <div class="p-3">
+                                <label for="selStudents" class="form-label text-white">
+                                    Students
+                                </label>
+                                <select id="selStudents" class="bg-dark text-white form-select" multiple>
+                                    <option value="Harry">Harry Potter</option>
+                                    <option value="Ron">Ron Weasley</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
+        </form>
+    </div>
 </div>
 
 <!-- Create group modal -->
-<div
-  class="modal fade"
-  id="createGroupModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="createGroupModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
-        <button
-          type="button"
-          class="btn-close text-white"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <label class="ms-2 mt-2" for="txtGroupName">Group Name:</label>
-        <input
-          class="form-control input-outline mt-1"
-          type="text"
-          id="txtGroupName"
-          aria-label="Input for group name"
-        />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <button type="button" id="btnCreateGroup" class="btn btn-primary">
-          Create
-        </button>
-      </div>
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createGroupModalLabel">Create A Group</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="ms-2 mt-2" for="txtGroupName">Group Name:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtGroupName"
+                    aria-label="Input for group name" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btnCreateGroup" class="btn btn-primary">
+                    Create
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- create course modal -->
-<div
-  class="modal fade"
-  id="createCourseModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="createCourseModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createCourseModalLabel">Create A Group</h5>
-        <button
-          type="button"
-          class="btn-close text-white"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <label class="ms-2 mt-2" for="txtCourseName">Course Name:</label>
-        <input
-          class="form-control input-outline mt-1"
-          type="text"
-          id="txtCourseName"
-          aria-label="Input for course name"
-          placeholder="Software Engineering I"
-        />
-        <label class="ms-2 mt-2" for="txtCourseNumber">Course Number:</label>
-        <input
-          class="form-control input-outline mt-1"
-          type="text"
-          id="txtCourseNumber"
-          aria-label="Input for course number"
-          placeholder="CSC-4610"
-        />
-        <label class="ms-2 mt-2" for="txtSectionNumber">Section Number:</label>
-        <input
-          class="form-control input-outline mt-1"
-          type="text"
-          id="txtSectionNumber"
-          aria-label="Input for section number"
-          placeholder="001"
-        />
-        <label class="ms-2 mt-2" for="txtSemester">Semester:</label>
-        <input
-          class="form-control input-outline mt-1"
-          type="text"
-          id="txtSemester"
-          aria-label="Input for semester"
-          placeholder="Spring 2025"
-        />
-        <label class="ms-2 mt-2" for="txtStartDate"
-          >Start Date (MM/DD/YY):</label
-        >
-        <input
-          class="form-control input-outline mt-1"
-          type="date"
-          id="txtStartDate"
-          aria-label="Input for course start date"
-        />
-        <label class="ms-2 mt-2" for="txtEndDate">End Date (MM/DD/YY):</label>
-        <input
-          class="form-control input-outline mt-1"
-          type="date"
-          id="txtEndDate"
-          aria-label="Input for course end date"
-        />
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <button type="button" id="btnCreateCourse" class="btn btn-primary">
-          Create
-        </button>
-      </div>
+<div class="modal fade" id="createCourseModal" tabindex="-1" role="dialog" aria-labelledby="createCourseModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createCourseModalLabel">Create A Group</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label class="ms-2 mt-2" for="txtCourseName">Course Name:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtCourseName"
+                    aria-label="Input for course name" placeholder="Software Engineering I" />
+                <label class="ms-2 mt-2" for="txtCourseNumber">Course Number:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtCourseNumber"
+                    aria-label="Input for course number" placeholder="CSC-4610" />
+                <label class="ms-2 mt-2" for="txtSectionNumber">Section Number:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtSectionNumber"
+                    aria-label="Input for section number" placeholder="001" />
+                <label class="ms-2 mt-2" for="txtSemester">Semester:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtSemester"
+                    aria-label="Input for semester" placeholder="Spring 2025" />
+                <label class="ms-2 mt-2" for="txtStartDate">Start Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="date" id="txtStartDate"
+                    aria-label="Input for course start date" />
+                <label class="ms-2 mt-2" for="txtEndDate">End Date (MM/DD/YY):</label>
+                <input class="form-control input-outline mt-1" type="date" id="txtEndDate"
+                    aria-label="Input for course end date" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btnCreateCourse" class="btn btn-primary">
+                    Create
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div id="divCreateNewSurvey"></div>
