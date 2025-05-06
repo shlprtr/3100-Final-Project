@@ -39,9 +39,8 @@
     </div>
 </nav>
 
-<!-- TODO button -->
 <!-- Instructor view: Displays all groups created by the instructor -->
-<div class="container-fluid" id="viewGroupsProf">
+<div class="container-fluid" id="viewGroupsProf" style="padding-right: 75px;">
     <!-- Button to open the "Create Course" modal -->
     <div class="d-flex justify-content-end mt-3 me-2" id="divCreateCourseModal">
         <button class="btn btn-outline-primary" id="btnCreateCourseModal">
@@ -72,7 +71,7 @@
                             </button>
                         </div>
                         <!-- Scrollable Survey List -->
-                        <div class="overflow-y-scroll bg-dark" id="divSurveyContainer" style="max-height: 400px">
+                        <div class="row row-cols-1 overflow-y-scroll d-flex justify-content-center col-11" id="divSurveyContainer" style="max-height: 400px; max-width: 400px;">
                             <!-- Surveys will be dynamically added here -->
                         </div>
                     </div>
@@ -85,7 +84,7 @@
                             </button>
                         </div>
                         <!-- Scrollable group List -->
-                        <div class=" row row-cols-1 overflow-y-scroll d-flex justify-content-center col-11" id="divGroupContainer" style="max-height: 400px; max-width: 400px;">
+                        <div class="row row-cols-1 overflow-y-scroll d-flex justify-content-center col-11" id="divGroupContainer" style="max-height: 400px; max-width: 400px;">
                             <!-- groups will be dynamically added here -->
                         </div>
                     </div>
