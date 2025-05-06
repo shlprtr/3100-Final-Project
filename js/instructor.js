@@ -92,7 +92,6 @@ document.querySelector('#btnNewSurvey').addEventListener('click', async (event) 
     document.querySelector('#divHome').style.display = 'block'
 
     let objResponse = await ApiService.viewCourseInfo(strCurrCourseID)
-    console.log(objResponse.data.result[0].CourseNumber)
     document.querySelector('#txtClassNameSectionName').innerHTML = `${objResponse.data.result[0].CourseNumber}-${objResponse.data.result[0].SectionNumber}`
 })
 
@@ -196,7 +195,6 @@ async function loadStudents(strCurrCourseID) {
     const objResponse = await ApiService.viewCourseUsers(strCurrCourseID)
     if (objResponse.success) {
         const arrGroups = objResponse.data.result
-        console.log("arrGroups: " , arrGroups)
         let strStudentList = ""
         arrGroups.forEach(student => {
             strStudentList += `

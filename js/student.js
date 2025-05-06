@@ -178,7 +178,6 @@ document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
                     const selectedOption = document.querySelector(`input[name="q${q}"]:checked`)
                     if (selectedOption) {
                         strAnswer = selectedOption.value
-                        console.log(strAnswer)
                     }
                     break
     
@@ -186,7 +185,6 @@ document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
                     const input = document.querySelector(`#q${q}`)
                     if (input) {
                         strAnswer = input.value.trim()
-                        console.log(strAnswer)
                     }
                     break
             }
@@ -272,7 +270,6 @@ async function loadSurveys() {
 
 async function loadFeedback() {
     const objResponse = await ApiService.viewPublicSurveys()
-    console.log(objResponse)
     if (objResponse.success) {
         const arrFeedback = objResponse.data.result
         let strFeedbackHTML = ""
