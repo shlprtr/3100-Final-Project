@@ -55,6 +55,7 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
 
         loadSurveys()
         loadGroups(strCurrCourseID)
+        loadStudents(strCurrCourseID)
     }
 })
 
@@ -127,6 +128,7 @@ async function loadGroups(strCourseID) {
             strGroupHTML += `
                 <div class="card bg-dark p-4 group-card selection-card position-relative">
                     <h5>${group.GroupName}</h5>
+                    <p class="fw-lighter">Code: ${group.JoinCode}</p>
                     <a class="stretched-link"
                         data-group-name="${group.GroupName}"
                         data-group-id="${group.GroupID}">
@@ -161,20 +163,23 @@ async function loadSurveys() {
     }
 }
 
-async function loadUsers() {
+// function for group student list
+async function loadStudents(strCurrCourseID) {
     const objResponse = await ApiService.viewCourseUsers(strCurrCourseID)
     if (objResponse.success) {
-        //array of users in course
-        const arrUsers = objResponse.data.result
-        console.log(arrUsers)
-
-        let strUsersHTML = ""
-        arrUsers.forEach(users => {
-            strUsersHTML += `
-                <option value="${users.UserID}">${users.FirstName} ${users.LastName} </option>
+        const arrGroups = objResponse.data.result
+        console.log("arrGroups: " , arrGroups)
+        let strStudentList = ""
+        arrGroups.forEach(student => {
+            strStudentList += `
+                <option value=${student.FirstName}>${student.FirstName} ${student.LastName}</option>
             `
         })
-        document.querySelector('#selStudents').innerHTML = strUsersHTML
+        document.querySelector('#selStudents').innerHTML = strStudentList
+
+
+
+        //document.querySelector('#selStudents').innerHTML = `<option value=${strFirstName}>${strFirstName} ${strLastName}</option>`
     }
 }
 
