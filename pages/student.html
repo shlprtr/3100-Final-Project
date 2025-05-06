@@ -1,222 +1,177 @@
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvasNavbar"
-      aria-controls="offcanvasNavbar"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div
-      class="offcanvas offcanvas-end bg-dark text-white"
-      tabindex="-1"
-      id="offcanvasNavbar"
-      aria-labelledby="offcanvasNavbarLabel"
-    >
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-        <button
-          type="button"
-          class="btn-close btn-close-white"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav ms-auto d-flex flex-row gap-2">
-          <li class="nav-item">
-            <button
-              class="btn btn-primary unselected"
-              type="button"
-              id="btnInstructor"
-              onClick="location.hash='#/instructor'"
-            >
-              Instructor View
-            </button>
-          </li>
-          <li class="nav-item">
-            <button
-              class="btn btn-primary"
-              type="button"
-              id="btnStudent"
-              onClick="location.hash='#/student'"
-            >
-              Student View
-            </button>
-          </li>
-          <li class="nav-item">
-            <button
-              class="btn btn-primary unselected"
-              type="button"
-              id="btnProfile"
-              onclick="location.hash='#/profile'"
-            >
-              Profile
-            </button>
-          </li>
-        </ul>
-      </div>
+    <div class="container-fluid">
+        <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav ms-auto d-flex flex-row gap-2">
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary" type="button" id="btnInstructor"
+                            onClick="location.hash='#/instructor'">
+                            Instructor View
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary" type="button" id="btnStudent"
+                            onClick="location.hash='#/student'">
+                            Student View
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-primary" type="button" id="btnProfile"
+                            onclick="location.hash='#/profile'">
+                            Profile
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </nav>
 
 <!-- Container for viewing all groups -->
 <div class="container-fluid" id="viewGroups">
-  <!-- Button to open the "Join Group" modal -->
-  <div class="d-flex justify-content-end mt-3 me-2">
-    <button class="btn btn-outline-primary" id="btnJoinGroupModal">
-      Join Group
-    </button>
-  </div>
+    <!-- Button to open the "Join Group" modal -->
+    <div class="d-flex justify-content-end mt-3 me-2">
+        <button class="btn btn-outline-primary" id="btnJoinGroupModal">
+            Join Group
+        </button>
+    </div>
 
-  <!-- Group cards container -->
-  <div class="d-flex flex-wrap margin-30" id="groupContainer"></div>
+    <!-- Group cards container -->
+    <div class="d-flex flex-wrap margin-30" id="groupContainer"></div>
 </div>
 
 <!-- Section for viewing a selected group -->
 <div class="container-fluid d-none" id="selectedGroup">
-  <!-- Group name header -->
-  <h1 class="margin-30 text-white mt-3 mb-5" id="groupName"></h1>
-  <!-- Buttons to navigate between surveys, members, and feedback -->
-  <div class="margin-30" id="viewOptions">
-    <div
-      class="d-flex flex-column flex-md-row justify-content-start gap-2 mt-4"
-    >
-      <button class="btn btn-primary" id="btnSurveys">Surveys</button>
-      <button class="btn btn-primary unselected" id="btnMembers">
-        Group Members
-      </button>
-      <button class="btn btn-primary unselected" id="btnFeedback">
-        Feedback
-      </button>
+    <!-- Group name header -->
+    <h1 class="margin-30 text-white mt-3 mb-5" id="groupName"></h1>
+    <!-- Buttons to navigate between surveys, members, and feedback -->
+    <div class="margin-30" id="viewOptions">
+        <div class="d-flex flex-column flex-md-row justify-content-start gap-2 mt-4">
+            <button class="btn btn-primary" id="btnSurveys">Surveys</button>
+            <button class="btn btn-primary unselected" id="btnMembers">
+                Group Members
+            </button>
+            <button class="btn btn-primary unselected" id="btnFeedback">
+                Feedback
+            </button>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Section for viewing all surveys -->
 <div class="container-fluid d-none" id="viewSurveys">
-  <div class="margin-30">
-    <div class="row mt-5" id="surveyContainer"></div>
-    <button class="btn btn-secondary position-fixed mt-3" id="btnBackToGroups">
-      Back
-    </button>
-  </div>
-  <!-- Back button -->
+    <div class="margin-30">
+        <div class="row mt-5" id="surveyContainer"></div>
+        <button class="btn btn-secondary position-fixed mt-3" id="btnBackToGroups">
+            Back
+        </button>
+    </div>
+    <!-- Back button -->
 </div>
 
 <!-- Section for displaying a sample survey -->
 <div class="container-fluid d-none" id="frmSurvey">
-  <div class="d-flex justify-content-center align-items-center margin-30">
-    <div class="card col-11 col-lg-9 mt-5">
-      <div class="card-body p-4">
-        <h1
-          class="card-title text-center mb-3"
-          style="color: white"
-          id="surveyName"
-        >
-          Student Survey
-        </h1>
-        <p class="text-center mb-4" style="color: white">
-          Please fill out the survey below as provided by your instructor.
-        </p>
-        <hr class="m-4" />
-        <!-- Survey title -->
-        <form id="studentSurveyForm"></form>
-        <!-- private or public -->
-        <div class="text-center">
-          <button type="button" class="btn btn-primary me-2" id="btnPrivate">
-            Private
-          </button>
-          <button type="button" class="btn btn-secondary" id="btnPublic">
-            Public
-          </button>
+    <div class="d-flex justify-content-center align-items-center margin-30">
+        <div class="card col-11 col-lg-9 mt-5">
+            <div class="card-body p-4">
+                <h1 class="card-title text-center mb-3" style="color: white" id="surveyName">
+                    Student Survey
+                </h1>
+                <p class="text-center mb-4" style="color: white">
+                    Please fill out the survey below as provided by your instructor.
+                </p>
+                <hr class="m-4" />
+                <!-- Survey title -->
+                <form id="studentSurveyForm"></form>
+                <!-- private or public -->
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary me-2" id="btnPrivate">
+                        Private
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btnPublic">
+                        Public
+                    </button>
+                </div>
+                <!-- Submit button -->
+                <hr class="m-4" />
+                <div class="text-end mt-3">
+                    <button class="btn btn-primary mt-3" type="button" id="btnSubmitForm">
+                        Submit
+                    </button>
+                </div>
+            </div>
         </div>
-        <!-- Submit button -->
-        <hr class="m-4" />
-        <div class="text-end mt-3">
-          <button class="btn btn-primary mt-3" type="button" id="btnSubmitForm">
-            Submit
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <!-- Section for viewing all group members -->
 <div class="container-fluid d-none" id="viewMembers">
-  <div class="margin-30">
-    <div class="row mt-5" id="groupMemberContainer"></div>
-  </div>
+    <div class="margin-30">
+        <div class="row mt-5" id="groupMemberContainer"></div>
+    </div>
 </div>
 
 <!-- Section for viewing all feedback -->
 <div class="container-fluid d-none" id="viewFeedback">
-  <div class="margin-30">
-    <div class="row mt-5" id="surveyFeedbackContainer">
-      <!-- Example feedback card -->
-      <div class="card selection-card shadow-sm mb-2 position-relative">
-        <div class="card-body">
-          <p>SURVEY NAME</p>
-          <p>STUDENT 1</p>
-          <a class="stretched-link" data-survey-id="Survey1"></a>
+    <div class="margin-30">
+        <div class="row mt-5" id="surveyFeedbackContainer">
+            <!-- Example feedback card -->
+            <div class="card selection-card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p>SURVEY NAME</p>
+                    <p>STUDENT 1</p>
+                    <a class="stretched-link" data-survey-id="Survey1"></a>
+                </div>
+            </div>
+            <!-- Repeatable feedback card -->
+            <div class="card selection-card shadow-sm mb-2 position-relative">
+                <div class="card-body">
+                    <p>SURVEY NAME</p>
+                    <p>STUDENT 2</p>
+                    <a class="stretched-link" data-survey-id="Survey2"></a>
+                </div>
+            </div>
         </div>
-      </div>
-      <!-- Repeatable feedback card -->
-      <div class="card selection-card shadow-sm mb-2 position-relative">
-        <div class="card-body">
-          <p>SURVEY NAME</p>
-          <p>STUDENT 2</p>
-          <a class="stretched-link" data-survey-id="Survey2"></a>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <!-- Modal for joining a group -->
-<div
-  class="modal fade"
-  id="joinGroupModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="joinGroupModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content bg-dark text-white">
-      <!-- Modal header -->
-      <div class="modal-header">
-        <h5 class="modal-title" id="joinGroupModalLabel">Join A Group</h5>
-        <button
-          type="button"
-          class="btn-close text-white"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <!-- Modal body -->
-      <div class="modal-body">
-        <label class="ms-2 mt-2" for="txtJoinCode">Enter Group Code:</label>
-        <input
-          class="form-control input-outline mt-1"
-          type="text"
-          id="txtJoinCode"
-          aria-label="Input for group code"
-        />
-      </div>
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
-        </button>
-        <button type="button" class="btn btn-primary" id="btnJoinGroup">
-          Join
-        </button>
-      </div>
+<div class="modal fade" id="joinGroupModal" tabindex="-1" role="dialog" aria-labelledby="joinGroupModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content bg-dark text-white">
+            <!-- Modal header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="joinGroupModalLabel">Join A Group</h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <label class="ms-2 mt-2" for="txtJoinCode">Enter Group Code:</label>
+                <input class="form-control input-outline mt-1" type="text" id="txtJoinCode"
+                    aria-label="Input for group code" />
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" id="btnJoinGroup">
+                    Join
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
