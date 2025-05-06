@@ -53,8 +53,8 @@ document.querySelector('#btnMembers').addEventListener('click', async () => {
         let objUserInfoResponse = await ApiService.viewUserInfo(objResponse.data.result[i].UserID)
         let objUserPhoneResponse = await ApiService.viewUserPhoneInfo(objResponse.data.result[i].UserID)
         let objUserSocialsResponse = await ApiService.viewUserSocials(objResponse.data.result[i].UserID)
-        let name = objUserInfoResponse.data.firstName + ' ' + objUserInfoResponse.data.lastName
-        let email = objUserInfoResponse.data.email
+        let name = objUserInfoResponse.data.result[0].FirstName + ' ' + objUserInfoResponse.data.result[0].LastName
+        let email = objUserInfoResponse.data.result[0].Email
         let phone = '--'
         let discord = '--'
         let github = '--'
@@ -98,6 +98,7 @@ document.querySelector('#btnMembers').addEventListener('click', async () => {
 // display all feedback
 document.querySelector('#btnFeedback').addEventListener('click', (event) => {
     selectView('Feedback')
+    loadFeedback()
 })
 
 // function to display the right stuff based on selection
@@ -159,6 +160,68 @@ document.querySelector('#btnPublic').addEventListener('click', () => {
     document.querySelector('#btnPrivate').classList.remove('btn-primary')
 });
 
+document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
+    let strTargetUserID = document.querySelector('#cboTarget').value
+    let blnSuccessful = false
+
+    const objResponse = await ApiService.viewSurveyQuestion(strCurrSurveyID)
+    if (objResponse.success) {
+        const arrQuestions = objResponse.data.result
+    
+        for (let q = 0; q < arrQuestions.length; q++) {
+            const objQuestion = arrQuestions[q]
+            let strAnswer = null
+    
+            switch (objQuestion.QuestionType) {
+                case "Multiple Choice":
+                case "Likert":
+                    const selectedOption = document.querySelector(`input[name="q${q}"]:checked`)
+                    if (selectedOption) {
+                        strAnswer = selectedOption.value
+                        console.log(strAnswer)
+                    }
+                    break
+    
+                case "Short Answer":
+                    const input = document.querySelector(`#q${q}`)
+                    if (input) {
+                        strAnswer = input.value.trim()
+                        console.log(strAnswer)
+                    }
+                    break
+            }
+    
+            if (strAnswer !== null && strAnswer.length > 0) {
+                const objResponseSurvey = await ApiService.addSurveyResponse(
+                    strCurrSurveyID,
+                    objQuestion.QuestionID,
+                    strAnswer,
+                    strSurveyStatus,
+                    strTargetUserID
+                )
+                if (objResponseSurvey.success) {
+                    blnSuccessful = true
+                }
+            }
+        }
+    }
+
+    if (blnSuccessful) {
+        Swal.fire({
+            title: "Success!",
+            text: "Your responses were submitted.",
+            icon: "success"
+        })
+    } else {
+        Swal.fire({
+            title: "Error",
+            text: "Some responses could not be submitted.",
+            icon: "error"
+        })
+    }
+
+
+})
 
 async function loadGroups() {
     const objResponse = await ApiService.viewUsersGroups()
@@ -193,8 +256,9 @@ async function loadSurveys() {
             strSurveyHTML += `
                 <div class="card selection-card shadow-sm mb-2 position-relative">
                     <div class="card-body">
-                        <h4 class="mt-2">${survey.Title}</h4>
+                        <h3 class="mt-2">${survey.Title}</h3>
                         <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
+                        <p>${objCourseInfo.StartDate} - ${objCourseInfo.EndDate}</p>
                         <a class="stretched-link"
                             data-survey-id="${survey.SurveyID}">
                         </a>
@@ -203,6 +267,29 @@ async function loadSurveys() {
             `;
         }
         document.querySelector('#surveyContainer').innerHTML = strSurveyHTML
+    }
+}
+
+async function loadFeedback() {
+    const objResponse = await ApiService.viewPublicSurveys()
+    console.log(objResponse)
+    if (objResponse.success) {
+        const arrFeedback = objResponse.data.result
+        let strFeedbackHTML = ""
+        for (const feedback of arrFeedback) {
+            strFeedbackHTML += `
+                <div class="card selection-card shadow-sm mb-2 position-relative">
+                    <div class="card-body">
+                        <h3 class="card-title mt-2">${feedback.Title}</h3>
+                        <p class="card-text">${feedback.CourseNumber}-${feedback.SectionNumber}</p>
+                        <a class="stretched-link"
+                            data-survey-id="${feedback.SurveyID}">
+                        </a>
+                    </div>
+                </div>
+            `
+        }
+        document.querySelector('#surveyFeedbackContainer').innerHTML = strFeedbackHTML
     }
 }
 
@@ -221,7 +308,7 @@ async function loadSelectedSurvey() {
                     for (let a = 0; a < arrOptions.length; a++) {
                         strQuestionsHTML += `
                             <div class="form-check ms-2 mb-2">
-                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-a${a}" />
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-a${a}" value="${arrOptions[a]}" />
                                 <label class="form-check-label" for="q${q}-a${a}">${arrOptions[a]}</label>
                             </div>
                         `
@@ -303,6 +390,26 @@ async function loadSelectedSurvey() {
             }
         }
         document.querySelector('#studentSurveyForm').innerHTML = strQuestionsHTML
+    }
+    loadTargetUsers()
+}
+
+async function loadTargetUsers() {
+    const objResponse = await ApiService.viewGroupUsers(strCurrGroupID)    
+    if (objResponse.success) {
+        const arrUsers = objResponse.data.result
+        let strUserHTML = "<option selected>Select Recipient</option>"
+        for (const user of arrUsers) {
+            const objResponseUsers = await ApiService.viewUserInfo(user.UserID)
+            if (objResponseUsers.success) {
+                const objUser = objResponseUsers.data.result[0]
+                strUserHTML += `
+                    <option value="${objUser.UserID}">${objUser.FirstName} ${objUser.LastName}</option>
+
+                `;
+            }
+        }
+        document.querySelector('#cboTarget').innerHTML = strUserHTML
     }
 }
 
