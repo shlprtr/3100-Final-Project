@@ -289,3 +289,7 @@ select:-webkit-autofill:focus {
     color: white; /* Ensure text remains white */
     border-color: #BF3475; /* Match border color */
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}

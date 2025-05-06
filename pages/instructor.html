@@ -56,39 +56,42 @@
         <form class="card corner-round" id="frmSurvey" style="padding: 15px; margin-top: 70px">
             <div class="row">
                 <!-- Survey Navigation -->
-                <div class="col-lg-4 col-md-5 col-12" id="surveyNav">
+                <div class="col-lg-4 col-12 m-5" id="surveyNav">
                     <!-- Group Title -->
                     <div class="mb-3">
-                        <h1 id="txtCourseTitle" class="text-center mt-4 mb-3">
+                        <h1 id="txtCourseTitle" class="text-right mt-3 mb-3">
                             CSC 2100-002
                         </h1>
                     </div>
-                    <!-- Surveys Title and Button -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3 class="text-white text-center">Surveys</h3>
-                        <button class="btn btn-outline-primary" id="btnNewSurvey" type="button">
-                            + New Survey
-                        </button>
+                    <div class="container" >
+                        <div class="row col-12">
+                            <h3 class="col text-white">Surveys</h3>
+                            <button class="col btn btn-outline-primary" style="max-width: 132px;"id="btnNewSurvey" type="button">
+                                + New Survey
+                            </button>
+                        </div>
+                        <!-- Scrollable Survey List -->
+                        <div class="overflow-y-scroll" id="divSurveyContainer" style="max-height: 400px">
+                            <!-- Surveys will be dynamically added here -->
+                        </div>
                     </div>
-                    <!-- Scrollable Survey List -->
-                    <div class="overflow-auto" id="divSurveyContainer" style="max-height: 400px">
-                        <!-- Surveys will be dynamically added here -->
-                    </div>
-                    <!-- group Title and Button -->
-                    <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
-                        <h3 class="text-white text-center">Groups</h3>
-                        <button class="btn btn-outline-primary" id="btnCreateGroupModal" type="button">
-                            + New Group
-                        </button>
-                    </div>
-                    <!-- Scrollable group List -->
-                    <div class="overflow-auto" id="divGroupContainer" style="max-height: 400px">
-                        <!-- groups will be dynamically added here -->
+                    <div class="container">
+                        <!-- group Title and Button -->
+                        <div class="d-flex col justify-content-between align-items-center col-12 mt-3 mb-3">
+                            <h3 class="text-white text-center">Groups</h3>
+                            <button class="btn btn-outline-primary" id="btnCreateGroupModal" type="button">
+                                + New Group
+                            </button>
+                        </div>
+                        <!-- Scrollable group List -->
+                        <div class="overflow-y-scroll col-12" id="divGroupContainer" style="max-height: 400px">
+                            <!-- groups will be dynamically added here -->
+                        </div>
                     </div>
                 </div>
 
-                <!-- Survey Details -->
-                <div class="col-lg-8 col-md-7 col-12 border-left">
+                <!-- Student List Details -->
+                <div class="col-lg-6 col-md-12 col-12 border-left">
                     <div class="row">
                         <div class="col" id="divSurveyDetails">
                             <h2 class="text-center mt-4 mb-3">Mid-Year Peer Review</h2>
@@ -98,8 +101,7 @@
                                     Students
                                 </label>
                                 <select id="selStudents" class="bg-dark text-white form-select" multiple>
-                                    <option value="Harry">Harry Potter</option>
-                                    <option value="Ron">Ron Weasley</option>
+                                    <!-- The student list  will be dynamically loaded here -->
                                 </select>
                             </div>
                         </div>
@@ -178,3 +180,82 @@
 </div>
 
 <div id="divCreateNewSurvey"></div>
+
+<!-- Main container for the "Create New Survey" page -->
+<div class="container-fluid" id="divHome" style="display: none;">
+    <div class="d-flex justify-content-center align-items-center margin-30 mt-5 mb-5">
+        <!-- Form for creating a new survey -->
+        <form class="card bgpurple col-lg-8 col-md-10 col-12" style="padding: 30px;" id="frmHome">
+            <div class="card-body">
+                <!-- Header displaying the class and section name -->
+                <h1 class="text-center mb-4" style="color: white" id="txtClassNameSectionName">
+                    Class Name (Section Name)
+                </h1>
+        
+                <div id="divSurveys" class="card col-12 text-dark mb-4" style="background-color: #FFE58A; padding: 20px;">
+                    <h1 id="surveyTitle" class="text-center">
+                        Survey Title
+                    </h1>
+                </div>
+        
+                <!-- Input field for adding a survey title -->
+                <div class="d-flex flex-column align-items-start mt-2" style="gap: 5px; width: 100%;">
+                    <label for="txtSurveyTitle" class="mb-0" style="color: white">Survey Title:</label>
+                    <input id="txtSurveyTitle" class="form-control" type="text" placeholder="Survey Title"
+                        aria-label="Input for Survey Title" required style="width: 100%" />
+                </div>
+                <div class="d-flex justify-content-start mt-2" style="width: 100%;">
+                    <button id="btnAddTitle" class="btn btn-secondary" type="button" style="background-color: transparent; color: white; border: 1px solid white;"
+                        onmouseover="this.style.backgroundColor='#BF3475'; this.style.color='white';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.color='white';">
+                        Add Title
+                    </button>
+                </div>
+        
+                <!-- Dropdown for selecting a question type -->
+                <div class="d-flex flex-column align-items-start mt-3" style="gap: 5px; width: 100%;">
+                    <label for="cboQuestion" class="mb-0" style="color: white">Add A Question:</label>
+                    <select id="cboQuestion" class="form-control" placeholder="Question" aria-label="Add a question"
+                        style="width: 100%">
+                        <option value="">Select Question Type</option>
+                        <option value="multiple choice">Multiple Choice</option>
+                        <option value="likert scale">Likert Scale</option>
+                        <option value="short answer">Short Answer</option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-start mt-2" style="width: 100%;">
+                    <button id="btnCreateNewQuestion" class="btn btn-secondary" type="button" style="background-color: transparent; color: white; border: 1px solid white;" 
+                        onmouseover="this.style.backgroundColor='#BF3475'; this.style.color='white';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.color='white';">
+                        Create Question
+                    </button>
+                </div>
+        
+                <!-- Container for dynamically creating questions -->
+                <div id="divCreateQuestion" style="width: 100%; margin-top: 20px"></div>
+
+                <label class="ms-2 mt-2" for="txtSurveyStartDate">Start Date (MM/DD/YY):</label>
+                <input class="form-control mt-1" type="date" id="txtSurveyStartDate" aria-label="Input for course start date">
+                <label class="ms-2 mt-2" for="txtSurveyEndDate">End Date (MM/DD/YY):</label>
+                <input class="form-control mt-1" type="date" id="txtSurveyEndDate" aria-label="Input for course end date">
+        
+                <!-- Buttons at the bottom of the card -->
+                <div class="d-flex justify-content-center align-items-center mt-4" style="gap: 10px; width: 100%;">
+                    <!-- Create Survey Button -->
+                    <button id="btnCreateSurvey" class="btn btn-secondary col-lg-5" type="button" style="background-color: transparent; color: white; border: 1px solid white;" 
+                        onmouseover="this.style.backgroundColor='#BF3475'; this.style.color='white';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.color='white';">
+                        Create Survey
+                    </button>
+        
+                    <!-- Return to Class Button -->
+                    <button id="btnReturnToClass" class="btn btn-secondary col-lg-5" type="button" style="background-color: transparent; color: white; border: 1px solid white;" 
+                        onmouseover="this.style.backgroundColor='#BF3475'; this.style.color='white';"
+                        onmouseout="this.style.backgroundColor='transparent'; this.style.color='white';">
+                        Return To Class
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
