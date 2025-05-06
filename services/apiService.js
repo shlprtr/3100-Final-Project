@@ -587,6 +587,20 @@ export class ApiService {
         }
     }
 
+    static async viewPublicSurveys() {
+        try {
+            const objResponse = await this.get(`/surveys/public`)
+            return objResponse
+        } catch (error) {
+            console.error('Error:', error)
+            return {
+                success: false,
+                status: 500,
+                error: error.message
+            } 
+        }
+    }
+
     static async addSurveyQuestion(strSurveyID, strQuestion, arrOptions, strQuestionType) {
         const objBody = {
             surveyID: strSurveyID,

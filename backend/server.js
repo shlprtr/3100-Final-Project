@@ -770,6 +770,45 @@ app.put('/survey', authenticateUser, verifyInstructor, (req, res, next) => {
     })
 });
 
+app.get('/surveys/public', verifySession, (req, res, next) => {
+    const strGetPublicSurveys = `
+        SELECT DISTINCT SurveyID
+        FROM tblSurveyResponse
+        WHERE Status = 'Public'
+    `;
+
+    db.all(strGetPublicSurveys, [], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ status: "error", message: err.message });
+        }
+
+        const arrSurveyIDs = result.map(item => item.SurveyID)
+
+        if (arrSurveyIDs.length === 0) {
+            return res.status(200).json({ status: 'success', surveys: [] });
+        }
+
+        // fetch survey and course info using IDs
+        const strPrepared = arrSurveyIDs.map(() => '?').join(', ')
+        const strSurveyDetailsCommand = `
+            SELECT s.SurveyID, s.Title, s.CourseID, c.CourseNumber, c.SectionNumber
+            FROM tblSurvey s
+            JOIN tblCourses c ON s.CourseID = c.CourseID
+            WHERE s.SurveyID IN (${strPrepared})
+        `
+        
+        db.all(strSurveyDetailsCommand, arrSurveyIDs, (err, result) => {
+            if(err){
+                console.log(err)
+                res.status(400).json({status:"error",message:err.message})
+            } else {
+                res.status(200).json({status:"success",result:result})
+            }
+        })
+    });
+});
+
 // get all surveys for a class
 app.get('/survey/:courseID', authenticateUser, (req,res,next) => {
     let strCourseID = req.params.courseID
@@ -785,6 +824,8 @@ app.get('/survey/:courseID', authenticateUser, (req,res,next) => {
         }
     })
 })
+
+
 
 
 // create a survey question

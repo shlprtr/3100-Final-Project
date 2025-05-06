@@ -98,6 +98,7 @@ document.querySelector('#btnMembers').addEventListener('click', async () => {
 // display all feedback
 document.querySelector('#btnFeedback').addEventListener('click', (event) => {
     selectView('Feedback')
+    loadFeedback()
 })
 
 // function to display the right stuff based on selection
@@ -160,7 +161,6 @@ document.querySelector('#btnPublic').addEventListener('click', () => {
 });
 
 document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
-    console.log(strCurrSurveyID)
     let strTargetUserID = document.querySelector('#cboTarget').value
     let blnSuccessful = false
 
@@ -256,7 +256,7 @@ async function loadSurveys() {
             strSurveyHTML += `
                 <div class="card selection-card shadow-sm mb-2 position-relative">
                     <div class="card-body">
-                        <h4 class="mt-2">${survey.Title}</h4>
+                        <h3 class="mt-2">${survey.Title}</h3>
                         <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
                         <p>${objCourseInfo.StartDate} - ${objCourseInfo.EndDate}</p>
                         <a class="stretched-link"
@@ -267,6 +267,29 @@ async function loadSurveys() {
             `;
         }
         document.querySelector('#surveyContainer').innerHTML = strSurveyHTML
+    }
+}
+
+async function loadFeedback() {
+    const objResponse = await ApiService.viewPublicSurveys()
+    console.log(objResponse)
+    if (objResponse.success) {
+        const arrFeedback = objResponse.data.result
+        let strFeedbackHTML = ""
+        for (const feedback of arrFeedback) {
+            strFeedbackHTML += `
+                <div class="card selection-card shadow-sm mb-2 position-relative">
+                    <div class="card-body">
+                        <h3 class="card-title mt-2">${feedback.Title}</h3>
+                        <p class="card-text">${feedback.CourseNumber}-${feedback.SectionNumber}</p>
+                        <a class="stretched-link"
+                            data-survey-id="${feedback.SurveyID}">
+                        </a>
+                    </div>
+                </div>
+            `
+        }
+        document.querySelector('#surveyFeedbackContainer').innerHTML = strFeedbackHTML
     }
 }
 
