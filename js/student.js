@@ -27,13 +27,29 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
 
 // listener for clicking a survey
 document.querySelector('#surveyContainer').addEventListener('click', (event) => {
-    document.querySelector('#viewSurveys').classList.add('d-none')
-    document.querySelector('#frmSurvey').classList.remove('d-none')
     const cardLink = event.target.closest('.stretched-link')
     if (cardLink) {
-        strCurrSurveyID = cardLink.getAttribute('data-survey-id')
+        document.querySelector('#viewSurveys').classList.add('d-none')
+        document.querySelector('#frmSurvey').classList.remove('d-none')
 
-        loadSelectedSurvey()
+        strCurrSurveyID = cardLink.getAttribute('data-survey-id')
+        const strSurveyTitle = cardLink.getAttribute('data-survey-title')
+
+        loadSelectedSurvey(strSurveyTitle)
+    }
+})
+
+// listener for clicking feedback
+document.querySelector('#surveyFeedbackContainer').addEventListener('click', (event) => {
+    const cardLink = event.target.closest('.stretched-link')
+    if (cardLink) {
+        document.querySelector('#viewFeedback').classList.add('d-none')
+        document.querySelector('#frmFeedback').classList.remove('d-none')
+
+        strCurrSurveyID = cardLink.getAttribute('data-survey-id')
+        const strSurveyTitle = cardLink.getAttribute('data-survey-title')
+
+        loadFeedbackSurvey(strSurveyTitle)
     }
 })
 
@@ -53,8 +69,8 @@ document.querySelector('#btnMembers').addEventListener('click', async () => {
         let objUserInfoResponse = await ApiService.viewUserInfo(objResponse.data.result[i].UserID)
         let objUserPhoneResponse = await ApiService.viewUserPhoneInfo(objResponse.data.result[i].UserID)
         let objUserSocialsResponse = await ApiService.viewUserSocials(objResponse.data.result[i].UserID)
-        let name = objUserInfoResponse.data.firstName + ' ' + objUserInfoResponse.data.lastName
-        let email = objUserInfoResponse.data.email
+        let name = objUserInfoResponse.data.result[0].FirstName + ' ' + objUserInfoResponse.data.result[0].LastName
+        let email = objUserInfoResponse.data.result[0].Email
         let phone = '--'
         let discord = '--'
         let github = '--'
@@ -98,6 +114,7 @@ document.querySelector('#btnMembers').addEventListener('click', async () => {
 // display all feedback
 document.querySelector('#btnFeedback').addEventListener('click', (event) => {
     selectView('Feedback')
+    loadFeedback()
 })
 
 // function to display the right stuff based on selection
@@ -106,7 +123,7 @@ function selectView(selected) {
     document.querySelector('#viewMembers').classList.add('d-none')
     document.querySelector('#viewFeedback').classList.add('d-none')
     document.querySelector('#frmSurvey').classList.add('d-none')
-
+    document.querySelector('#frmFeedback').classList.add('d-none')
 
     document.querySelector('#btnSurveys').classList.add('unselected')
     document.querySelector('#btnMembers').classList.add('unselected')
@@ -159,6 +176,66 @@ document.querySelector('#btnPublic').addEventListener('click', () => {
     document.querySelector('#btnPrivate').classList.remove('btn-primary')
 });
 
+document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
+    let strTargetUserID = document.querySelector('#cboTarget').value
+    let blnSuccessful = false
+
+    const objResponse = await ApiService.viewSurveyQuestion(strCurrSurveyID)
+    if (objResponse.success) {
+        const arrQuestions = objResponse.data.result
+    
+        for (let q = 0; q < arrQuestions.length; q++) {
+            const objQuestion = arrQuestions[q]
+            let strAnswer = null
+    
+            switch (objQuestion.QuestionType) {
+                case "Multiple Choice":
+                case "Likert":
+                    const selectedOption = document.querySelector(`input[name="q${q}"]:checked`)
+                    if (selectedOption) {
+                        strAnswer = selectedOption.value
+                    }
+                    break
+    
+                case "Short Answer":
+                    const input = document.querySelector(`#q${q}`)
+                    if (input) {
+                        strAnswer = input.value.trim()
+                    }
+                    break
+            }
+    
+            if (strAnswer !== null && strAnswer.length > 0) {
+                const objResponseSurvey = await ApiService.addSurveyResponse(
+                    strCurrSurveyID,
+                    objQuestion.QuestionID,
+                    strAnswer,
+                    strSurveyStatus,
+                    strTargetUserID
+                )
+                if (objResponseSurvey.success) {
+                    blnSuccessful = true
+                }
+            }
+        }
+    }
+
+    if (blnSuccessful) {
+        Swal.fire({
+            title: "Success!",
+            text: "Your responses were submitted.",
+            icon: "success"
+        })
+    } else {
+        Swal.fire({
+            title: "Error",
+            text: "Some responses could not be submitted.",
+            icon: "error"
+        })
+    }
+
+
+})
 
 async function loadGroups() {
     const objResponse = await ApiService.viewUsersGroups()
@@ -193,10 +270,12 @@ async function loadSurveys() {
             strSurveyHTML += `
                 <div class="card selection-card shadow-sm mb-2 position-relative">
                     <div class="card-body">
-                        <h4 class="mt-2">${survey.Title}</h4>
+                        <h3 class="mt-2">${survey.Title}</h3>
                         <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
+                        <p>${objCourseInfo.StartDate} - ${objCourseInfo.EndDate}</p>
                         <a class="stretched-link"
-                            data-survey-id="${survey.SurveyID}">
+                            data-survey-id="${survey.SurveyID}"
+                            data-survey-title="${survey.Title}">
                         </a>
                     </div>
                 </div>
@@ -206,9 +285,33 @@ async function loadSurveys() {
     }
 }
 
-async function loadSelectedSurvey() {
+async function loadFeedback() {
+    const objResponse = await ApiService.viewPublicSurveys()
+    if (objResponse.success) {
+        const arrFeedback = objResponse.data.result
+        let strFeedbackHTML = ""
+        for (const feedback of arrFeedback) {
+            strFeedbackHTML += `
+                <div class="card selection-card shadow-sm mb-2 position-relative">
+                    <div class="card-body">
+                        <h3 class="card-title mt-2">${feedback.Title}</h3>
+                        <p class="card-text">${feedback.CourseNumber}-${feedback.SectionNumber}</p>
+                        <a class="stretched-link"
+                            data-survey-id="${feedback.SurveyID}"
+                            data-survey-title="${feedback.Title}">
+                        </a>
+                    </div>
+                </div>
+            `
+        }
+        document.querySelector('#surveyFeedbackContainer').innerHTML = strFeedbackHTML
+    }
+}
+
+async function loadSelectedSurvey(strSurveyTitle) {
     const objResponse = await ApiService.viewSurveyQuestion(strCurrSurveyID)
     if (objResponse.success) {
+        document.querySelector('#surveyName').innerHTML = strSurveyTitle
         const arrQuestions = objResponse.data.result
         let arrOptions
         let strQuestionsHTML = ""
@@ -221,7 +324,7 @@ async function loadSelectedSurvey() {
                     for (let a = 0; a < arrOptions.length; a++) {
                         strQuestionsHTML += `
                             <div class="form-check ms-2 mb-2">
-                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-a${a}" />
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-a${a}" value="${arrOptions[a]}" />
                                 <label class="form-check-label" for="q${q}-a${a}">${arrOptions[a]}</label>
                             </div>
                         `
@@ -304,6 +407,128 @@ async function loadSelectedSurvey() {
         }
         document.querySelector('#studentSurveyForm').innerHTML = strQuestionsHTML
     }
+    loadTargetUsers()
+}
+
+// TODO: load actual responses
+async function loadFeedbackSurvey(strSurveyTitle) {
+    const objResponse = await ApiService.viewSurveyQuestion(strCurrSurveyID)
+    if (objResponse.success) {
+        document.querySelector('#feedbackName').innerHTML = strSurveyTitle
+        const arrQuestions = objResponse.data.result
+        let arrOptions
+        let strQuestionsHTML = ""
+        for (let q = 0; q < arrQuestions.length; q++) {
+            const question = arrQuestions[q]
+            switch (question.QuestionType) {
+                case "Multiple Choice":
+                    strQuestionsHTML += `<p class="fw-bold">${question.Question}</p>`
+                    arrOptions = JSON.parse(question.Options)
+                    for (let a = 0; a < arrOptions.length; a++) {
+                        strQuestionsHTML += `
+                            <div class="form-check ms-2 mb-2">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-a${a}" value="${arrOptions[a]}" />
+                                <label class="form-check-label" for="q${q}-a${a}">${arrOptions[a]}</label>
+                            </div>
+                        `
+                    }
+                    strQuestionsHTML += "<hr class='m-4'/>"
+                    break
+                case "Likert":
+                    arrOptions = JSON.parse(question.Options)
+                    strQuestionsHTML += `
+                        <p class="fw-bold">${question.Question}</p>
+                        <div class="text-center mb-3">
+                            <div class="d-inline mx-3">${arrOptions[0]}</div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio1" value="1"
+                                    aria-label="Radio input option for 1" />
+                                <label class="form-check-label" for="q${q}-radio1">1</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio2" value="2"
+                                    aria-label="Radio input option for 2" />
+                                <label class="form-check-label" for="q${q}-radio2">2</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio3" value="3"
+                                    aria-label="Radio input option for 3" />
+                                <label class="form-check-label" for="q${q}-radio3">3</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio4" value="4"
+                                    aria-label="Radio input option for 4" />
+                                <label class="form-check-label" for="q${q}-radio4">4</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio5" value="5"
+                                    aria-label="Radio input option for 5" />
+                                <label class="form-check-label" for="q${q}-radio5">5</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio6" value="6"
+                                    aria-label="Radio input option for 6" />
+                                <label class="form-check-label" for="q${q}-radio6">6</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio7" value="7"
+                                    aria-label="Radio input option for 7" />
+                                <label class="form-check-label" for="q${q}-radio7">7</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio8" value="8"
+                                    aria-label="Radio input option for 8" />
+                                <label class="form-check-label" for="q${q}-radio8">8</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio9" value="9"
+                                    aria-label="Radio input option for 9" />
+                                <label class="form-check-label" for="q${q}-radio9">9</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-radio10" value="10"
+                                    aria-label="Radio input option for 10" />
+                                <label class="form-check-label" for="q${q}-radio10">10</label>
+                            </div>
+                            <div class="d-inline me-4">${arrOptions[1]}</div>
+                        </div>
+                        <hr class="m-4"/>
+                    `
+                    break
+                case "Short Answer":
+                    strQuestionsHTML += `
+                        <p class="fw-bold">${question.Question}</p>
+                        <div class="form-outline ms-2 me-2 mb-4">
+                            <textarea class="form-control" rows="4" id="q${q}"></textarea>
+                        </div>
+                        <hr class="m-4"/>
+                    `
+                    break
+                default:
+                    break
+            }
+        }
+        document.querySelector('#studentFeedbackForm').innerHTML = strQuestionsHTML
+    }
+}
+
+async function loadTargetUsers() {
+    const objResponse = await ApiService.viewGroupUsers(strCurrGroupID)    
+    if (objResponse.success) {
+        const arrUsers = objResponse.data.result
+        let strUserHTML = "<option selected>Select Recipient</option>"
+        for (const user of arrUsers) {
+            const objResponseUsers = await ApiService.viewUserInfo(user.UserID)
+            if (objResponseUsers.success) {
+                const objUser = objResponseUsers.data.result[0]
+                strUserHTML += `
+                    <option value="${objUser.UserID}">${objUser.FirstName} ${objUser.LastName}</option>
+
+                `;
+            }
+        }
+        document.querySelector('#cboTarget').innerHTML = strUserHTML
+    }
 }
 
 async function getCourseInfo(strCourseID) {
@@ -313,3 +538,25 @@ async function getCourseInfo(strCourseID) {
     }
     return {}
 }
+
+// Highlight the active button in the navbar
+function highlightActiveNavButton() {
+    const buttons = document.querySelectorAll('.navbar-nav .btn');
+    const currentHash = location.hash;
+
+    buttons.forEach((button) => {
+        // Remove the 'active' class from all buttons
+        button.classList.remove('active');
+
+        // Add the 'active' class to the button matching the current hash
+        if (button.getAttribute('onClick')?.includes(currentHash)) {
+            button.classList.add('active');
+        }
+    });
+}
+
+// Call the function on page load
+highlightActiveNavButton();
+
+// Add a listener to update the active button when the hash changes
+window.addEventListener('hashchange', highlightActiveNavButton);

@@ -81,28 +81,28 @@
     <!-- Back button -->
 </div>
 
-<!-- Section for displaying a sample survey -->
+<!-- Section for displaying a survey -->
 <div class="container-fluid d-none" id="frmSurvey">
     <div class="d-flex justify-content-center align-items-center margin-30">
         <div class="card col-11 col-lg-9 mt-5">
             <div class="card-body p-4">
-                <h1 class="card-title text-center mb-3" style="color: white" id="surveyName">
-                    Student Survey
-                </h1>
-                <p class="text-center mb-4" style="color: white">
-                    Please fill out the survey below as provided by your instructor.
-                </p>
+                <h1 class="card-title text-center mb-3" style="color: white" id="surveyName"></h1>
                 <hr class="m-4" />
                 <!-- Survey title -->
                 <form id="studentSurveyForm"></form>
                 <!-- private or public -->
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary me-2" id="btnPrivate">
-                        Private
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="btnPublic">
-                        Public
-                    </button>
+                    <select class="form-control form-select mb-4" id="cboTarget" aria-label="Default select example">
+
+                    </select>
+                    <div class="col">
+                        <button type="button" class="btn btn-primary me-2" id="btnPrivate">
+                            Private
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="btnPublic">
+                            Public
+                        </button>
+                    </div>
                 </div>
                 <!-- Submit button -->
                 <hr class="m-4" />
@@ -127,21 +127,25 @@
 <div class="container-fluid d-none" id="viewFeedback">
     <div class="margin-30">
         <div class="row mt-5" id="surveyFeedbackContainer">
-            <!-- Example feedback card -->
-            <div class="card selection-card shadow-sm mb-2 position-relative">
-                <div class="card-body">
-                    <p>SURVEY NAME</p>
-                    <p>STUDENT 1</p>
-                    <a class="stretched-link" data-survey-id="Survey1"></a>
-                </div>
-            </div>
-            <!-- Repeatable feedback card -->
-            <div class="card selection-card shadow-sm mb-2 position-relative">
-                <div class="card-body">
-                    <p>SURVEY NAME</p>
-                    <p>STUDENT 2</p>
-                    <a class="stretched-link" data-survey-id="Survey2"></a>
-                </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Section for displaying feedback survey -->
+<div class="container-fluid d-none" id="frmFeedback">
+    <div class="d-flex justify-content-center align-items-center margin-30">
+        <div class="card col-11 col-lg-9 mt-5">
+            <div class="card-body p-4">
+                <h1 class="card-title text-center mb-3" style="color: white" id="feedbackName"></h1>
+                <p class="text-center mb-4" style="color: white">
+                    Please fill out the survey below as provided by your instructor.
+                </p>
+                <hr class="m-4"/>
+                <!-- Survey title -->
+                <form id="studentFeedbackForm">
+    
+                </form>
             </div>
         </div>
     </div>
