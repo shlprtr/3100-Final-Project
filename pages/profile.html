@@ -1,67 +1,186 @@
 <nav class="navbar">
-    <div class="container-fluid justify-content-between">
-        <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
-        <button class="btn btn-primary unselected me-2 ms-auto" type="button" id="btnInstructor" onClick="location.hash='#/instructor'">Instructor View</button>
-        <button class="btn btn-primary unselected me-2" type="button" id="btnStudent" onClick="location.hash='#/student'">Student View</button>
-        <button class="btn btn-primary me-2" type="button" id="btnProfile" onclick="location.hash='#/profile'"> Profile</button>
-    </div>
+  <div class="container-fluid justify-content-between">
+    <a class="navbar-brand text-white ms-2" href="#">Reviewly</a>
+    <button
+      class="btn btn-primary unselected me-2 ms-auto"
+      type="button"
+      id="btnInstructor"
+      onClick="location.hash='#/instructor'"
+    >
+      Instructor View
+    </button>
+    <button
+      class="btn btn-primary unselected me-2"
+      type="button"
+      id="btnStudent"
+      onClick="location.hash='#/student'"
+    >
+      Student View
+    </button>
+    <button
+      class="btn btn-primary me-2"
+      type="button"
+      id="btnProfile"
+      onclick="location.hash='#/profile'"
+    >
+      Profile
+    </button>
+  </div>
 </nav>
 
-<!-- view account information -->
-<div id="viewAccount" class=" " style="padding-left: 100px; padding-right: 100px; padding-top:15px; color:white">
-    <div class="row" tyle="padding:50px">
-        <div class="col-5" style="padding-right:50px">
-            <h1 style="padding:15px; ">About</h1>
-            <label class="ms-2 mt-2" for="txtCurrFirstName">First Name</label>
-            <input readonly class="form-control input-outline mt-1" type="text" id="txtCurrFirstName" aria-label="First Name">
-            <label class="ms-2 mt-2" for="txtCurrLastName">Last Name</label>
-            <input readonly class="form-control input-outline mt-1" type="text" id="txtCurrLastName" aria-label="Last Name">
-            <label class="ms-2 mt-2" for="txtCurrPhoneNum">Phone Number</label>
-            <input readonly class="form-control input-outline mt-1" type="text" id="txtCurrPhoneNum" aria-label="Phone Number">
-            <div class="row-col-2" style="padding:15px">
-                <button class="btn btn-primary me-2" id="btnLogOut">Log Out</button>
-                <button class="btn btn-outline-primary justify-content-end me-2" id="btnEdit">Edit</button>
-            </div>
-        </div>
-        <div class="col-5">
-            <h1 class="col-6" style="padding:15px">Social Media</h1>
-            <label class="ms-2 mt-2" for="txtCurrEmail">Email</label>
-            <input readonly class="form-control input-outline mt-1" type="text" id="txtCurrEmail" aria-label="Input for Email">
-            <label class="ms-2 mt-2" for="txtCurrDiscord">Discord</label>
-            <input readonly class="form-control input-outline mt-1" type="text" id="txtCurrDiscord" aria-label="Input for Discord Username">
-            <label class="ms-2 mt-2" for="txtCurrGitHub">GitHub</label>
-            <input readonly class="form-control input-outline mt-1" type="text" id="txtCurrGitHub" aria-label="Input for GitHub Username">
-            <label class="ms-2 mt-2" for="txtCurrTeams">Teams</label>
-            <input readonly class="form-control input-outline mt-1" type="text" id="txtCurrTeams" aria-label="Input for Teams Username">
-        </div>
+<!-- View Account Information -->
+<div
+  id="viewAccount"
+  class="container d-flex justify-content-center align-items-center vh-100 text-white"
+>
+  <div class="row w-100">
+    <!-- About Section -->
+    <div class="col-lg-5 col-md-6 col-12 mx-auto mb-4">
+      <h1 class="text-center">About</h1>
+      <label class="ms-2 mt-2" for="txtCurrFirstName">First Name</label>
+      <input
+        readonly
+        class="form-control input-outline mt-1"
+        type="text"
+        id="txtCurrFirstName"
+        aria-label="First Name"
+      />
+      <label class="ms-2 mt-2" for="txtCurrLastName">Last Name</label>
+      <input
+        readonly
+        class="form-control input-outline mt-1"
+        type="text"
+        id="txtCurrLastName"
+        aria-label="Last Name"
+      />
+      <label class="ms-2 mt-2" for="txtCurrPhoneNum">Phone Number</label>
+      <input
+        readonly
+        class="form-control input-outline mt-1"
+        type="text"
+        id="txtCurrPhoneNum"
+        aria-label="Phone Number"
+      />
+      <div class="mt-4 text-center">
+        <button class="btn btn-primary me-2" id="btnLogOut">Log Out</button>
+        <button class="btn btn-outline-primary" id="btnEdit">Edit</button>
+      </div>
     </div>
+
+    <!-- Social Media Section -->
+    <div class="col-lg-5 col-md-6 col-12 mx-auto">
+      <h1 class="text-center">Social Media</h1>
+      <label class="ms-2 mt-2" for="txtCurrEmail">Email</label>
+      <input
+        readonly
+        class="form-control input-outline mt-1"
+        type="text"
+        id="txtCurrEmail"
+        aria-label="Input for Email"
+      />
+      <label class="ms-2 mt-2" for="txtCurrDiscord">Discord</label>
+      <input
+        readonly
+        class="form-control input-outline mt-1"
+        type="text"
+        id="txtCurrDiscord"
+        aria-label="Input for Discord Username"
+      />
+      <label class="ms-2 mt-2" for="txtCurrGitHub">GitHub</label>
+      <input
+        readonly
+        class="form-control input-outline mt-1"
+        type="text"
+        id="txtCurrGitHub"
+        aria-label="Input for GitHub Username"
+      />
+      <label class="ms-2 mt-2" for="txtCurrTeams">Teams</label>
+      <input
+        readonly
+        class="form-control input-outline mt-1"
+        type="text"
+        id="txtCurrTeams"
+        aria-label="Input for Teams Username"
+      />
+    </div>
+  </div>
 </div>
 
 <!-- edit account information -->
-<div id="editAccount" class="d-none" style="padding-left: 100px; padding-right: 100px; padding-top:15px; color:white">
-    <div class="row" tyle="padding:50px">
-        <div class="col-5" style="padding-right:50px">
-            <h1 style="padding:15px; ">About</h1>
-            <label class="ms-2 mt-2" for="txtFirstName">First Name</label>
-            <input class="form-control input-outline placeholder-color mt-1" type="text" id="txtFirstName" aria-label="First Name">
-            <label class="ms-2 mt-2" for="txtLastName">Last Name</label>
-            <input class="form-control input-outline placeholder-color mt-1" type="text" id="txtLastName" aria-label="Last Name">
-            <label class="ms-2 mt-2" for="txtPhoneNum">Phone Number</label>
-            <input class="form-control input-outline placeholder-color mt-1" type="text" id="txtPhoneNum" aria-label="Phone Number">
-            <div class="row-col-2" style="padding:15px">
-                <button class="btn btn-outline-primary me-2" id="btnSaveEdit">Save</button>
-            </div>
-        </div>
-        <div class="col-5">
-            <h1 class="col-6" style="padding:15px">Social Media</h1>
-            <label class="ms-2 mt-2" for="txtEmail">Email</label>
-            <input class="form-control input-outline placeholder-color mt-1" type="text" id="txtEmail" aria-label="Input for Email" placeholder="example emails">
-            <label class="ms-2 mt-2" for="txtDiscord">Discord</label>
-            <input class="form-control input-outline placeholder-color mt-1" type="text" id="txtDiscord" aria-label="Input for Discord Username" placeholder=" ">
-            <label class="ms-2 mt-2" for="txtGitHub">GitHub</label>
-            <input class="form-control input-outline placeholder-color mt-1" type="text" id="txtGitHub" aria-label="Input for GitHub Username" placeholder=" ">
-            <label class="ms-2 mt-2" for="txtTeams">Teams</label>
-            <input class="form-control input-outline placeholder-color mt-1" type="text" id="txtTeams" aria-label="Input for Teams Username" placeholder=" ">
-        </div>
+<div
+  id="editAccount"
+  class="d-none"
+  style="
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 15px;
+    color: white;
+  "
+>
+  <div class="row" tyle="padding:50px">
+    <div class="col-5" style="padding-right: 50px">
+      <h1 style="padding: 15px">About</h1>
+      <label class="ms-2 mt-2" for="txtFirstName">First Name</label>
+      <input
+        class="form-control input-outline placeholder-color mt-1"
+        type="text"
+        id="txtFirstName"
+        aria-label="First Name"
+      />
+      <label class="ms-2 mt-2" for="txtLastName">Last Name</label>
+      <input
+        class="form-control input-outline placeholder-color mt-1"
+        type="text"
+        id="txtLastName"
+        aria-label="Last Name"
+      />
+      <label class="ms-2 mt-2" for="txtPhoneNum">Phone Number</label>
+      <input
+        class="form-control input-outline placeholder-color mt-1"
+        type="text"
+        id="txtPhoneNum"
+        aria-label="Phone Number"
+      />
+      <div class="row-col-2" style="padding: 15px">
+        <button class="btn btn-outline-primary me-2" id="btnSaveEdit">
+          Save
+        </button>
+      </div>
     </div>
+    <div class="col-5">
+      <h1 class="col-6" style="padding: 15px">Social Media</h1>
+      <label class="ms-2 mt-2" for="txtEmail">Email</label>
+      <input
+        class="form-control input-outline placeholder-color mt-1"
+        type="text"
+        id="txtEmail"
+        aria-label="Input for Email"
+        placeholder="example emails"
+      />
+      <label class="ms-2 mt-2" for="txtDiscord">Discord</label>
+      <input
+        class="form-control input-outline placeholder-color mt-1"
+        type="text"
+        id="txtDiscord"
+        aria-label="Input for Discord Username"
+        placeholder=" "
+      />
+      <label class="ms-2 mt-2" for="txtGitHub">GitHub</label>
+      <input
+        class="form-control input-outline placeholder-color mt-1"
+        type="text"
+        id="txtGitHub"
+        aria-label="Input for GitHub Username"
+        placeholder=" "
+      />
+      <label class="ms-2 mt-2" for="txtTeams">Teams</label>
+      <input
+        class="form-control input-outline placeholder-color mt-1"
+        type="text"
+        id="txtTeams"
+        aria-label="Input for Teams Username"
+        placeholder=" "
+      />
+    </div>
+  </div>
 </div>
