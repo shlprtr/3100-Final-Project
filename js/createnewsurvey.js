@@ -6,6 +6,12 @@ var survey = {
 }
 var newQuestion
 
+//display class name and section number
+document.querySelector('#txtClassName&Section').addEventListener('click', (event) => {
+    
+})
+
+//validation for adding title button - makes sure your title adds correctly
 document.querySelector('#btnAddTitle').addEventListener('click', (event) => {
     let strSurveyTitle = document.querySelector("#txtSurveyTitle").value
 
@@ -28,6 +34,8 @@ document.querySelector('#btnAddTitle').addEventListener('click', (event) => {
         document.querySelector('#surveyTitle').innerHTML = strSurveyTitle
     }
 });
+
+//Adds new question depending on type choosen (multi choice, short, likert)
 document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event) => {
     let strQuestion = document.querySelector("#cboQuestion").value
 
@@ -200,6 +208,7 @@ document.querySelector('#btnCreateNewQuestion').addEventListener('click', (event
     }
 });
 
+//Button Validation - makes sure your not creating an empty survey or not include a start/end date
 document.querySelector('#btnCreateSurvey').addEventListener('click', async (event) => {
     event.preventDefault()
     // Get the survey preview content

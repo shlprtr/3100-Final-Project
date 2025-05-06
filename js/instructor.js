@@ -128,6 +128,7 @@ async function loadGroups(strCourseID) {
             strGroupHTML += `
                 <div class="card bg-dark p-4 group-card selection-card position-relative">
                     <h5>${group.GroupName}</h5>
+                    <p class="fw-lighter">Code: ${group.JoinCode}</p>
                     <a class="stretched-link"
                         data-group-name="${group.GroupName}"
                         data-group-id="${group.GroupID}">
