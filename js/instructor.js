@@ -53,6 +53,7 @@ document.querySelector('#groupContainer').addEventListener('click', (event) => {
 
         document.querySelector('#txtCourseTitle').innerHTML = `${strCourseNumber}-${strSection}`
 
+        loadSurveys()
         loadGroups(strCurrCourseID)
         loadStudents(strCurrCourseID)
     }
@@ -138,6 +139,29 @@ async function loadGroups(strCourseID) {
     }
 }
 
+async function loadSurveys() {
+    const objResponse = await ApiService.viewSurveys(strCurrCourseID)
+    if (objResponse.success) {
+        const arrSurveys = objResponse.data.result
+        let strSurveyHTML = ""
+        for (const survey of arrSurveys) {
+            const objCourseInfo = await getCourseInfo(strCurrCourseID)
+            strSurveyHTML += `
+                <div class="card bg-dark selection-card group-card position-relative">
+                    <div class="card-body">
+                        <h4 class="mt-2">${survey.Title}</h4>
+                        <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
+                        <a class="stretched-link"
+                            data-survey-id="${survey.SurveyID}">
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+        document.querySelector('#divSurveyContainer').innerHTML = strSurveyHTML
+    }
+}
+
 // function for group student list
 async function loadStudents(strCurrCourseID) {
     const objResponse = await ApiService.viewCourseUsers(strCurrCourseID)
@@ -156,4 +180,12 @@ async function loadStudents(strCurrCourseID) {
 
         //document.querySelector('#selStudents').innerHTML = `<option value=${strFirstName}>${strFirstName} ${strLastName}</option>`
     }
+}
+
+async function getCourseInfo(strCourseID) {
+    const objResponse = await ApiService.viewCourseInfo(strCourseID)
+    if (objResponse.success) {
+        return objResponse.data.result[0]
+    }
+    return {}
 }
