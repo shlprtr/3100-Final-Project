@@ -272,6 +272,24 @@ select:-webkit-autofill:focus {
     background-color: #50366F;
 }
 
+/* General button styles */
+.navbar-nav .btn {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect: Pink background */
+.navbar-nav .btn:hover {
+    background-color: #BF3475; /* Pink color on hover */
+    color: white; /* Ensure text remains white */
+}
+
+/* Active button: Pink background */
+.navbar-nav .btn.active {
+    background-color: #BF3475; /* Pink color for active button */
+    color: white; /* Ensure text remains white */
+    border-color: #BF3475; /* Match border color */
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
