@@ -45,7 +45,7 @@ app.get('/user', authenticateUser, (req, res, next) => {
 app.get('/userinfo/:userID', authenticateUser, (req, res, next) => {
     const strUserID = req.params.userID
 
-    let strCommand = "SELECT FirstName, LastName, Email FROM tblUsers WHERE UserID = ?"
+    let strCommand = "SELECT * FROM tblUsers WHERE UserID = ?"
     db.all(strCommand, [strUserID], (err, result) => {
         if (err) {
             console.log(err)
@@ -56,9 +56,7 @@ app.get('/userinfo/:userID', authenticateUser, (req, res, next) => {
         } else {
             res.status(200).json({
                 status: "success",
-                firstName: result[0].FirstName,
-                lastName: result[0].LastName,
-                email: result[0].Email
+                result: result
             })
         }
     })
@@ -242,7 +240,7 @@ app.get('/courses', authenticateUser, (req, res, next) => {
 app.get('/courses/:courseid', authenticateUser, verifyInstructorOrMember, (req, res, next) => {
     const strCourseID = req.params.courseid
 
-    let strCommand = "SELECT CourseNumber, SectionNumber FROM tblCourses WHERE CourseID = ?"
+    let strCommand = "SELECT * FROM tblCourses WHERE CourseID = ?"
     db.all(strCommand, [strCourseID], (err, result) => {
         if (err) {
             console.log(err)
@@ -857,26 +855,24 @@ app.get('/surveyquestion/:surveyid', authenticateUser, verifyInstructorOrMember,
 app.post('/surveyresponse', authenticateUser, verifyMember, (req, res, next) => {
     const strResponseID = uuidv4()
     const strSurveyID = req.body.surveyID
-    const strInstructorID = req.userID
+    const strUserID = req.userID
     const strQuestionID = req.body.questionID
     const strResponse = req.body.response
     const strTargetUserID = req.body.targetUserID
+    const strStatus = req.body.status
 
-    if (strSurveyID.length < 1) {
-        return res.status(400).json({ error: "You must provide a surveyID"})
-    }
-    if (strQuestionID.length < 1) {
+    if (!strQuestionID) {
         return res.status(400).json({ error: "You must provide a questionID"})
     }
-    if (strResponse.length < 1) {
+    if (!strResponse.length) {
         return res.status(400).json({ error: "You must provide a response"})
     }
-    if (strTargetUserID.length < 1) {
+    if (!strTargetUserID) {
         return res.status(400).json({ error: "You must provide a target userID"})
     }
 
-    let strCommand = `INSERT INTO tblSurveyResponse VALUES (?, ?, ?, ?, ?, ?)`;
-    db.run(strCommand, [strResponseID, strSurveyID, strInstructorID, strQuestionID, strResponse, strTargetUserID], function (err) {
+    let strCommand = `INSERT INTO tblSurveyResponse VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    db.run(strCommand, [strResponseID, strSurveyID, strUserID, strQuestionID, strResponse, strStatus, strTargetUserID], function (err) {
         if(err){
             console.log(err)
             res.status(400).json({status:"error", message:err.message})
@@ -1088,7 +1084,7 @@ function verifyMember(req, res, next) {
                 return res.status(404).json({ error: "Survey not found" })
             }
 
-            strCourseID = row.CourseID
+            strCourseID = result[0].CourseID
             checkMember(strUserID, strCourseID, res, next)
         })
     } else {

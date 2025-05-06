@@ -159,6 +159,69 @@ document.querySelector('#btnPublic').addEventListener('click', () => {
     document.querySelector('#btnPrivate').classList.remove('btn-primary')
 });
 
+document.querySelector('#btnSubmitForm').addEventListener('click', async () => {
+    console.log(strCurrSurveyID)
+    let strTargetUserID = document.querySelector('#cboTarget').value
+    let blnSuccessful = false
+
+    const objResponse = await ApiService.viewSurveyQuestion(strCurrSurveyID)
+    if (objResponse.success) {
+        const arrQuestions = objResponse.data.result
+    
+        for (let q = 0; q < arrQuestions.length; q++) {
+            const objQuestion = arrQuestions[q]
+            let strAnswer = null
+    
+            switch (objQuestion.QuestionType) {
+                case "Multiple Choice":
+                case "Likert":
+                    const selectedOption = document.querySelector(`input[name="q${q}"]:checked`)
+                    if (selectedOption) {
+                        strAnswer = selectedOption.value
+                        console.log(strAnswer)
+                    }
+                    break
+    
+                case "Short Answer":
+                    const input = document.querySelector(`#q${q}`)
+                    if (input) {
+                        strAnswer = input.value.trim()
+                        console.log(strAnswer)
+                    }
+                    break
+            }
+    
+            if (strAnswer !== null && strAnswer.length > 0) {
+                const objResponseSurvey = await ApiService.addSurveyResponse(
+                    strCurrSurveyID,
+                    objQuestion.QuestionID,
+                    strAnswer,
+                    strSurveyStatus,
+                    strTargetUserID
+                )
+                if (objResponseSurvey.success) {
+                    blnSuccessful = true
+                }
+            }
+        }
+    }
+
+    if (blnSuccessful) {
+        Swal.fire({
+            title: "Success!",
+            text: "Your responses were submitted.",
+            icon: "success"
+        })
+    } else {
+        Swal.fire({
+            title: "Error",
+            text: "Some responses could not be submitted.",
+            icon: "error"
+        })
+    }
+
+
+})
 
 async function loadGroups() {
     const objResponse = await ApiService.viewUsersGroups()
@@ -195,6 +258,7 @@ async function loadSurveys() {
                     <div class="card-body">
                         <h4 class="mt-2">${survey.Title}</h4>
                         <p>${objCourseInfo.CourseNumber}-${objCourseInfo.SectionNumber}</p>
+                        <p>${objCourseInfo.StartDate} - ${objCourseInfo.EndDate}</p>
                         <a class="stretched-link"
                             data-survey-id="${survey.SurveyID}">
                         </a>
@@ -221,7 +285,7 @@ async function loadSelectedSurvey() {
                     for (let a = 0; a < arrOptions.length; a++) {
                         strQuestionsHTML += `
                             <div class="form-check ms-2 mb-2">
-                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-a${a}" />
+                                <input class="form-check-input" type="radio" name="q${q}" id="q${q}-a${a}" value="${arrOptions[a]}" />
                                 <label class="form-check-label" for="q${q}-a${a}">${arrOptions[a]}</label>
                             </div>
                         `
@@ -311,15 +375,13 @@ async function loadTargetUsers() {
     const objResponse = await ApiService.viewGroupUsers(strCurrGroupID)    
     if (objResponse.success) {
         const arrUsers = objResponse.data.result
-        console.log(objResponse)
         let strUserHTML = "<option selected>Select Recipient</option>"
         for (const user of arrUsers) {
             const objResponseUsers = await ApiService.viewUserInfo(user.UserID)
-            console.log(objResponseUsers)
             if (objResponseUsers.success) {
-                const objUser = objResponseUsers.data
+                const objUser = objResponseUsers.data.result[0]
                 strUserHTML += `
-                    <option value="${objUser.UserID}">${objUser.firstName} ${objUser.lastName}</option>
+                    <option value="${objUser.UserID}">${objUser.FirstName} ${objUser.LastName}</option>
 
                 `;
             }

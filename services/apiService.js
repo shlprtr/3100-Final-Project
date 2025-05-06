@@ -641,11 +641,12 @@ export class ApiService {
         }
     }
 
-    static async addSurveyResponse(strSurveyID, strQuestionID, strResponse, strTargetUserID) {
+    static async addSurveyResponse(strSurveyID, strQuestionID, strResponse, strStatus, strTargetUserID) {
         const objBody = {
             surveyID: strSurveyID,
             questionID: strQuestionID,
             response: strResponse,
+            status: strStatus,
             targetUserID: strTargetUserID
         }
 
